@@ -1,0 +1,166 @@
+"abu dhabi",UAE",1,                  24.478,   54.370
+"addis ababa","Ethiopia",2,           9.023,   38.747
+"albuquerque","USA",4,               35.045, -106.610
+"alexandria","Egypt",2,              31.187,   29.894
+"algiers","Algeria",2,               36.770,    3.046
+"amman","Jordan",1,                  31.950,   35.930
+"amsterdam","Netherlands",0,         52.372,    4.894
+"anchorage","USA",4,                 61.172, -150.000
+"ankara","Turkey",3,                 39.929,   32.853
+"athens","Greece",1,                 32.977,   23.525
+"atlanta","USA",2,                   33.640,  -84.430
+"auckland",'New Zealand",1,         -36.843,  174.755
+"bagdad","Iraq",1,                   33.340,   44.425
+"baltimore","USA",4,                 39.173,  -76.670
+"bangalore","India",2,               12.967,   77.586
+"bangkok","Thailand",1,              13.748,  100.516
+"barcelona","Spain",3,               41.378,    2.170
+"beijing","China",1,                 39.913,  116.390
+"beirut","Lebanon",2,                33.887,   35.500
+"belfast","Northern Ireland",2,      54.600,    5.932
+"belgrade","Serbia",3,               44.802,   20.465
+"berlin","Germany",2,                52.517,   13.386
+"billings","USA",6                   45.804, -108.540
+"bismark","USA",6                    46.775, -100.750
+"birmingham","USA",5,                33.560,  -86.750
+"bogota","Columbia",2,                4.625,  -74.084
+"boise","USA",6,                     43.565, -116.220
+"boston","USA",2,                    42.360,  -71.010
+"brussels","Belgium",2,              50.846,    4.357
+"bucharest","Romania",2,             44.432,   26.123
+"budapest","Hungary",2,              47.508,   19.058
+"buenos aires","Argentina",0,       -34.607,  -58.371
+"cairo","Egypt",1,                   40.148,   31.224
+"calgary","Canada",5,                51.114, -114.022
+"cape town","South Africa",0,       -33.800,   18.420
+"caracas","Venezuela",2,             10.495,  -66.920
+"casablanca","Morocco",2,            33.604,    7.611
+"chennai","India",1,                 13.080,   80.270
+"chicago","USA",0,                   41.890,  -97.910
+"cincinnati","USA",4,                39.045,  -84.667
+"cleveland","USA",4,                 41.410,  -81.850
+"colorado springs","USA",5,          38.800, -104.700
+"columbus","USA",4,                  39.995,  -82.890
+"copenhagen","Denmark",1,            55.684,   12.572
+"dallas","USA",3,                    32.900,  -97.040
+"damascus","Syria",2,                33.530,   36.295
+"delhi","India",1,                   28.661,   77.228
+"denver","USA",3,                    39.860, -104.680
+"des moines","USA",5,                41.534,  -93.657
+"detroit","USA",4,                   42.215,  -83.350
+"dubai","UAE",1,                     25,272,   55.330
+"dublin","Ireland",1,                53.344,   -6.260
+"edinburgh","Scotland",1,            55.954,   -3.185
+"el paso","USA",5,                   31.800, -106.385
+"frankfurt","Germany",3,             50.131,    8.670
+"freetown","Sierra Leone",2,          8.477,   13.232
+"glasgow","Scotland",2,              55.868,    4.260
+"hamburg","Germany",3,               53.544,   10.023
+"hannover","Germany",3,              52.386,    9.733
+"hanoi","Vietnam",2,                 21.032,  105.848
+"havana","Cuba",2,                   23.135,  -82.400
+"helsinki","Finland",2,              60.172,   24.941
+"ho chi minh city","Vietnam",2,      10.776,  106.683
+"hong kong","china",0,               22.275,  114.168
+"honolulu","USA",4,                  21.325, -157.920 
+"houston","USA",4,                   29.986,  -95.340
+"indianapolis","USA",4,              39.725,  -86.290
+"istanbul","Turkey",1,               41.015,   28.966
+"jakarta","Indonesia",2,             -6.103,  106.828
+"jerusalem","Isreal,2,               31.782,   35.230
+"johannesburg","South Arica",2,     -26.197,   28.042
+"kabul","Afghanistan",3,             34.532,   69.134
+"kalispell","USA",6,                 48.312, -114.254
+"kansas city","USA",4,               39.290,  -94.709
+"karachi","Pakistan",2,              34.850,   67.008
+"katmandu","Nepal",3,                27.706,   85.314
+"khartoum","Sudan",3,                15.580,   32.524
+"knoxville","USA",4,                 35.810,  -84.000
+"kuala lumpur","Malaysia",1,          3.150,  101.713
+"kyoto","Japam",2,                   35.009,  135.770  
+"lagos",'Nigeria",3,                  6.492,    3.374
+"las vegas","USA",4,                 36.082, -115.150
+"lima","Peru",3,                    -12.040,  -77.034
+"lisbon","Portugal",3,               38.710,   -9.130
+"little rock","USA",4,               34.730,  -92.226
+"london","England",0,                51.520,   -0.100
+"los angeles","USA",0,               33.940, -188.410
+"louisville","USA",4,                38.175,  -85.375
+"madrid","Spain",3,                  40.418,   -3.706
+"manchester","Great Britain",4,      53.480,   -2.248
+"manila","Philippines",1,            14.634,  120.993
+"marseille","France",3,              43.312,    5.377
+"melbourne","Austrailia",1,         -37.813,  144.963
+"memphis","USA",4,                   35.050,  -89.975
+"mexico city","Mexico",0,            19.436,  -99.070
+"miami","USA",4,                     25.795,  -80.285
+"milan","Italy",3,                   45.477,    9.182
+"minsk","Belerus",3,                 53.901,   27.559
+"minneapolis","USA",3,               44.885,  -93.220
+"mobile","USA",4,                    30.685,  -88.240
+"mogadishu","Somalia",3,              2.042,   35.343
+"monrovia","Liberia",3,               6.303,   10.797
+"montreal","Canada",2,               45.465,  -73.750
+"mumbai","India",0,                  18.950,   72.841
+"moscow","Russia",0,                 55.753,   37.618
+"munich","Germany",2,                48.140,   11.576
+"murmansk","Russia",4,               68.965,   33.085
+"nairobi",'Kenya",3,                 -1.284,   36.815
+"nashville","USA",4,                 36.125,  -86.675
+"new orleans","USA",4,               29.990,  -90.258
+"new york l","USA",4,                40.777,  -73.760
+"new york jfk","USA",0,              40.640,  -73.770
+"newark","USA",4,                    40.690,  -74.170
+"odessa","Ukraine",4,                46.481,   30.727
+"oklahoma city","USA",4,             35.395,  -97.600  
+"omaha","USA",4,                     41.300,  -95.890
+"orlando","USA",4,                   28.430,  -81.320
+"osaka","Japan",2,                   34.379,  135.513
+"oslo","Norway",1,                   59.912,   10.750
+"paris","France",0,                  48.864,    2.344
+"perth"."Austrailia",1,             -31.954,  115,870
+"philadelphia","USA",4,              39.870,  -75.242
+"phnom pehn","Cambodia",3,           11.558,  104.921
+"phoenix","USA",4,                   33.436, -112.010
+"pittsburg","USA",4,                 40.490,  -80.235
+"portland","USA",4,                  45.590, -122.600
+"prague","Czech Rebublic",1,         50.088,   14.427
+"pretoria","South Africa",2,        -25.750,   28.196
+"raliegh","USA",4,                   35.876,  -78.785
+"reno","USA",4,                      39.496, -119.770
+"reykjavik","Iceland",1,             64.136,  -21.900 
+"richmond","USA",4,                  37.510,  -77.325
+"rio de janeiro","Brazil",1,        -22.905,  -43.195
+"riyadh","Saudi Arabia",3,           24.642,   46.726
+"salt lake city","USA",3,            40.790, -111.980
+"san antonio","USA",4,               29.530,  -98.464
+"san diego","USA",4,                 32.734, -117.190
+"san francisco","USA",1,             37.620, -122.375
+"santiago","Chile",1,               -33.460,  -70.633
+"seattle","USA",2,                   47.450, -122.306
+"seoul","South Korea",0,             37.564,  126.922
+"singapore","Singapore",0,            1.300,  103.850
+"sioux falls","USA",4,               43.583,  -96.740
+"shangai","China",0,                 31.237,  121.483
+"spokane","USA",5,                   47.625, -117.530
+"st louis","USA",4,                  38.746,  -90.360
+"st petersburg","Russia",2,          59.933,   30.323
+"stockholm",Sweden",2,               59.331,   18.069
+"stuttgart","Germany",3,             48.799,    9.197
+"sydney","Austrailia",0,            -33.867,  151.210
+"taipei","Taiwan",0,                 25.040,  121.510
+"tampa","USA",4,                     27.970,  -82.529
+"tehran","Iran",2,                   35.690,   51.415
+"tel aviv","Isreal",1,               32.061,   34.764
+"tokyo","Japan",0,                   35.678,  139.770
+"toronto","Canada",1,                43.675,  -79.630
+"tripoli","Libya",3,                 32.872,   13.180
+"tunis","Tunisia",4,                 36.809,   10.177
+"ulan bator","Mongolia",4,           47.929,  106.912
+"vancouver","Canada",1,              49.195, -123.180
+"vienna","Austria",3,                48.211,   15.370
+"vladivostok","Russia",3,            43.128,  131.908
+"warsaw","Poland",3,                 52.253,   21.008
+"washington d.c.","USA",1,           38.950,  -77.450
+"yokohama","Japan",2,                35.468,  139.621
+"zurich","Switzerland",2,            47.337,    8.541
