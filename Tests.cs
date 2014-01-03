@@ -1,5 +1,7 @@
 using System;
 using System.IO;
+using System.ComponentModel.Composition.Hosting;
+using System.ComponentModel.Composition;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +17,64 @@ namespace Tests {
         IEnumerable<test_case> Tests { get; }
         IEnumerable<string> Attributes { get; }
         IEnumerable<string> Constraints { get; }
+    }
+    public enum TestCoverage {
+        bool_And,
+        Chain,
+        Curry1,
+        Cury2,
+        F,
+        F_add,
+        F_and,
+        F_Chars,
+        F_compare,
+        F_equ, //equ_int
+        F_equ_char,
+        F_equ_int,
+        F_eqv,
+        F_even,
+        F_gt,
+        F_lt,
+        F_lte,
+        F_max,
+        F_min,
+        F_odd,
+        F_or,
+        F_random,
+        F_range,
+        F_sequ,
+        F_toString,
+        F_T,
+        F_T_all,
+        F_T_always,
+        F_T_any,
+        F_T_Chars,
+        F_T_each,
+        F_T_filter,
+        F_T_find,
+        F_T_first,
+        F_T_flatten,
+        F_T_identity,
+        F_T_items,
+        F_T_iterate_while,
+        F_T_map,
+        F_T_reduce,
+        F_T_rest,
+        F_T_same,
+        F_T_sort,
+        F_T_sort_order_by,
+        F_T_sort_bubble,
+        F_T_transform,
+        Utility,
+        Utility_char_to_digit,
+
+    }
+    public interface ITestCase {
+        int ID { get; }
+        string Name { get; }
+        string Description { get; }
+        Func<bool> Run { get; }
+        IEnumerable<TestCoverage> Coverage { get; }
     }
     public class test_case {
         public int ID { get; set; }
@@ -328,32 +388,33 @@ namespace Tests {
             this.test_cases.Add(new test_case() { ID = 42, Name = "verify that the BinarySearch function works with the default type compare functions", Run = Test_BinarySearch });
             this.test_cases.Add(new test_case() { ID = 43, Name = "verify that the BinarySearch works with a list of string using the default compare function", Run = Test_BinarySearchString });
             this.test_cases.Add(new test_case() { ID = 50, Name = "verify that inserting nodes in to a binary tree results in a correct tree", Run = Test_BinaryTreeInsert });
+            this.test_cases.Add(new test_case() { ID = 52, Name = "verify that chain functions work", Run = Test_chain });
         }
-        public static Func<bool> Test_Functional_String = () => Functional<char>.same(new List<char>() { 'o', 'n', 'e' }, F.Chars("one"), (c1, c2) => c1 == c2);
-        public static Func<bool> Test_Functional_Int_Range_Start_Finish = () => Functional<int>.same(new List<int>() { 0, 1, 2 }, F.range(0, 3), (x, y) => x == y);
-        public static Func<bool> Test_Functional_Int_Range_Finish = () => Functional<int>.same(new List<int>() { 0, 1, 2 }, F.range(3), (x,y) => x == y);
+        public static Func<bool> Test_Functional_String = () => F<char>.same(new List<char>() { 'o', 'n', 'e' }, F.Chars("one"), (c1, c2) => F.equ_char(c1,c2));
+        public static Func<bool> Test_Functional_Int_Range_Start_Finish = () => F<int>.same(new List<int>() { 0, 1, 2 }, F.range(0, 3), (x, y) => F.equ_int(x,y));
+        public static Func<bool> Test_Functional_Int_Range_Finish = () => F<int>.same(new List<int>() { 0, 1, 2 }, F.range(3), (x,y) => F.equ_int(x,y));
 
         public static bool Test_Functional_Int_Range_InverseOrder() {
             bool success = true;
             int i = 7;
             foreach (int a in F.range(7, 0)) {
-                success = success && (i == a);
+                success = success.And(F.equ_int(i,a));
                 i--;
             }
             return success;
         }
-        public static Func<bool> Test_Functional_Int_Range_Step = () => {
-            IEnumerable<int> seq1 = F.range(0, 17, 3);
-            IEnumerable<int> seq2 = new List<int>() { 0, 3, 6, 9, 13, 16 };
-            return Functional<int>.same(seq1, seq2, (x, y) => x == y);
-        };
-        public static Func<bool> Test_Functional_Int_Range_Inverse_Step = () => Functional<int>.same(new List<int>() { 17, 14, 11, 8, 5, 2 }, F.range(17,0,-3), (x,y) => x==y);
+            public static Func<bool> Test_Functional_Int_Range_Step = () => {
+                IEnumerable<int> seq1 = F.range(0, 17, 3);
+                IEnumerable<int> seq2 = new List<int>() { 0, 3, 6, 9, 13, 16 };
+                return F<int>.same(seq1, seq2, (x, y) => x == y);
+            };
+        public static Func<bool> Test_Functional_Int_Range_Inverse_Step = () => F<int>.same(new List<int>() { 17, 14, 11, 8, 5, 2 }, F.range(17,0,-3), (x,y) => x==y);
         
         public static bool Test_Functional_Int_Range_Step_IncorrectStepDirection_Negative() {
             bool success = true;
             int i = 5;
             foreach (int a in F.range(5, 9, -1)) {
-                success = success && (i == a);
+                success = success.And(F.equ_int(i,a));
                 i++;
             }
             return success;
@@ -362,7 +423,7 @@ namespace Tests {
             bool success = true;
             int i = 19;
             foreach (int a in F.range(19, 5, 3)) {
-                success = success && (i == a);
+                success = success.And(F.equ_int(i,a));
                 i-=3;
             }
             return success;
@@ -379,21 +440,21 @@ namespace Tests {
             lst.Add(d1);
             lst.Add(d2);
             lst.Add(d3);
-            IList<int> result = Functional<int>.items(lst, "xyz").ToList();
-            success = success && result.Contains(7) && result.Contains(21) && (result.Count == 2);
+            IList<int> result = F<int>.items(lst, "xyz").ToList();
+            success = success.And(result.Contains(7) && result.Contains(21) && (F.equ_int(result.Count,2)));
             return success;
         }
         public static bool Test_Functional_transform() {
             bool success = true;
             int count = 0;
             Action<string> doNothing = (n) => { count++; };
-            Functional<int>.each(F.range(0, 30), Functional<int>.transform<string>(doNothing, F.toString<int>));
-            success = (30 == count);
+            F<int>.each(F.range(0, 30), F<int>.transform<string>(doNothing, F<int>.toString));
+            success = F.equ_int(30,count);
             return success;
         }
-        public static Func<bool> Test_Functional_same_Positive = () => Functional<int>.same(F.range(4, 8), F.range(4, 8), F.equ);
-        public static Func<bool> Test_Functional_same_NegativeLength = () => !Functional<int>.same(F.range(4, 7), F.range(4, 8), F.equ);
-        public static Func<bool> Test_Functional_same_Negative = () => !Functional<int>.same(F.range(3, 7), F.range(4, 8), F.equ);
+        public static Func<bool> Test_Functional_same_Positive = () => F<int>.same(F.range(4, 8), F.range(4, 8), F.equ);
+        public static Func<bool> Test_Functional_same_NegativeLength = () => !F<int>.same(F.range(4, 7), F.range(4, 8), F.equ);
+        public static Func<bool> Test_Functional_same_Negative = () => !F<int>.same(F.range(3, 7), F.range(4, 8), F.equ);
 
         public static bool Test_Functional_any_Positive() {
             bool success = true;
@@ -401,7 +462,7 @@ namespace Tests {
             lst.Add(3);
             lst.Add(7);
             lst.Add(19);
-            success = success && Functional<int>.any(lst, x => x == 3);
+            success = success.And(F<int>.any(lst, x => F.equ_int(x,3)));
             return success;
         }
         public static bool Test_Functional_any_Negative() {
@@ -410,96 +471,96 @@ namespace Tests {
             lst.Add(3);
             lst.Add(7);
             lst.Add(19);
-            success = success && !Functional<int>.any(lst, x => (x == 4));
+            success = success.And(!F<int>.any(lst, x => F.equ_int(x,4)));
             return success;
         }
-        public static Func<bool> Test_Functional_all_Positive = () => Functional<int>.all(F.range(5, 18), x => (x > 0));
-        public static Func<bool> Test_Functional_all_Negative = () => !Functional<int>.all(F.range(2, 9), x => (x != 6));
+        public static Func<bool> Test_Functional_all_Positive = () => F<int>.all(F.range(5, 18), x => F.gt(x,0));
+        public static Func<bool> Test_Functional_all_Negative = () => !F<int>.all(F.range(2, 9), x => (x != 6));
         public static bool Test_Functional_filter() {
             bool success = true;
-            IList<int> result = Functional<int>.filter(F.range(2, 7), x => ((x % 2) == 0)).ToList<int>(); //even
-            success = success && (result.Contains(2)) && (result.Contains(4)) && (result.Contains(6)) && (result.Count == 3);
+            IList<int> result = F<int>.filter(F.range(2, 7), x => ((x % 2) == 0)).ToList<int>(); //even
+            success = success.And((result.Contains(2)) && (result.Contains(4)) && (result.Contains(6)) && (F.equ_int(result.Count,3)));
             return success;
         }
 
-        public static Func<bool> Test_Functional_first = () => (7 == Functional<int>.first(F.range(7,33)));
-        public static Func<bool> Test_Functional_rest = () => Functional<int>.same(F.range(2, 7), Functional<int>.rest(F.range(1, 7)), F.equ);
-        public static Func<bool> Test_Functional_find = () => (7 == Functional<int>.find(F.range(3, 9), x => (x == 7)));
+        public static Func<bool> Test_Functional_first = () => (7 == F<int>.first(F.range(7,33)));
+        public static Func<bool> Test_Functional_rest = () => F<int>.same(F.range(2, 7), F<int>.rest(F.range(1, 7)), F.equ);
+        public static Func<bool> Test_Functional_find = () => (7 == F<int>.find(F.range(3, 9), (x) => F.equ(x,7)));
         public static bool Test_Functional_sort() {
             bool success = true;
-            IEnumerable<int> result = Functional<int>.sort(F.random(7, 0, 10), F.compare);
-            success = success && Functional<int>.reduce(Functional<int>.rest(result), (b, x, y) => (b && (x <= y)), Functional<int>.first(result),true);
+            IEnumerable<int> result = F<int>.sort(F.random(7, 0, 10), F.compare);
+            success = success.And(F<int>.reduce(F<int>.rest(result), (b, x, y) => F.and(b,(x <= y)), F<int>.first(result),true));
             return success;
         }
         public static bool Test_Functional_sort2() {
             bool success = true;
-            IEnumerable<int> result = Functional<int>.sort2(F.random(14, 0, 10), (x, y) => (x == y) ? 0 : (x < y) ? -1 : 1);
-            success = success && Functional<int>.reduce(Functional<int>.rest(result), (b, x, y) => (b && (x <= y)), Functional<int>.first(result), true);
+            IEnumerable<int> result = F<int>.sort_order_by(F.random(14, 0, 10), (x, y) => (x == y) ? 0 : (x < y) ? -1 : 1);
+            success = success.And(F<int>.reduce(F<int>.rest(result), (b, x, y) => F.and(b,(x <= y)), F<int>.first(result), true));
             return success;
         }
         public static bool Test_Functional_each() {
             bool success = true;
             CountFunctionCalls<char> calls = new CountFunctionCalls<char>();
             calls.Count = 0;
-            Functional<char>.each(F.Chars("hello"), c => calls.action(c));
-            success = success && (calls.Count == ("hello".Length));
+            F<char>.each(F.Chars("hello"), c => calls.action(c));
+            success = success.And(calls.Count == ("hello".Length));
             return success;
         }
         public static bool Test_Functional_each_repeatedly() {
             bool success = true;
             CountFunctionCalls<int> calls = new CountFunctionCalls<int>();
             calls.Count = 0;
-            Functional<int>.each(F.range(0, 5), x => calls.action(x));
-            success = success && (calls.Count == 5);
+            F<int>.each(F.range(0, 5), x => calls.action(x));
+            success = success.And(calls.Count == 5);
             return success;
         }
-        public static Func<bool> Test_Functional_map_repeatedly = () => Functional<int>.same(Functional<int>.map<int>(F.range(0, 7), x =>  x + 5), F.range(0 + 5, 7 + 5),F.equ);
+        public static Func<bool> Test_Functional_map_repeatedly = () => F<int>.same(F<int>.map<int>(F.range(0, 7), x => F.add(x,5)), F.range(F.add(0,5),F.add(7,5)),F.equ);
         public static bool Test_Functional_iterateWhile() {
             bool success = true;
             Func<int, int, bool> equals = F.equ;
             int f = 0;
-            IEnumerable<int> result = Functional<int>.iterateWhile(x => x + 1, x =>  (x < 4), 0);
+            IEnumerable<int> result = F<int>.iterate_while(x => x + 1, x =>  (x < 4), 0);
             foreach (int i in result) f = i;
-            success = success && equals(f, 3);
+            success = success.And(equals(f, 3));
             return success;
         }
-        public static Func<bool> Test_Functional_always = () => F.equ(3, Functional<int>.always(3).Invoke());
-        public static Func<bool> Test_Functional_Map_One = () => Functional<string>.same(Functional<int>.map<string>(F.range(0, 4), x => x.ToString()), new List<string>() { "0", "1", "2", "3" }, F.sequ);
+        public static Func<bool> Test_Functional_always = () => F.equ(3, F<int>.always(3).Invoke());
+        public static Func<bool> Test_Functional_Map_One = () => F<string>.same(F<int>.map<string>(F.range(0, 4), x => x.ToString()), new List<string>() { "0", "1", "2", "3" }, F.equ_string);
         public static bool Test_Functional_Map_Two() {
             bool success = true;
-            IEnumerable<int> result = Functional<int>.map<int>(F.range(0, 4), F.range(0, 4), (x, y) => x + y);
-            success = success && Functional<int>.same(result, F.range(0, 8, 2), F.equ);
+            IEnumerable<int> result = F<int>.map<int>(F.range(0, 4), F.range(0, 4), (x, y) => x + y);
+            success = success.And(F<int>.same(result, F.range(0, 8, 2), F.equ));
             return success;
         }
         public static bool Test_Functional_Map_Three() {
             bool success = true;
             // t f f t
             IEnumerable<Func<bool>> test = new List<Func<bool>>() { 
-                Functional<bool>.always(true), 
-                Functional<bool>.always(false), 
-                Functional<bool>.always(false), 
-                Functional<bool>.always(true) 
+                F<bool>.always(true), 
+                F<bool>.always(false), 
+                F<bool>.always(false), 
+                F<bool>.always(true) 
             };
             IEnumerable<char> first  = F.Chars("xoxo");
             IEnumerable<char> second = F.Chars("xxoo");
             IEnumerable<char> third  = F.Chars("xooo");
-            IEnumerable<Func<bool>> result = Functional<char>.map<Func<bool>>(first, second, third, 
-                (x, y, z) => Functional<bool>.always(F.and((x == y), (y == z))));
-            success = success && Functional<Func<bool>>.same(result, test, (x,y) => x() == y());
+            IEnumerable<Func<bool>> result = F<char>.map<Func<bool>>(first, second, third, 
+                (x, y, z) => F<bool>.always(F.and(F.equ_char(x,y),F.equ_char(y,z))));
+            success = success.And(F<Func<bool>>.same(result, test, (x,y) => F.eqv(x(),y())));
             return success;
         }
-        public static Func<bool> Test_Functional_reduce_Init = () => F.equ(Functional<int>.reduce(new List<int> { 3, 24, 17 }, F.add, 6), (6 + 3 + 24 + 17));
-        public static Func<bool> Test_Functional_reduce_NoInit = () => F.equ(Functional<int>.reduce(new List<int>() { 61, 18, -2 }, F.add), (61 + 18 - 2));
+        public static Func<bool> Test_Functional_reduce_Init = () => F.equ(F<int>.reduce(new List<int> { 3, 24, 17 }, F.add, 6), (6 + 3 + 24 + 17));
+        public static Func<bool> Test_Functional_reduce_NoInit = () => F.equ(F<int>.reduce(new List<int>() { 61, 18, -2 }, F.add), (61 + 18 - 2));
 
-        public static Func<bool> Test_Functional_Reduce_One = () => F.and(F.equ(1, Functional<int>.reduce(new List<int>() { 1, 6, 3 }, F.min)), F.equ(6, Functional<int>.reduce(new List<int>() { 1, 6, 3 }, F.max)));
-        public static Func<bool> Test_Functional_Reduce_Two = () => F.equ(Functional<int>.reduce(new List<int>() { 1, 6, 3, 2, 4, 3, 3, 5 }, F.add, 0), 1 + 6 + 3 + 2 + 4 + 3 + 3 + 5);
+        public static Func<bool> Test_Functional_Reduce_One = () => F.and(F.equ(1, F<int>.reduce(new List<int>() { 1, 6, 3 }, F.min)), F.equ(6, F<int>.reduce(new List<int>() { 1, 6, 3 }, F.max)));
+        public static Func<bool> Test_Functional_Reduce_Two = () => F.equ(F<int>.reduce(new List<int>() { 1, 6, 3, 2, 4, 3, 3, 5 }, F.add, 0), 1 + 6 + 3 + 2 + 4 + 3 + 3 + 5);
         public static bool Test_Functional_Reduce_Three() {
             bool success = true;
             bool containsEven = false;
             bool containsOdd = false;
             IEnumerable<int> test = new List<int>() { 1, 6, 3, 2, 4, 3, 3, 5 };
-            containsEven = Functional<int>.reduce<bool>(test, (b, x) => F.or(b,F.even(x)), false);
-            containsOdd  = Functional<int>.reduce<bool>(test, (b, x) => F.or(b,F.odd(x)), false);
+            containsEven = F<int>.reduce<bool>(test, (b, x) => F.or(b,F.even(x)), false);
+            containsOdd  = F<int>.reduce<bool>(test, (b, x) => F.or(b,F.odd(x)), false);
             success = F.and(containsEven,containsOdd);
             return success;
         }
@@ -514,76 +575,55 @@ namespace Tests {
             Curry1<int, int> sqr = new Curry1<int, int>((x) => { return x * x; });
             Func<int, int> noConfig = sqr.Create();
             int r = noConfig(5);
-            success = success && (25 == r);
+            success = success.And(F.equ(25,r));
             return success;
         }
         public static bool Test_Curry_Two() {
             bool success = true;
-            Curry2<int, int> add = new Curry2<int, int>((x, y) => { return x + y; });
+            Curry2<int, int> add = new Curry2<int, int>(F.add);
             Func<int, int> add10 = add.Create(10);
             int r = add10(6); // 16
-            success = success && (16 == r);
+            success = success.And(16 == r);
             return success;
         }
         public static bool Test_Intersperse() {
             bool success = true;
             Func<char, string, string> intersperse = (c, s) => {
                 IEnumerable<char> seq = F.Chars(s);
-                string result = Functional<char>.reduce<string>(Functional<char>.rest(seq), (st, ch) => st + c + ch, Functional<char>.first(seq).ToString());
+                string result = F<char>.reduce<string>(F<char>.rest(seq), (st, ch) => st + c + ch, F<char>.toString(F<char>.first(seq)));
                 return result;
             };
             Func<string, string> swedish = (s) => {
                 return intersperse('f', s);
             };
             string swedisHello = swedish("Hello");
-            success = Functional<char>.same(F.Chars(swedisHello), F.Chars("Hfeflflfo"), F.equ_char);
+            success = F<char>.same(F.Chars(swedisHello), F.Chars("Hfeflflfo"), F.equ_char);
             return success;
         }
         public static bool Test_flatten_one() {
             IEnumerable<IEnumerable<int>> llist = new List<IEnumerable<int>>() { new List<int>() { 2, 3, 6 }, new List<int>() { 5, 2, 2, 1 } };
-            IEnumerable<int> flat = Functional<IEnumerable<int>>.flatten<int>(llist, x => x);
+            IEnumerable<int> flat = F<IEnumerable<int>>.flatten<int>(llist, x => x);
             IEnumerable<int> check = new List<int>() { 2, 3, 6, 5, 2, 2, 1 };
-            return Functional<int>.same(check, flat, F.equ_int);
+            return F<int>.same(check, flat, F.equ_int);
         }
         public static bool Test_flatten_two() {
             IEnumerable<string> numbers = new List<string>() { "25783", "1072", "8403" };
-            IEnumerable<int> flat = Functional<string>.flatten<int>(numbers,string_to_int_sequence);
+            IEnumerable<int> flat = F<string>.flatten<int>(numbers, (s) => F<char>.map<int>(F.Chars(s), Utility.char_to_digit));
             IEnumerable<int> check = new List<int>() { 2, 5, 7, 8, 3, 1, 0, 7, 2, 8, 4, 0, 3 };
-            return Functional<int>.same(check, flat, F.equ_int);
+            return F<int>.same(check, flat, F.equ_int);
         }
-        private static int char_to_digit(char c) {
-            int result = 0;
-            switch (c) {
-                case '0': result = 0; break;
-                case '1': result = 1; break;
-                case '2': result = 2; break;
-                case '3': result = 3; break;
-                case '4': result = 4; break;
-                case '5': result = 5; break;
-                case '6': result = 6; break;
-                case '7': result = 7; break;
-                case '8': result = 8; break;
-                case '9': result = 9; break;
+
+        public static bool Test_chain() {
+            bool result = true;
+            int current = 0;
+            int last = 0;
+            IChain<int> chain = Chain<int>.Create(0,(n) => n < 3).Run(current);
+            while(null != chain) {
+                last = current;
+                current++;
+                chain = chain.Run(current);
             }
-            return result;
-        }
-        private static IEnumerable<int> string_to_int_sequence(string s) {
-            foreach (char c in s.AsEnumerable()) yield return char_to_digit(c);
-        }
-        private static char digit_to_char(int d) {
-            char result = '0';
-            switch (d) {
-                case 0: result = '0'; break;
-                case 1: result = '1'; break;
-                case 2: result = '2'; break;
-                case 3: result = '3'; break;
-                case 4: result = '4'; break;
-                case 5: result = '5'; break;
-                case 6: result = '6'; break;
-                case 7: result = '7'; break;
-                case 8: result = '8'; break;
-                case 9: result = '9'; break;
-            }
+            result = result.And(F.equ_int(last, 2));
             return result;
         }
         
@@ -609,31 +649,31 @@ namespace Tests {
             foreach (char c in F.Chars(search)) {
                 ISomethingImmutable<char> current = SomethingImmutable<char>.Create(c);
                 r = Graph.BinarySearch<ISomethingImmutable<char>>(list, SomethingImmutable<char>.Compare, current);
-                result = result && (null != r);
+                result = result.And(null != r);
                 if (null != r) result = result && (current.Item == r.Item);
             }
             // search for the first thing  in the list
             ISomethingImmutable<char> B = SomethingImmutable<char>.Create('b');
             r = Graph.BinarySearch<ISomethingImmutable<char>>(list, SomethingImmutable<char>.Compare, B);
-            result = result && (null != r);
+            result = result.And(null != r);
             // search for the last hing in the list
             ISomethingImmutable<char> K = SomethingImmutable<char>.Create('k');
             r = Graph.BinarySearch<ISomethingImmutable<char>>(list, SomethingImmutable<char>.Compare, K);
-            result = result && (null != r);
+            result = result.And(null != r);
 
 
             // search for something not in the list (lower)
             ISomethingImmutable<char> A = SomethingImmutable<char>.Create('a');
             r = Graph.BinarySearch<ISomethingImmutable<char>>(list, SomethingImmutable<char>.Compare, A);
-            result = result && (null == r);
+            result = result.And(null == r);
             // search for something not in the list (middle)
             ISomethingImmutable<char> H = SomethingImmutable<char>.Create('h');
             r = Graph.BinarySearch<ISomethingImmutable<char>>(list, SomethingImmutable<char>.Compare, H);
-            result = result && (null == r);
+            result = result.And(null == r);
             // search for something not in the list (higher)
             ISomethingImmutable<char> W = SomethingImmutable<char>.Create('w');
             r = Graph.BinarySearch<ISomethingImmutable<char>>(list, SomethingImmutable<char>.Compare, W);
-            result = result && (null == r);
+            result = result.And(null == r);
             
             return result;
         }
@@ -665,25 +705,25 @@ namespace Tests {
             // search for the first thing  in the list
             ISomethingImmutable<string> Butter = SomethingImmutable<string>.Create("butter");
             r = Graph.BinarySearch<ISomethingImmutable<string>>(list, SomethingImmutable<string>.Compare, Butter);
-            result = result && (null != r);
+            result = result.And(null != r);
             // search for the last thing in the list
             ISomethingImmutable<string> Mustard = SomethingImmutable<string>.Create("mustard");
             r = Graph.BinarySearch<ISomethingImmutable<string>>(list, SomethingImmutable<string>.Compare, Mustard);
-            result = result && (null != r);
+            result = result.And(null != r);
 
 
             // search for something not in the list (lower)
             ISomethingImmutable<string> Apples = SomethingImmutable<string>.Create("apples");
             r = Graph.BinarySearch<ISomethingImmutable<string>>(list, SomethingImmutable<string>.Compare, Apples);
-            result = result && (null == r);
+            result = result.And(null == r);
             // search for something not in the list (middle)
             ISomethingImmutable<string> Flour = SomethingImmutable<string>.Create("flour");
             r = Graph.BinarySearch<ISomethingImmutable<string>>(list, SomethingImmutable<string>.Compare, Flour);
-            result = result && (null == r);
+            result = result.And(null == r);
             // search for something not in the list (higher)
             ISomethingImmutable<string> Sugar = SomethingImmutable<string>.Create("sugar");
             r = Graph.BinarySearch<ISomethingImmutable<string>>(list, SomethingImmutable<string>.Compare, Sugar);
-            result = result && (null == r);
+            result = result.And(null == r);
 
             return result;
         }
@@ -720,76 +760,76 @@ namespace Tests {
 
             Tree.InsertBNode<string>(root, colorado, F.compare_string_case_insensative);
             current = root.Left;
-            result = result && (null != current);
-            result = result && (null != current) ? (current.Name == colorado.Name) : false;
+            result = result.And(null != current);
+            result = result.And((null != current) ? (current.Name == colorado.Name) : false);
 
             Tree.InsertBNode<string>(root, montana, F.compare_string_case_insensative);
             current = root.Left; // colorado
             if (null != current) current = current.Right; // montana
-            result = result && (null != current);
-            result = result && (null != current) ? (current.Name == montana.Name) : false;
+            result = result.And(null != current);
+            result = result.And((null != current) ? (current.Name == montana.Name) : false);
 
             Tree.InsertBNode<string>(root, california, F.compare_string_case_insensative);
             current = root.Left; // colorado
             if (null != current) current = current.Left; // california
-            result = result && (null != current);
-            result = result && (null != current) ? (current.Name == california.Name) : false;
+            result = result.And(null != current);
+            result = result.And((null != current) ? (current.Name == california.Name) : false);
 
             Tree.InsertBNode<string>(root, arkansas, F.compare_string_case_insensative);
             current = root.Left; // colorado
             if (null != current) current = current.Left; // california
             if (null != current) current = current.Left; // arkansas
-            result = result && (null != current);
-            result = result && (null != current) ? (current.Name == arkansas.Name) : false;
+            result = result.And(null != current);
+            result = result.And((null != current) ? (current.Name == arkansas.Name) : false);
 
             //tennessee (spelling)
             Tree.InsertBNode<string>(root, tennessee, F.compare_string_case_insensative);
             current = root.Right; // tennessee
-            result = result && (null != current);
-            result = result && (null != current) ? (current.Name == tennessee.Name) : false;
+            result = result.And(null != current);
+            result = result.And((null != current) ? (current.Name == tennessee.Name) : false);
 
             //new york
             Tree.InsertBNode<string>(root, new_york, F.compare_string_case_insensative);
             current = root.Right; // tennessee
             if (null != current) current = current.Left; // new york
-            result = result && (null != current);
-            result = result && (null != current) ? (current.Name == new_york.Name) : false;
+            result = result.And(null != current);
+            result = result.And((null != current) ? (current.Name == new_york.Name) : false);
 
             //new mexico
             Tree.InsertBNode<string>(root, new_mexico, F.compare_string_case_insensative);
             current = root.Right; // tennessee
             if (null != current) current = current.Left; // new york
             if (null != current) current = current.Left; // new mexico
-            result = result && (null != current);
-            result = result && (null != current) ? (current.Name == new_mexico.Name) : false;
+            result = result.And(null != current);
+            result = result.And((null != current) ? (current.Name == new_mexico.Name) : false);
                         
             //washington
             Tree.InsertBNode<string>(root, washington, F.compare_string_case_insensative);
             current = root.Right; // tennessee
             if (null != current) current = current.Right; // washington
-            result = result && (null != current);
-            result = result && (null != current) ? (current.Name == washington.Name) : false;
+            result = result.And(null != current);
+            result = result.And((null != current) ? (current.Name == washington.Name) : false);
             
             //texas
             Tree.InsertBNode<string>(root, texas, F.compare_string_case_insensative);
             current = root.Right; // tennessee
             if (null != current) current = current.Right; // washington
             if (null != current) current = current.Left; // texas
-            result = result && (null != current);
-            result = result && (null != current) ? (current.Name == texas.Name) : false;
+            result = result.And(null != current);
+            result = result.And((null != current) ? (current.Name == texas.Name) : false);
             
             //wisconsin
             Tree.InsertBNode<string>(root, wisconsin, F.compare_string_case_insensative);
             current = root.Right; // tennessee
             if (null != current) current = current.Right; // washington
             if (null != current) current = current.Right; // wisconsin
-            result = result && (null != current);
-            result = result && (null != current) ? (current.Name == wisconsin.Name) : false;
+            result = result.And(null != current);
+            result = result.And((null != current) ? (current.Name == wisconsin.Name) : false);
 
             return result;
         }
         private static IEnumerable<ICity> ReadCities(string filename) {
-            return F.LoadTextFile<ICity>(filename, Encoding.UTF8, StringToICity);
+            return F<ICity>.LoadTextFile(filename, Encoding.UTF8, StringToICity);
         }
         private static ICity StringToICity(string record) {
             ICity city = null;
