@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{ECFF338E-931E-412C-8528-AA9D6588A558}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>TestHarnessMONO</RootNamespace>
+    <AssemblyName>TestHarnessMONO</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\bin</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\bin</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="FunctionalMONO">
+      <HintPath>..\bin\lib\net40\FunctionalMONO.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="TestHarnessAssemblyInfo.cs" />
+    <Compile Include="TestCase.cs" />
+    <Compile Include="TestCaseAdd.cs" />
+    <Compile Include="TestCaseAlways.cs" />
+    <Compile Include="TestCaseBool.cs" />
+    <Compile Include="TestCaseClose.cs" />
+    <Compile Include="TestCaseCompare.cs" />
+    <Compile Include="TestCaseEach.cs" />
+    <Compile Include="TestCaseEqu.cs" />
+    <Compile Include="TestCaseGt.cs" />
+    <Compile Include="TestCaseGte.cs" />
+    <Compile Include="TestCaseLt.cs" />
+    <Compile Include="TestCaseLte.cs" />
+    <Compile Include="TestCaseMap.cs" />
+    <Compile Include="TestCaseMax.cs" />
+    <Compile Include="TestCaseMin.cs" />
+    <Compile Include="TestCaseMult.cs" />
+    <Compile Include="TestCaseNeq.cs" />
+    <Compile Include="TestCaseRange.cs" />
+    <Compile Include="TestCaseReduce.cs" />
+    <Compile Include="TestCaseSort.cs" />
+    <Compile Include="TestCaseSqr.cs" />
+    <Compile Include="TestCaseSub.cs" />
+    <Compile Include="TestHarness.cs" />
+    <Compile Include="Tests.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+</Project>

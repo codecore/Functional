@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,13 +40,23 @@ namespace Functional.Implementation {
         public static void DoNothing<T,U,V>(T t, U u, V v) { }
 
         /// <summary>returns a function that returns either true or false</summary><returns>a Function that returns a bool</returns>
-        public static Func<bool> always(bool b) { return (b) ? alwaysTrue() : alwaysFalse(); }
+        public static Func<bool> always(bool b) {
+            // TestCoverage = F, F_always, F_always_function 
+            return (b) ? alwaysTrue() : alwaysFalse(); 
+        }
         /// <summary>returns a function that returns true</summary><returns>a Function that returns a bool</returns>
-        public static Func<Func<bool>> alwaysTrue = () => () => true;
+        public static Func<Func<bool>> alwaysTrue = () => { 
+            // TestCoverage = F, F_always, F_always_true
+            return () => true; 
+        };
         /// <summary>returns a function that returns false</summary><returns>a Function that returns a bool</returns>
-        public static Func<Func<bool>> alwaysFalse = () => () => false;
+        public static Func<Func<bool>> alwaysFalse = () => { 
+            // TestCoverage = F, F_alwats, F_always_false
+            return () => false; 
+        };
 
-        public static Func<string, IEnumerable<char>> Chars = (item) => {
+        public static Func<string, IEnumerable<char>> chars = (item) => {
+            // TestCoverage = F, F_chars
             Validate.NonNullArgument(item, ITEM);
             return item.AsEnumerable();
         };
@@ -54,30 +64,41 @@ namespace Functional.Implementation {
             Validate.NonNullArgument(lst, LST);
             return F<char>.reduce<string>(lst,F.add_char_to_string, String.Empty);
         };
-        public static Func<int,bool> even = (x) => (0 == (x & 0x0001));
-        public static Func<int,bool>  odd = (x) => (1 == (x & 0x0001));
-        public static bool And(this bool b, bool other) { return F.and(b, other); }
-        public static bool Or(this bool b, bool other) { return F.or(b, other); }
-        public static bool All(bool b) { return b; }
-        public static bool All(bool b1, bool b2) { return F.and(b1, b2); }
-        public static bool All(bool b1, bool b2, bool b3) { return (b1 && b2 && b3); }
-        public static bool All(bool b1, bool b2, bool b3, bool b4) { return (b1 && b2 && b3 && b4); }
-        public static bool All(bool b1, bool b2, bool b3, bool b4, bool b5) { return (b1 && b2 && b3 && b4 && b5); }
-        public static bool All(bool b1, bool b2, bool b3, bool b4, bool b5, bool b6) { return (b1 && b2 && b3 && b4 && b5 && b6); }
-        public static bool Any(bool b) { return b; }
-        public static bool Any(bool b1, bool b2) { return F.or(b1, b2); }
-        public static bool Any(bool b1, bool b2, bool b3) { return (b1 || b2 || b3); }
-        public static bool Any(bool b1, bool b2, bool b3, bool b4) { return (b1 || b2 || b3 || b4); }
-        public static bool Any(bool b1, bool b2, bool b3, bool b4, bool b5) { return (b1 || b2 || b3 || b4 || b5); }
-        public static bool Any(bool b1, bool b2, bool b3, bool b4, bool b5, bool b6) { return (b1 || b2 || b3 || b4 || b5 || b6); }
+        public static Func<int,bool> even = (x) => (0 == (x & 0x0001)); // TestCoverage = F, F_even
+        public static Func<int,bool>  odd = (x) => (1 == (x & 0x0001)); // TestCoverage = F, F_odd
 
-        public static Func<int,int,int>              compare = (l, r) => (l == r) ? 0 : (l < r) ? -1 : 1;
-        public static Func<int,int,int>          compare_int = (l, r) => (l == r) ? 0 : (l < r) ? -1 : 1;
-        public static Func<long,long,int>       compare_long = (l, r) => (l == r) ? 0 : (l < r) ? -1 : 1;
-        public static Func<short,short,int>    compare_short = (l, r) => (l == r) ? 0 : (l < r) ? -1 : 1;
-        public static Func<bool,bool,int>       compare_bool = (l, r) => (eqv(l, r)) ? 0 : (l == false) ? -1 : 1;
-        public static Func<char,char,int>       compare_char = (l, r) => (l == r) ? 0 : (l < r) ? -1 : 1;
+        public static bool And(this bool b1, bool b2) { 
+            // TestCoverage = bool_, bool_And
+            return F.bool_and(b1, b2); 
+        }
+        public static bool Or(this bool b1, bool b2) { 
+            // TestCoverage = bool_, bool_Or
+            return F.bool_or(b1, b2); 
+        }
+        public static bool bool_and(bool b) { return b; } // TestCoverage = F, F_bool, F_bool_and
+        public static bool bool_and(bool b1, bool b2) { return (b1 && b2); }
+        public static bool bool_and(bool b1, bool b2, bool b3) { return (b1 && b2 && b3); }
+        public static bool bool_and(bool b1, bool b2, bool b3, bool b4) { return (b1 && b2 && b3 && b4); }
+        public static bool bool_and(bool b1, bool b2, bool b3, bool b4, bool b5) { return (b1 && b2 && b3 && b4 && b5); }
+        public static bool bool_and(bool b1, bool b2, bool b3, bool b4, bool b5, bool b6) { return (b1 && b2 && b3 && b4 && b5 && b6); }
+        public static bool bool_or(bool b) { return b; } // TestCoverage = F, F_bool, F_bool_or
+        public static bool bool_or(bool b1, bool b2) { return (b1 || b2); }
+        public static bool bool_or(bool b1, bool b2, bool b3) { return (b1 || b2 || b3); }
+        public static bool bool_or(bool b1, bool b2, bool b3, bool b4) { return (b1 || b2 || b3 || b4); }
+        public static bool bool_or(bool b1, bool b2, bool b3, bool b4, bool b5) { return (b1 || b2 || b3 || b4 || b5); }
+        public static bool bool_or(bool b1, bool b2, bool b3, bool b4, bool b5, bool b6) { return (b1 || b2 || b3 || b4 || b5 || b6); }
+
+        public static Func<bool, bool, bool> bool_xor = (left, right) => left != right; // TestCoverage = F, F_bool, F_bool_xor
+        public static Func<bool, bool, bool> bool_eqv = (left, right) => left == right; // TestCoverage = F, F_bool, F_bool_eqv
+        public static Func<bool, bool> bool_not = x => !x; // TestCoverage = F, F-bool, F_bool_not
+
+        public static Func<int,int,int>          compare_int = (l, r) => (l == r) ? 0 : (l < r) ? -1 : 1; // TestCoverage = F, F_compare, F_compare_int
+        public static Func<long,long,int>       compare_long = (l, r) => (l == r) ? 0 : (l < r) ? -1 : 1; // TestCoverage = F, F_compare, F_compare_lomg
+        public static Func<short,short,int>    compare_short = (l, r) => (l == r) ? 0 : (l < r) ? -1 : 1; // TestCoverage = F, F_compare, F_compare_short
+        public static Func<bool,bool,int>       compare_bool = (l, r) => (l == r) ? 0 : (l == false) ? -1 : 1; // TestCoverage = F, F_compare, F_compare_bool
+        public static Func<char,char,int>       compare_char = (l, r) => (l == r) ? 0 : (l < r) ? -1 : 1; // TestCoverage = F, F_compare, F_compare_char
         public static Func<string, string, int> compare_string = (left, right) => {
+            // TestCoverage = F, F_compare, F_compare_string
             Validate.NonNullArgument(left, LEFT);
             Validate.NonNullArgument(right, RIGHT);
             return String.Compare(left, right);
@@ -88,134 +109,144 @@ namespace Functional.Implementation {
             return String.Compare(left.ToUpper(), right.ToUpper());
         };
 
-        public static Func<int,int,bool>              equ = (left, right) => (left == right);
-        public static Func<int,int,bool>          equ_int = (left, right) => (left == right);
-        public static Func<long,long,bool>       equ_long = (left, right) => (left == right);
-        public static Func<short,short,bool>    equ_short = (left, right) => (left == right);
-        public static Func<bool,bool,bool>       equ_bool = eqv;
-        public static Func<char,char,bool>       equ_char = (left, right) => (left == right);
+        //public static Func<int,int,bool>              equ = (left, right) => (left == right);
+        public static Func<int,int,bool>          equ_int = (left, right) => (left == right); // TestCoverage = F, F_equ, F_equ_int
+        public static Func<long,long,bool>       equ_long = (left, right) => (left == right); // TestCoverage = F, F_equ, F_equ_long
+        public static Func<short,short,bool>    equ_short = (left, right) => (left == right); // TestCoverage = F, F_equ, F_equ_short
+        public static Func<bool,bool,bool>       equ_bool = (left, right) => (left == right); // TestCoverage = F, F_equ, F_equ_bool
+        public static Func<char,char,bool>       equ_char = (left, right) => (left == right); // TestCoverage = F, F_equ, F_equ_char
+        /// <summary>A function given two strings, true if they are equal</summary><returns>true if they are equal</returns>
+        public static Func<string, string, bool> equ_string = (left, right) => {
+            // TestCoverage = F, F_equ, F_equ_string
+            Validate.NonNullArgument(left, LEFT);
+            Validate.NonNullArgument(right, RIGHT);
+            return left == right;
+        };
 
-        public static Func<int,int,bool>              neq = (left, right) => (left != right);
-        public static Func<int,int,bool>          neq_int = (left, right) => (left != right);
-        public static Func<long,long,bool>       neq_long = (left, right) => (left != right);
-        public static Func<short,short,bool>    neq_short = (left, right) => (left != right);
-        public static Func<bool,bool,bool>       neq_bool = xor;
-        public static Func<char,char,bool>       neq_char = (left, right) => (left != right);
+        //public static Func<int,int,bool>              neq = (left, right) => (left != right);
+        public static Func<int,int,bool>        neq_int = (left, right) => (left != right); // TestCoverage = F, F_neq, F_neq_int
+        public static Func<long,long,bool>     neq_long = (left, right) => (left != right); // TestCoverage = F, F_neq, F_neq_long
+        public static Func<short,short,bool>  neq_short = (left, right) => (left != right); // TestCoverage = F, F_neq, F_neq_short
+        public static Func<bool,bool,bool>     neq_bool = bool_xor;                         // TestCoverage = F, F_neq, F_neq_bool
+        public static Func<char,char,bool>     neq_char = (left, right) => (left != right); // TestCoverage = F, F_neq, F_neq_char
+        /// <summary>A function given two strings, true if they are not equal</summary><returns>true if they are not equal</returns>
+        public static Func<string, string, bool> neq_string = (left, right) => {
+            // TestCoverage = F, F_neq, F_neq_string
+            Validate.NonNullArgument(left, LEFT);
+            Validate.NonNullArgument(right, RIGHT);
+            return left != right;
+        };
 
-        public static Func<int,int,int>                 add = (x, y) => x + y;
-        public static Func<int,int,int>             add_int = (x, y) => x + y;
-        public static Func<long,long,long>         add_long = (x, y) => x + y;
-        public static Func<short,short,short>     add_short = (x, y) => (short)(x + y); //beware overflow
-        public static Func<float,float,float>     add_float = (x, y) => x + y;
-        public static Func<double,double,double> add_double = (x, y) => x + y;
-
-        public static Func<int,int,int>                 sub = (x, y) => x - y;
-        public static Func<int,int,int>             sub_int = (x, y) => x - y;
-        public static Func<long,long,long>         sub_long = (x, y) => x - y;
-        public static Func<short,short,short>     sub_short = (x, y) => (short)(x - y); //beware underflow
-        public static Func<float, float, float>   sub_float = (x, y) => x - y;
-        public static Func<double,double,double> sub_double = (x, y) => x - y;
-
-        public static Func<int,int,int>                 mult = (x, y) => x * y;
-        public static Func<int,int,int>             mult_int = (x, y) => x * y;
-        public static Func<long,long,long>         mult_long = (x, y) => x * y;
-        public static Func<short,short,short>     mult_short = (x, y) => (short)(x * y);
-        public static Func<float,float,float>     mult_float = (x, y) => x * y;
-        public static Func<double,double,double> mult_double = (x, y) => x * y;
-
-        public static Func<int, int, int>               max = (x, y) => (F.gt(x, y)) ? x : y;
-        public static Func<int, int, int>           max_int = (x, y) => (F.gt(x, y)) ? x : y;
-        public static Func<long,long,long>         max_long = (x, y) => (F.gt_long(x,y)) ? x : y;
-        public static Func<short,short,short>     max_short = (x, y) => (F.gt_short(x,y)) ? x : y;
-        public static Func<float,float,float>     max_float = (x, y) => (F.gt_float(x, y)) ? x : y;
-        public static Func<double,double,double> max_double = (x, y) => (F.gt_double(x, y)) ? x : y;
-
-        public static Func<int,int,int>                 min = (x, y) => (F.lt(x,y)) ? x : y;
-        public static Func<int,int,int>             min_int = (x, y) => (F.lt(x,y)) ? x : y;
-        public static Func<long,long,long>         min_long = (x, y) => (F.lt_long(x,y)) ? x : y;
-        public static Func<short,short,short>     min_short = (x, y) => (F.lt_short(x,y)) ? x : y;
-        public static Func<float,float,float>     min_float = (x, y) => (F.lt_float(x, y)) ? x : y;
-        public static Func<double,double,double> min_double = (x, y) => (F.lt_double(x, y)) ? x : y;
-
-        public static Func<int,int>              neg = (x) => -x;
-        public static Func<int,int>          neg_int = (x) => -x;
-        public static Func<long,long>       neg_long = (x) => -x;
-        public static Func<short,short>    neg_short = (x) => (short)(-x);
-        public static Func<float,float>    neg_float = (x) => -x;
-        public static Func<double,double> neg_double = (x) => -x;
-
-        public static Func<int,int>           inc = (x) => F.add(x,1);
-        public static Func<int, int>      inc_int = inc;
-        public static Func<long,long>    inc_long = (x) => F.add_long(x,1L);
-        public static Func<short,short> inc_short = (x) => (short)(x + 1);
-
-
-        
-        public static Func<float,float,bool>             close_float = (x, y) => (F.lt_float(Math.Abs(F.sub_float(x,y)),0.01f));
-        public static Func<double,double,bool>          close_double = (x, y) => (F.lt_double(Math.Abs(F.sub_double(x, y)), 0.01d));
-        public static Func<float,float,float,float>      clamp_float = (x,min,max) => (F.lt_float(x,min)) ? min : (F.gt_float(x,max)) ? max : x;
-        public static Func<double,double,double,double> clamp_double = (x,min,max) => (F.lt_double(x,min)) ? min : (F.gt_double(x,max)) ? max : x;
-
-        public static Func<int,int>               sqr = (x) => x * x;
-        public static Func<int,int>           sqr_int = (x) => x * x;
-        public static Func<long,long>        sqr_long = (x) => x * x;
-        public static Func<short, short>    sqr_short = (x) => (short)(x * x);
-        public static Func<float,float>     sqr_float = (x) => x * x;
-        public static Func<double,double>  sqr_double = (x) => x * x;
-        public static Func<float,float>    sqrt_float = (x) => { Validate.PositiveArgument(x, X); return (float)Math.Sqrt(x); };
-        public static Func<double,double> sqrt_double = (x) => { Validate.PositiveArgument(x, X); return (float)Math.Sqrt(x); };
-        
-        public static Func<int,int,bool>                gt = (left, right) => (left > right);
-        public static Func<int,int,bool>            gt_int = (left, right) => (left > right);
-        public static Func<long,long,bool>         gt_long = (left, right) => (left > right);
-        public static Func<short,short,bool>      gt_short = (left, right) => (left > right);
-        public static Func<float, float, bool>    gt_float = (left, right) => (left > right);
-        public static Func<double, double, bool> gt_double = (left, right) => (left > right);
-
-        public static Func<int,int,bool>           gte = (left, right) => (left >= right);
-        public static Func<int,int,bool>       gte_int = (left, right) => (left >= right);
-        public static Func<long,long,bool>    gte_long = (left, right) => (left >= right);
-        public static Func<short,short,bool> gte_short = (left, right) => (left >= right);
-
-
-        public static Func<int,int,bool>                lt = (left, right) => (left < right);
-        public static Func<int,int,bool>            lt_int = (left, right) => (left < right);
-        public static Func<long,long,bool>         lt_long = (left, right) => (left < right);
-        public static Func<short,short,bool>      lt_short = (left, right) => (left < right);
-        public static Func<float, float, bool>    lt_float = (left, right) => (left < right);
-        public static Func<double, double, bool> lt_double = (left, right) => (left < right);
-
-
-        public static Func<int,int,bool>           lte = (left, right) => (left <= right); // this is one reason why operators suck
-        public static Func<int,int,bool>       lte_int = (left, right) => (left <= right);
-        public static Func<long,long,bool>    lte_long = (left, right) => (left <= right);
-        public static Func<short,short,bool> lte_short = (left, right) => (left <= right);
-
-        
-
-        public static Func<bool,bool,bool>  or = (left, right) => left || right;
-        public static Func<bool,bool,bool> and = (left, right) => left && right;
-        public static Func<bool,bool,bool> xor = (left, right) => left != right;
-        public static Func<bool,bool,bool> eqv = (left, right) => left == right;
-        public static Func<bool,bool> not = x => !x;
+        //public static Func<int,int,int>                 add = (x, y) => x + y;
+        public static Func<int,int,int>             add_int = (x, y) => x + y; // TestCoverage = F, F_add, F_add_int
+        public static Func<long,long,long>         add_long = (x, y) => x + y; // TestCoverage = F, F_add, F_add_long
+        public static Func<short,short,short>     add_short = (x, y) => (short)(x + y); // TestCoverage = F, F_add, F_add_short
+        public static Func<float,float,float>     add_float = (x, y) => x + y; // TestCoverage = F, F_add, F_add_float
+        public static Func<double,double,double> add_double = (x, y) => x + y; // TestCoverage = F, T_add, F_add_double
         /// <summary>A function given two strings, returns the combined string</summary><returns>A combined string</returns>
         public static Func<string, string, string> add_string = (left, right) => {
             Validate.NonNullArgument(left, LEFT);
             Validate.NonNullArgument(right, RIGHT);
             return left + right;
         };
-        /// <summary>A function given two strings, true if they are equal</summary><returns>true if they are equal</returns>
-        public static Func<string, string, bool> equ_string = (left, right) => {
-            Validate.NonNullArgument(left, LEFT);
-            Validate.NonNullArgument(right, RIGHT);
-            return left == right;
+
+        //public static Func<int,int,int>                 sub = (x, y) => x - y;
+        public static Func<int,int,int>             sub_int = (x, y) => x - y; // TestCoverage = F, F_sub, F_sub_int
+        public static Func<long,long,long>         sub_long = (x, y) => x - y; // TestCoverage = F, F_sub, F_sub_long
+        public static Func<short,short,short>     sub_short = (x, y) => (short)(x - y); // TestCoverage = F, F_sub, F_sub_short
+        public static Func<float, float, float>   sub_float = (x, y) => x - y; // TestCoverage = F, F_sub, F_sub_float
+        public static Func<double,double,double> sub_double = (x, y) => x - y; // TestCoverage = F, F_sub, F_sub_double
+
+        // public static Func<int,int,int>                 mult = (x, y) => x * y;
+        public static Func<int,int,int>             mult_int = (x, y) => x * y; // TestCoverage = F, F_mult, F_mult_int
+        public static Func<long,long,long>         mult_long = (x, y) => x * y; // TestCoverage = F, F_mult, F_mult_long
+        public static Func<short,short,short>     mult_short = (x, y) => (short)(x * y);  // TestCoverage = F, F_mult, F_mult_short
+        public static Func<float,float,float>     mult_float = (x, y) => x * y; // TestCoverage = F, F_mult, F_mult_float
+        public static Func<double,double,double> mult_double = (x, y) => x * y; // TestCoverage = F, F_mult, F_mult_double
+
+        // public static Func<int, int, int>               max = (x, y) => (F.gt(x, y)) ? x : y;
+        public static Func<int, int, int>           max_int = (x, y) => (F.gt_int(x, y)) ? x : y;         // TestCoverage = F, F_max, F_max_int
+        public static Func<long,long,long>         max_long = (x, y) => (F.gt_long(x,y)) ? x : y;     // TestCoverage = F, F_max, F_max_long
+        public static Func<short,short,short>     max_short = (x, y) => (F.gt_short(x,y)) ? x : y;    // TestCoverage = F, F_max, F_max_short
+        public static Func<float,float,float>     max_float = (x, y) => (F.gt_float(x, y)) ? x : y;   // TestCoverage = F, F_max, F_max_float
+        public static Func<double,double,double> max_double = (x, y) => (F.gt_double(x, y)) ? x : y;  // TestCoverage = F, F_max, F_max_double
+
+        //public static Func<int,int,int>                 min = (x, y) => (F.lt(x,y)) ? x : y;          
+        public static Func<int,int,int>             min_int = (x, y) => (F.lt_int(x,y)) ? x : y;          // TestCoverage = F, F_min, F_min_int
+        public static Func<long,long,long>         min_long = (x, y) => (F.lt_long(x,y)) ? x : y;     // TestCoverage = F, F_min, F_min_long
+        public static Func<short,short,short>     min_short = (x, y) => (F.lt_short(x,y)) ? x : y;    // TestCoverage = F, F_min, F_min_short
+        public static Func<float,float,float>     min_float = (x, y) => (F.lt_float(x, y)) ? x : y;   // TestCoverage = F, F_min, F_min_float
+        public static Func<double,double,double> min_double = (x, y) => (F.lt_double(x, y)) ? x : y;  // TestCoverage = F, T_min, F_min_double
+
+        public static Func<int,int>          neg_int = (x) => -x;           // TestCoverage = F, F_neg, F_neg_int
+        public static Func<long,long>       neg_long = (x) => -x;           // TestCoverage = F, F_neg, F_neg_long
+        public static Func<short,short>    neg_short = (x) => (short)(-x);  // TestCoverage = F, F_neg, F_neg_short
+        public static Func<float,float>    neg_float = (x) => -x;           // TestCoverage = F, F_neg, F_neg_float
+        public static Func<double,double> neg_double = (x) => -x;           // TestCoverage = F, F_neg, F_neg_double
+
+
+        public static Func<int,int>       inc_int = (x) => F.add_int(x, 1);  // TestCoverage = F, F_add, F_add_int
+        public static Func<long,long>    inc_long = (x) => F.add_long(x,1L); // TestCoverage = F, F_add, F_add_long
+        public static Func<short,short> inc_short = (x) => (short)(x + 1);   // TestCoverage = F, F_add, F_add_short
+
+        
+        public static Func<double, double, bool> close_double = (x, y) => {
+            // TestCoverage = F, F_close, F_close_double
+            return (F.lt_double(Math.Abs(F.sub_double(x, y)), 0.01d));
         };
-        /// <summary>A function given two strings, true if they are not equal</summary><returns>true if they are not equal</returns>
-        public static Func<string, string, bool> neq_string = (left, right) => {
-            Validate.NonNullArgument(left, LEFT);
-            Validate.NonNullArgument(right, RIGHT);
-            return left != right;
+        public static Func<float,float,bool> close_float = (x, y) => {
+            // TestCoverage = F, F_close, F_close_float
+            return (F.lt_float(Math.Abs(F.sub_float(x, y)), 0.01f));
         };
+
+        public static Func<float,float,float,float>      clamp_float = (x,min,max) => (F.lt_float(x,min)) ? min : (F.gt_float(x,max)) ? max : x;
+        public static Func<double,double,double,double> clamp_double = (x,min,max) => (F.lt_double(x,min)) ? min : (F.gt_double(x,max)) ? max : x;
+
+        public static Func<int,int>           sqr_int = (x) => x * x; // TestCoverage = F, F_sqr, F_sqr_int
+        public static Func<long,long>        sqr_long = (x) => x * x; // TestCoverae = F, F_sqr, F_sqr_long
+        public static Func<short, short>    sqr_short = (x) => (short)(x * x); // TestCoverage = F, F_sqr_short
+        public static Func<float,float>     sqr_float = (x) => x * x; // TestCoverage = F, F_sqr, F_sqr_float
+        public static Func<double,double>  sqr_double = (x) => x * x; // TestCoverage = F, F_sqr, F_sqr_double
+
+        public static Func<float,float>    sqrt_float = (x) => {
+            // TestCoverage = F, F_sqrt, F_sqrt_float
+            Validate.PositiveArgument(x, X);
+            return (float)Math.Sqrt(x);
+        };
+        public static Func<double,double> sqrt_double = (x) => { 
+            // TestCoverage = F, F_sqrt, F_sqrt_double
+            Validate.PositiveArgument(x, X);
+            return (float)Math.Sqrt(x); 
+        };
+        
+        //public static Func<int,int,bool>                gt = (left, right) => (left > right);
+        public static Func<int,int,bool>            gt_int = (left, right) => (left > right); // TestCoverage = F, F_gt, F_gt_int
+        public static Func<long,long,bool>         gt_long = (left, right) => (left > right); // TestCoverage = F, F_gt, F_gt_long
+        public static Func<short,short,bool>      gt_short = (left, right) => (left > right); // TestCoverage = F, F_gt, F_gt_short
+        public static Func<float,float,bool>      gt_float = (left, right) => (left > right); // TestCoverage = F, F_gt, F_gt_float
+        public static Func<double,double,bool>   gt_double = (left, right) => (left > right); // TestCoverage = F, F_gt, F_gt_double
+
+        public static Func<int,int,bool>       gte_int = (left, right) => (left >= right); // TestCoverage = F, F_gte, F_gte_int
+        public static Func<long,long,bool>    gte_long = (left, right) => (left >= right); // TestCoverage = F, F_gte, F_gte_long
+        public static Func<short,short,bool> gte_short = (left, right) => (left >= right); // TestCoverage = F, F_gte, F_gte_short
+
+        public static Func<int,int,bool>            lt_int = (left, right) => (left < right); // TestCoverage = F, F_lt, F_lt_int
+        public static Func<long,long,bool>         lt_long = (left, right) => (left < right); // TestCoverage = F, F_lt, F_lt_long
+        public static Func<short,short,bool>      lt_short = (left, right) => (left < right); // TestCoverage = F, F_lt, F_lt_short
+        public static Func<float,float,bool>      lt_float = (left, right) => (left < right); // TestCoverage = F, F_lt, F_lt_float
+        public static Func<double,double,bool>   lt_double = (left, right) => (left < right); // TestCoverage = F, F_lt, F_lt_double
+
+
+        // this is one reason why operators suck
+        public static Func<int,int,bool>       lte_int = (left, right) => (left <= right); // TestCoverage = F, F_lte, F_lte_int
+        public static Func<long,long,bool>    lte_long = (left, right) => (left <= right); // TestCoverage = F, F_lte, F_lte_long
+        public static Func<short,short,bool> lte_short = (left, right) => (left <= right); // TestCoverage = F, F_lte, F_lte_short
+
+
+
+
+
+
         public static Func<string, char, string> add_char_to_string = (left, c) => {
             Validate.NonNullArgument(left, LEFT);
             return left + c;
@@ -223,21 +254,27 @@ namespace Functional.Implementation {
         
 
         public static Func<bool, IEnumerable<bool>> infinite_bool = (b) => F<bool>.forever(b);
-        public static Func<bool, IEnumerable<bool>> infinite_bool_toggle = (b) => F<bool>.forever(not, b);
+        public static Func<bool, IEnumerable<bool>> infinite_bool_toggle = (b) => F<bool>.forever(F.bool_not, b);
 
 
         /// <summary>A function given start, returns an infinite sequence of increasing integers. (warning: integer overflow)</summary><returns>An infinite sequence of increasing integers</returns>
-        public static Func<int,IEnumerable<int>> infinite_range = (start) => F<int>.forever((n)=>n+1,start);
+        public static Func<int,IEnumerable<int>> infinite_range = (start) => F<int>.forever(F.inc_int,start);
+
         public static IEnumerable<int> range(int start, int end) {
-            int step = (F.gt(F.sub(end,start),0)) ? 1 : -1;
-            for (int i = start; F.neq(i, end); i=F.add(i,step)) yield return i;
+            // TestCoverage = F. F_range, F_range_start_end
+            int step = (F.gt_int(F.sub_int(end,start),0)) ? 1 : -1;
+            for (int i = start; F.neq_int(i, end); i=F.add_int(i,step)) yield return i;
         }
         public static IEnumerable<int> range(int start, int end, int step) {
-            int Step = (F.gt(F.sub(end,start),0)) ? Math.Abs(step) : -Math.Abs(step);
-            Func<int, int, bool> condition = (F.gt(F.sub(end,start),0)) ? F.lt : F.gt;
-            for (int i = start; condition(i, end); i = F.add(i,Step)) yield return i;
+            // TestCoverage = F, F_range, F_range_start_end_step
+            int Step = (F.gt_int(F.sub_int(end,start),0)) ? Math.Abs(step) : -Math.Abs(step);
+            Func<int, int, bool> condition = (F.gt_int(F.sub_int(end,start),0)) ? F.lt_int : F.gt_int;
+            for (int i = start; condition(i, end); i = F.add_int(i,Step)) yield return i;
         }
-        public static IEnumerable<int> range(int end) { return range(0, end); }
+        public static IEnumerable<int> range(int end) {
+            // TestCoverage = F, F_range, F_range_end
+            return range(0, end); 
+        }
         /// <summary>A function given minimum, and maximum, that returns a sequence of random integers</summary><returns>An infinite sequence of random integers between minimum and maximum</returns>
         public static IEnumerable<int> random(int minimum, int maximum) {
             Random r = new Random(DateTime.Now.Millisecond);
@@ -246,12 +283,12 @@ namespace Functional.Implementation {
         /// <summary>A function given length, that returns a sequence of random integers</summary><returns>A sequence of random integers</returns>
         public static IEnumerator<int> random(int count) {
             Random r = new Random(DateTime.Now.Millisecond);
-            for (int i = 0; lt(i,count); i=inc(i)) yield return r.Next();
+            for (int i = 0; F.lt_int(i,count); i=F.inc_int(i)) yield return r.Next();
         }
         /// <summary>A function given length, minimum, and maximum, that returns a sequence of random integers</summary><returns>A sequence of random integers between minimum and maximum</returns>
         public static IEnumerable<int> random(int count, int minimum, int maximum) {
             Random r = new Random(DateTime.Now.Millisecond);
-            for (int i = 0; lt(i,count); i=inc(i)) yield return r.Next(minimum, maximum);
+            for (int i = 0; F.lt_int(i,count); i=inc_int(i)) yield return r.Next(minimum, maximum);
         }
         public static Func<string, int> string_to_int = (item) => {
             Validate.NonNullArgument(item, ITEM);
@@ -368,12 +405,12 @@ namespace Functional.Implementation {
             bool result = true;
             bool b1 = i1.MoveNext();
             bool b2 = i2.MoveNext();
-            while (F.and(result,F.and(b1,b2))) {
+            while (F.bool_and(result,F.bool_and(b1,b2))) {
                 result = fn(i1.Current, i2.Current);
                 b1 = i1.MoveNext();
                 b2 = i2.MoveNext();
             }
-            return (F.and(result,F.equ_bool(b1,b2)));
+            return (F.bool_and(result,F.equ_bool(b1,b2)));
         };
         /// <summary>Given a sequence and a predicate, indicates if any elemnt passes the predicate</summary><returns>true if any of the elements pass the predicate function</returns>
         public static Func<IEnumerable<T>, Func<T, bool>, bool> any = (lst, predicate) => {
@@ -405,22 +442,26 @@ namespace Functional.Implementation {
         }
         /// <summary>get the first element of a sequence</summary><returns>The first element of an IEnumerable</returns>
         public static Func<IEnumerable<T>, T> first = (lst) => {
+            // TestCoverage = F_T, F_T_first
             Validate.NonNullArgument(lst, LST);
             return lst.First();
         };
         /// <summary>get the sequence following the first element of a sequence</summary><returns>an IEnermerable following the first element</returns>
         public static Func<IEnumerable<T>, IEnumerable<T>> rest = (lst) => {
+            // TestCoverage = F_T, F_T_rest
             Validate.NonNullArgument(lst, LST);
             return lst.Skip(1);
         };
         /// <summary>find the first item that meets the condition function throws System.InvalidOperationException if no match is found</summary><returns>T or null</returns>
         public static Func<IEnumerable<T>, Func<T, bool>, T> find = (lst, predicate) => {
+            // TestCoverage = F_T, F_T_find
             Validate.NonNullArgument(lst, LST);
             Validate.NonNullArgument(predicate, PREDICATE);
             return lst.First(predicate);
         };
         /// <summary>sorts a finite sequnce.</summary><returns>a sequence</returns>
         public static Func<IEnumerable<T>, Func<T, T, int>, IEnumerable<T>> sort = (lst, fn) => {
+            // TestCoverage = F_T, F_T_sort
             Validate.NonNullArgument(lst, LST);
             Validate.NonNullArgument(fn, FN);
             T[] x = lst.ToArray();
@@ -429,20 +470,22 @@ namespace Functional.Implementation {
         };
         /// <summary>sorts a sequence (most of the time)</summary><returns>a sorted sequence</returns>
         public static Func<IEnumerable<T>, Func<T, T, int>, IEnumerable<T>> sort_order_by = (lst, fn) => {
+            // TestCoverage = F_T, F_T_sort_order_by
             Validate.NonNullArgument(lst, LST);
             Validate.NonNullArgument(fn, FN);
             return lst.OrderBy(F<T>.identity, new Comparer<T>(fn));
         };
         /// <summary>Bubble sort a finite sequence.</summary><returns>A sorted sequence</returns>
         public static Func<IEnumerable<T>, Func<T, T, int>, IEnumerable<T>> sort_bubble_sort = (lst, fn) => {
+            // TestCoverage = F_T, F_T_sort_bubble
             Validate.NonNullArgument(lst, LST);
             Validate.NonNullArgument(fn, FN);
             T[] array = lst.ToArray();
             bool swapped = true;
             while (swapped) {
                 swapped = false;
-                for (int i = 0; F.lt(i,array.Length - 1); i=F.inc(i)) {
-                    if (F.gt(fn(array[i], array[1 + 1]),0)) {
+                for (int i = 0; F.lt_int(i,array.Length - 1); i=F.inc_int(i)) {
+                    if (F.gt_int(fn(array[i], array[1 + 1]),0)) {
                         swapped = true;
                         T temp = array[i];
                         array[i] = array[i + 1];
@@ -454,31 +497,37 @@ namespace Functional.Implementation {
         };
         /// <summary>Runs a function an each member of a sequence</summary><returns>nothing</returns>
         public static void each(IEnumerable<T> lst,Action<T> fn) {
+            // TestCoverage = F_T, F_T_each, F_T_each_naked
             Validate.NonNullArgument(lst, LST);
             Validate.NonNullArgument(fn, FN);
             foreach (T t in lst) fn(t); 
         }
         public static void each<U>(IEnumerable<T> lst, Action<T,U> fn, U u) {
+            // TestCoverage = F_T, F_T_each, F_T_each_U
             Validate.NonNullArgument(lst, LST);
             Validate.NonNullArgument(fn, FN);
             foreach (T t in lst) fn(t, u); 
         }
         public static void each<U,V>(IEnumerable<T> lst, Action<T,U,V> fn, U u, V v) {
+            // TestCoverage = F_T, F_T_each, F_T_each_U_V
             Validate.NonNullArgument(lst, LST);
             Validate.NonNullArgument(fn, FN);
             foreach (T t in lst) fn(t, u, v); 
         }
         public static void each<U,V,W>(IEnumerable<T> lst, Action<T,U,V,W> fn, U u, V v, W w) {
+            // TestCoverage = F_T, F_T_each, F_T_each_U_V_W
             Validate.NonNullArgument(lst, LST);
             Validate.NonNullArgument(fn, FN);
-            foreach (T t in lst) fn(t, u, v, w); 
+            foreach (T t in lst) fn(t, u, v, w);
         }
         public static void each<U,V,W,X>(IEnumerable<T> lst, Action<T,U,V,W,X> fn, U u, V v, W w, X x) {
+            // TestCoverage = F_T, F_T_each, F_T_each_U_V_W_X
             Validate.NonNullArgument(lst, LST);
             Validate.NonNullArgument(fn, FN);
             foreach (T t in lst) fn(t, u, v, w, x); 
         }
         public static void each<U, V>(IEnumerable<T> lst, Action<T, U, V> fn, U u, Func<V, V> acc, V init) {
+            // TestCoverage = F_T, F_T_each, F_T_each_U_V_Acc
             Validate.NonNullArgument(lst, LST);
             Validate.NonNullArgument(fn, FN);
             Validate.NonNullArgument(acc,ACC);
@@ -491,6 +540,7 @@ namespace Functional.Implementation {
 
         /// <summary>runs an accumulatr function as long as the check function is true</summary><returns>a sequence of T</returns>
         public static IEnumerable<T> iterate_while(Func<T, T> fn, Func<T, bool> predicate, T init) {
+            // TestCoverage = F_T, F_T_iterate_while
             Validate.NonNullArgument(fn, FN);
             Validate.NonNullArgument(predicate, PREDICATE);
             T result = init;
@@ -500,15 +550,23 @@ namespace Functional.Implementation {
             }
         }
         /// <summary>returns a function that return the input</summary><returns>a Function</returns>
-        public static Func<T> always(T t) { return () => t; }
+        public static Func<T> always(T t) { 
+            // TestCoverage = F_T, F_T_always
+            return () => t; 
+        }
 
         public static IEnumerable<T> limit(IEnumerable<T> lst, int count) {
+            // TestCoverage = F_T, F_T_limit
             Validate.NonNullArgument(lst, LST);
             Validate.PositiveArgument(count, "count");
             return lst.Take(count); 
         }
-        public static IEnumerable<T> forever(T t) { while (true) yield return t; }
+        public static IEnumerable<T> forever(T t) {
+            // TestCoverage = F_T, F_T_forever, F_T_forever_item
+            while (true) yield return t; 
+        }
         public static IEnumerable<T> forever(Func<T, T> fn, T t) {
+            // TestCoverage = F_T, F_T_forever, F_T_forever_function
             Validate.NonNullArgument(fn, FN);
             T result = t;
             while (true) {
@@ -518,27 +576,32 @@ namespace Functional.Implementation {
         }
         /// <summary>returns a sequence that is the result of a sequence transformed by a function</summary><returns>A sequence of objects of type T</returns>
         public static IEnumerable<U> map<U>(IEnumerable<T> lst, Func<T,U> fn) {
+            // TestCoverage = F_T, F_T_map, F_T_map_U
             Validate.NonNullArgument(lst, LST);
             Validate.NonNullArgument(fn, FN);
             return lst.Select(fn); 
         }
         public static IEnumerable<U> map<U,V>(IEnumerable<T> lst, Func<T,V,U> fn, V v) {
+            // TestCoverage = F_T, F_T_map, F_T_map_U_V
             Validate.NonNullArgument(lst, LST);
             Validate.NonNullArgument(fn, FN);
             foreach (T t in lst) yield return fn(t, v);
         }
         public static IEnumerable<U> map<U,V,W>(IEnumerable<T> lst, Func<T,V,W,U> fn, V v, W w) {
+            // TestCoverage = F_T, F_T_map, F_T_map_U_V_W
             Validate.NonNullArgument(lst, LST);
             Validate.NonNullArgument(fn, FN);
             foreach (T t in lst) yield return fn(t, v, w);
         }
         public static IEnumerable<U> map<U,V,W,X>(IEnumerable<T> lst, Func<T,V,W,X,U> fn, V v, W w, X x) {
+            // TestCoverage = F_T_map_U_V_W_X
             Validate.NonNullArgument(lst, LST);
             Validate.NonNullArgument(fn, FN);
             foreach (T t in lst) yield return fn(t, v, w, x);
         }
         /// <summary>returns a sequence that is fed by two other sequences and a combining function fn</summary><returns>A sequence of objects of type T</returns>
         public static IEnumerable<U> map<U>(IEnumerable<T> lst1, IEnumerable<T> lst2, Func<T, T, U> fn) {
+            // TestCoverage = F_T, F_T_map, F_T_map_U_2_List
             Validate.NonNullArgument(lst1, LST1);
             IEnumerator<T> one = lst1.GetEnumerator();
             IEnumerator<T> two = lst2.GetEnumerator();
@@ -548,6 +611,7 @@ namespace Functional.Implementation {
         }
         /// <summary>returns a sequence that is fed by three other sequences and a combining function fn</summary><returns>A sequence of objects of type T</returns>
         public static IEnumerable<U> map<U>(IEnumerable<T> lst1, IEnumerable<T> lst2, IEnumerable<T> lst3, Func<T, T, T, U> fn) {
+            // TestCoverage = F_T, F_T_map, F_T_map_U_3_List
             Validate.NonNullArgument(lst1, LST1);
             Validate.NonNullArgument(lst2, LST2);
             Validate.NonNullArgument(lst3, LST3);
@@ -561,6 +625,7 @@ namespace Functional.Implementation {
         }
         /// <summary>Takes a sequence of objects of type T and a map function that transforms an object of type T to a sequence of objects of type U</summary><returns>A sequence of objects of type U</returns>
         public static IEnumerable<U> flatten<U>(IEnumerable<T> lst, Func<T, IEnumerable<U>> fn) {
+            // TestCoverage = F_T, F_T_flatten
             Validate.NonNullArgument(lst, LST);
             Validate.NonNullArgument(fn, FN);
             foreach (T t in lst) {
@@ -571,12 +636,14 @@ namespace Functional.Implementation {
         }
         /// <summary>Takes a sequence of T and an accumulation function</summary><returns>the accumulation of the sequence</returns>
         public static T reduce(IEnumerable<T> lst,Func<T, T, T> fn) {
+            // TestCoverage = F_T, F_T_reduce, F_T_reduce_naked
             Validate.NonNullArgument(lst, LST);
             Validate.NonNullArgument(fn, FN);
             return lst.Aggregate(fn);
         }
         /// <summary>Takes an enumeration of T, an accumulation function, and an initial item, and applies the accumulation function acc to all the element.</summary><returns>A U</returns>
         public static T reduce(IEnumerable<T> lst, Func<T, T, T> fn, T item) {
+            // TestCoverage = F_T, F_T_reduce, F_T_reduce_init
             Validate.NonNullArgument(lst, LST);
             Validate.NonNullArgument(fn, FN);
             Validate.NonNullArgument(item, ITEM);
@@ -584,26 +651,13 @@ namespace Functional.Implementation {
         }
         /// <summary>Takes an enumeration of T, and applies the accumulation function acc to all the element.</summary><returns>A U</returns>
         public static U reduce<U>(IEnumerable<T> lst, Func<U, T, U> fn, U item) {
+            // TestCoverage = F_T, F_T_reduce, F_T_reduce_U_init
             Validate.NonNullArgument(lst,LST);
             Validate.NonNullArgument(fn,FN);
             Validate.NonNullArgument(item, ITEM);
-            return lst.Aggregate<T, U, U>(item, fn, z => z);
+            return lst.Aggregate<T, U, U>(item, fn, F<U>.identity);
         }
         
-        /// <summary>Takes an enumeration of T, and applies the accumulation function acc to all the element.</summary>
-        /// <param name="initialItem">Initial value</param>
-        /// <returns>A U</returns>
-        public static U reduce<U>(IEnumerable<T> lst, Func<U, T, T, U> fn, T initialItem, U initialResult) {
-            Validate.NonNullArgument(lst, LST);
-            Validate.NonNullArgument(fn, FN);
-            U runningResult = initialResult;
-            T lastItem = initialItem;
-            foreach (T currentItem in lst) {
-                runningResult = fn(runningResult, lastItem, currentItem);
-                lastItem = currentItem;
-            }
-            return runningResult;
-        }
         public static IEnumerable<KeyValuePair<T, U>> combination<U>(IEnumerable<T> keys, IEnumerable<U> values) {
             foreach (T key in keys) {
                 foreach (U value in values) {
@@ -661,6 +715,7 @@ namespace Functional.Implementation {
         }
     }
     public class Chain<T> : IChain<T> {
+        // TestCoverage = Chain
         private Func<T, bool> fn = null;
         private Chain(T t,Func<T, bool> predicate) {
             this.Item = t;
@@ -702,6 +757,7 @@ namespace Functional.Implementation {
     }
 
     public class Curry1<T, U> : ICurry1<T, U> {
+        // TestCoverage = Curry1
         private const string FUN = "fun";
         private Func<T, U> fn;
         public Curry1(Func<T, U> fun) {
@@ -713,6 +769,7 @@ namespace Functional.Implementation {
         public Func<Func<T, U>> Create { get; private set; } 
     }
     public class Curry2<T, U> : ICurry2<T, U> {
+        // TestCoverage = Curry2
         private const string FUN = "fun";
         private Func<T, U, U> fn; // U fn(T t, U u)
         public Curry2(Func<T, U, U> fun) {
@@ -877,7 +934,7 @@ namespace Functional.Implementation {
             // TODO: check for collision
             this.services.Add(type, service);
         }
-        public object GetService(Type type) {
+        public object GetService(Type type) {   
             Validate.NonNullArgument(type,TYPE);
             return this.services[type]; // TODO verify that it's there first, throw if it isn't
         }
