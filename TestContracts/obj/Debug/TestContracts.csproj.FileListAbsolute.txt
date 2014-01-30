@@ -1,5 +1,0 @@
-C:\Users\codecore\Dropbox\Projects\Git\Functional\Functional\bin\TestContracts.dll
-C:\Users\codecore\Dropbox\Projects\Git\Functional\Functional\bin\TestContracts.pdb
-C:\Users\codecore\Dropbox\Projects\Git\Functional\Functional\TestContracts\obj\Debug\TestContracts.csprojResolveAssemblyReference.cache
-C:\Users\codecore\Dropbox\Projects\Git\Functional\Functional\TestContracts\obj\Debug\TestContracts.dll
-C:\Users\codecore\Dropbox\Projects\Git\Functional\Functional\TestContracts\obj\Debug\TestContracts.pdb
