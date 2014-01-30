@@ -39,21 +39,27 @@ namespace Functional.Implementation {
         public static void DoNothing<T,U>(T t, U u) { }
         public static void DoNothing<T,U,V>(T t, U u, V v) { }
 
+        
+
         /// <summary>returns a function that returns either true or false</summary><returns>a Function that returns a bool</returns>
-        public static Func<bool> always(bool b) {
-            // TestCoverage = F, F_always, F_always_function 
+        public static Func<bool> always(bool b) {  // TestCoverage = F, F_always, F_always_function 
             return (b) ? alwaysTrue() : alwaysFalse(); 
         }
         /// <summary>returns a function that returns true</summary><returns>a Function that returns a bool</returns>
-        public static Func<Func<bool>> alwaysTrue = () => { 
-            // TestCoverage = F, F_always, F_always_true
+        public static Func<Func<bool>> alwaysTrue = () => {  // TestCoverage = F, F_always, F_always_true
             return () => true; 
         };
+
         /// <summary>returns a function that returns false</summary><returns>a Function that returns a bool</returns>
-        public static Func<Func<bool>> alwaysFalse = () => { 
-            // TestCoverage = F, F_alwats, F_always_false
+        public static Func<Func<bool>> alwaysFalse = () => {  // TestCoverage = F, F_alwats, F_always_false
             return () => false; 
         };
+        public static Func<bool, Task<bool>> boolAsync = (b) => F<bool>.task(b);
+        public static Func<Task<bool>> trueAsync = () => F<bool>.task(true);
+        public static Func<Task<bool>> falseAsync = () => F<bool>.task(false);
+        public static Func<bool, Task<Func<bool>>> alwaysAsync = (b) => F<Func<bool>>.task(F.always(b));
+        public static Func<Task<Func<bool>>> alwaysTrueAsync = () => F<Func<bool>>.task(F.alwaysTrue.Invoke());
+        public static Func<Task<Func<bool>>> alwaysFalseAsync = () => F<Func<bool>>.task(F.alwaysFalse.Invoke());
 
         public static Func<string, IEnumerable<char>> chars = (item) => {
             // TestCoverage = F, F_chars
@@ -354,6 +360,14 @@ namespace Functional.Implementation {
         private const string LST1 = "lst1";
         private const string LST2 = "lst2";
         private const string LST3 = "lst3";
+
+        public static Func<T, Func<T>> func = (t) => { return () => t; };
+        public static Func<Func<T>, T> evaluate = (f) => f.Invoke();
+        public static Func<T, Task<T>> task = (t) => {
+            var tcs = new TaskCompletionSource<T>();
+            tcs.SetResult(t);
+            return tcs.Task;
+        };
 
         public static Func<T, T> identity = (item) => item;
 
@@ -943,11 +957,11 @@ namespace Functional.Implementation {
             this.services.Remove(type); // TODO verify that it's there first, throw if it isn't
         }
     }
-    public class Singleton<T> {
-        private static Singleton<T> instance;
-        private static Singleton<T> Instance { 
+    public class Singleton<I,T> where T:I, new() {
+        private static I instance;
+        public static I Instance { 
             get {
-                if (null == instance) instance = new Singleton<T>();
+                if (null == instance) instance = new T();
                 return instance; 
             } 
         }

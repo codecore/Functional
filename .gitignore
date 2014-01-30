@@ -1,4 +1,7 @@
 ConsoleTest/obj
+Functional/obj
+TestHarness/obj
+bin
 FunctionalNET.dll
 FunctionalNET.pdb
 FunctionalNET.XML

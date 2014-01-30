@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C1E7331B-965D-4442-B4ED-37434D58AB08}</ProjectGuid>
+    <ProjectGuid>{42411E7D-2A46-488A-ABC1-D6314C3E5566}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TestHarness</RootNamespace>
-    <AssemblyName>TestHarness</AssemblyName>
+    <RootNamespace>TestContracts</RootNamespace>
+    <AssemblyName>TestContracts</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -24,14 +24,13 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\bin\</OutputPath>
+    <OutputPath>..\bin\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -40,42 +39,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TestCases\TestCase.cs" />
-    <Compile Include="TestCases\TestCaseAdd.cs" />
-    <Compile Include="TestCases\TestCaseAlways.cs" />
-    <Compile Include="TestCases\TestCaseBool.cs" />
-    <Compile Include="TestCases\TestCaseClose.cs" />
-    <Compile Include="TestCases\TestCaseCompare.cs" />
-    <Compile Include="TestCases\TestCaseEach.cs" />
-    <Compile Include="TestCases\TestCaseEqu.cs" />
-    <Compile Include="TestCases\TestCaseGPS.cs" />
-    <Compile Include="TestCases\TestCaseGt.cs" />
-    <Compile Include="TestCases\TestCaseGte.cs" />
-    <Compile Include="TestCases\TestCaseLt.cs" />
-    <Compile Include="TestCases\TestCaseLte.cs" />
-    <Compile Include="TestCases\TestCaseMap.cs" />
-    <Compile Include="TestCases\TestCaseMax.cs" />
-    <Compile Include="TestCases\TestCaseMin.cs" />
-    <Compile Include="TestCases\TestCaseMult.cs" />
-    <Compile Include="TestCases\TestCaseNeq.cs" />
-    <Compile Include="TestCases\TestCaseRange.cs" />
-    <Compile Include="TestCases\TestCaseReduce.cs" />
-    <Compile Include="TestCases\TestCaseSort.cs" />
-    <Compile Include="TestCases\TestCaseSqr.cs" />
-    <Compile Include="TestCases\TestCaseSub.cs" />
-    <Compile Include="TestHarness.cs" />
-    <Compile Include="TestHarnessAssemblyInfo.cs" />
-    <Compile Include="Tests.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Functional\FunctionalNET.csproj">
-      <Project>{88811787-8218-4d3b-8079-1f69f3f7b12a}</Project>
-      <Name>FunctionalNET</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TestContracts\TestContracts.csproj">
-      <Project>{42411e7d-2a46-488a-abc1-d6314c3e5566}</Project>
-      <Name>TestContracts</Name>
-    </ProjectReference>
+    <Compile Include="ITestCase.cs" />
+    <Compile Include="TestContractsAssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

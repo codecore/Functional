@@ -1,0 +1,92 @@
+﻿    /****************************************************/
+
+    //  $GPRMC,081836,A,3751.65,S,14507.36,E,000.0,360.0,130998,011.3,E*62
+    // $GPRMC,225446,A,4916.45,N,12311.12,W,000.5,054.7,191194,020.3,E*68
+    // $GPRMC,220516,A,5133.82,N,00042.24,W,173.8,231.8,130694,004.2,W*70
+    // from http://www.gpsinformation.org/dale/nmea.htmI
+
+
+
+    /*
+     * From http://playground.arduino.cc/Tutorials/GPS
+     * 
+     *  eg1. $GPRMC,081836,A,3751.65,S,14507.36,E,000.0,360.0,130998,011.3,E*62
+ eg2. $GPRMC,225446,A,4916.45,N,12311.12,W,000.5,054.7,191194,020.3,E*68
+           225446       Time of fix 22:54:46 UTC
+           A            Navigation receiver warning A = Valid position, V = Warning
+           4916.45,N    Latitude 49 deg. 16.45 min. North
+           12311.12,W   Longitude 123 deg. 11.12 min. West
+           000.5        Speed over ground, Knots
+           054.7        Course Made Good, degrees true
+           191194       UTC Date of fix, 19 November 1994
+           020.3,E      Magnetic variation, 20.3 deg. East
+           *68          mandatory checksum
+ eg3. $GPRMC,220516,A,5133.82,N,00042.24,W,173.8,231.8,130694,004.2,W*70
+              1    2    3    4    5     6    7    8      9     10  11 12
+      1   220516     Time Stamp
+      2   A          validity - A-ok, V-invalid
+      3   5133.82    current Latitude
+      4   N          North/South
+      5   00042.24   current Longitude
+      6   W          East/West
+      7   173.8      Speed in knots
+      8   231.8      True course
+      9   130694     Date Stamp
+      10  004.2      Variation
+      11  W          East/West
+      12  *70        checksum
+ eg4. for NMEA 0183 version 3.00 active the Mode indicator field is added
+     $GPRMC,hhmmss.ss,A,llll.ll,a,yyyyy.yy,a,x.x,x.x,ddmmyy,x.x,a,m*hh
+ Field #
+ 1    = UTC time of fix
+ 2    = Data status (A=Valid position, V=navigation receiver warning)
+ 3    = Latitude of fix
+ 4    = N or S of longitude
+ 5    = Longitude of fix
+ 6    = E or W of longitude
+ 7    = Speed over ground in knots
+ 8    = Track made good  True
+ 9    = UTC date of fix
+ 10   = Magnetic variation degrees (Easterly var. subtracts from true course)
+ 11   = E or W of magnetic variation
+ 12   = Mode indicator, (A=Autonomous, D=Differential, E=Estimated, N=Data not valid)
+ 13   = Checksum
+     * 
+     * 
+     * $GPGGA,154653,4428.2011,N,00440.5161,W,0,00,,-00044.7,M,051.6,M,,*6C 
+ $GPGSA,A,1,,,,,,,,,,,,,,,*1E 
+ $GPGSV,3,1,10,02,50,290,003,10,25,24,045,35,27,56,145,00,,,,,,,,*78 
+ $GPRMC,154653,V,4428.2011,N,00440.5161,W,000.5,342.8,050407,,,N*7F  
+     * */
+
+                // GGA          Global Positioning System Fix Data
+            // 123519       Fix taken at 12:35:19 UTC
+            // 4807.038,N   Latitude 48 deg 07.038' N
+            // 01131.000,E  Longitude 11 deg 31.000' E
+            // 1            Fix quality: 0 = invalid
+            //                   1 = GPS fix (SPS)
+            //                   2 = DGPS fix
+            //                   3 = PPS fix
+			//                   4 = Real Time Kinematic
+			//                   5 = Float RTK
+            //                   6 = estimated (dead reckoning) (2.3 feature)
+			//                   7 = Manual input mode
+			//                   8 = Simulation mode
+            // 08           Number of satellites being tracked
+            // 0.9          Horizontal dilution of position
+            // 545.4,M      Altitude, Meters, above mean sea level
+            // 46.9,M       Height of geoid (mean sea level) above WGS84 ellipsoid
+            // (empty field) time in seconds since last DGPS update
+            // (empty field) DGPS station ID number
+            // *47          the checksum data, always begins with *
+            //test = "$GPGSA,A,3,04,05,,09,12,,,24,,,,,2.5,1.3,2.1*39";
+            // GSA      Satellite status
+            // A        Auto selection of 2D or 3D fix (M = manual) 
+            // 3        3D fix - values include: 1 = no fix
+            //                                   2 = 2D fix
+            //                                   3 = 3D fix
+            // 04,05... PRNs of satellites used for fix (space for 12)
+            // 2.5      PDOP (dilution of precision)
+            // 1.3      Horizontal dilution of precision (HDOP)
+            // 2.1      Vertical dilution of precision (VDOP)
+            // *39      the checksum data, always begins with *

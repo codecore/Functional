@@ -16,11 +16,11 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\bin\lib\net45\</OutputPath>
+    <OutputPath>..\bin\lib\net45\</OutputPath>
     <DefineConstants>TRACE;DEBUG;NET;ASYNC</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>3</WarningLevel>
-    <DocumentationFile>..\..\bin\lib\net45\FunctionalNET.XML</DocumentationFile>
+    <DocumentationFile>..\bin\lib\net45\FunctionalNET.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -41,6 +41,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -52,19 +53,12 @@
     <None Include="FunctionalNet.key.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Exstensible.cs" />
     <Compile Include="Functional.cs" />
     <Compile Include="Graph.cs" />
     <Compile Include="IFunctional.cs" />
     <Compile Include="IGraph.cs" />
-    <Compile Include="Numerical.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Cosine.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Sine.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <Compile Include="NMEA.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
