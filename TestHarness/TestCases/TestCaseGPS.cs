@@ -362,16 +362,30 @@ namespace Tests {
             result = result && (x.Longitude.Hemisphere == Hemisphere.West);
 
             result = result && (F.close_float(x.Speed,0.6f));
-            result = result && (F.close_float(x.Bearing,66.0f));
+            result = result && (F.close_float(x.Bearing,66.8f));
             result = result && (x.Date.Year == 2008);  // 060508
-            result = result && (x.Date.Month == 6);
-            result = result && (x.Date.Day == 5);
+            result = result && (x.Date.Month == 5);
+            result = result && (x.Date.Day == 6);
             // TODO more Verify
 
             NMEA_String = "$GPRMC,215348,A,4529.3672,N,12253.2060,W,0.0,353.8,030508,17.5,E,D*3C";
             x.Parse(NMEA_String);
+            result = result && (x.Time.Hours == 21);
+            result = result && (x.Time.Minutes == 53);
+            result = result && (x.Time.Seconds == 48);
+
+            result = result && x.Valid;
+            result = result && (x.Latitude.Degrees == 45);
+            result = result && (x.Latitude.Minutes == 29);
+            result = result && (F.close_double(x.Latitude.Seconds, (60.0d * 0.3672d)));
+            result = result && (x.Latitude.Hemisphere == Hemisphere.North);
+
+            result = result && (x.Date.Year == 2008);
+            result = result && (x.Date.Month == 5);
+            result = result && (x.Date.Day == 3);
+            result = result && (x.CheckSum == "3C");
             // TODO Verify
-            NMEA_String = "$GPRMC,074919.04,A,4524.9698,N,12246.9520,W,00.0,000.0,260508,19.,E*79";
+            NMEA_String = "$GPRMC,074919.04,A,4524.9698,N,12246.9520,W,00.0,000.0,260508,19.,E*79"; // really?
             x.Parse(NMEA_String);
             // TODO Verify
             NMEA_String = "$GPRMC,123449.089,A,3405.1123,N,08436.4301,W,000.0,000.0,021208,,,A*71";
