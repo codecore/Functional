@@ -362,7 +362,7 @@ namespace Tests {
             result = result && (x.Longitude.Hemisphere == Hemisphere.West);
 
             result = result && (F.close_float(x.Speed,0.6f));
-            result = result && (F.close_float(x.Bearing,66.0f));
+            result = result && (F.close_float(x.Bearing,66.8f));
             result = result && (x.Date.Year == 2008);  // 060508
             result = result && (x.Date.Month == 6);
             result = result && (x.Date.Day == 5);
