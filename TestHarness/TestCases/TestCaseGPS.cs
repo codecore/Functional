@@ -364,8 +364,8 @@ namespace Tests {
             result = result && (F.close_float(x.Speed,0.6f));
             result = result && (F.close_float(x.Bearing,66.8f));
             result = result && (x.Date.Year == 2008);  // 060508
-            result = result && (x.Date.Month == 6);
-            result = result && (x.Date.Day == 5);
+            result = result && (x.Date.Month == 5);
+            result = result && (x.Date.Day == 6);
             // TODO more Verify
 
             NMEA_String = "$GPRMC,215348,A,4529.3672,N,12253.2060,W,0.0,353.8,030508,17.5,E,D*3C";
