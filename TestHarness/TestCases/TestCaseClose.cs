@@ -10,8 +10,8 @@ using Functional.Implementation;
 using TestContracts;
 using Tests;
 namespace Tests {
-    [Export(typeof(ITestCase))]
-    public class close_double : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class close_double : ISyncTestCase {
         private const string _Name = "close double,F_close_double";
         private const string _Description = "F.close_double(x,y) returns true if x is close to y";
         public string TestFile { get { return "TestCaseClose.cs"; } }
@@ -62,8 +62,8 @@ namespace Tests {
         }
     }
 
-    [Export(typeof(ITestCase))]
-    public class close_float : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class close_float : ISyncTestCase {
         private const string _Name = "close float,F_close_float";
         private const string _Description = "F.close_float(x,y) returns true if x is close to y";
         public string TestFile { get { return "TestCaseClose.cs"; } }

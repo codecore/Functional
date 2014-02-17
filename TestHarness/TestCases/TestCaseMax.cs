@@ -10,8 +10,8 @@ using Functional.Implementation;
 using TestContracts;
 using Tests;
 namespace Tests {
-    [Export(typeof(ITestCase))]
-    public class max_double : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class max_double : ISyncTestCase {
         private const string _Name = "max double,F_max_double";
         private const string _Description = "F.max_double(left,right) works correctly";
         public string TestFile { get { return "TestCaseMax.cs"; } }
@@ -49,8 +49,8 @@ namespace Tests {
         }
     }
 
-    [Export(typeof(ITestCase))]
-    public class max_float : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class max_float : ISyncTestCase {
         private const string _Name = "max float,F_max_float";
         private const string _Description = "F.max_float(left,right) works correctly";
         public string TestFile { get { return "TestCaseMax.cs"; } }
@@ -89,8 +89,8 @@ namespace Tests {
     }
 
 
-    [Export(typeof(ITestCase))]
-    public class max_int : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class max_int : ISyncTestCase {
         private const string _Name = "max int,F_max_int";
         private const string _Description = "F.max_int(left,right) works correctly";
         public string TestFile { get { return "TestCaseMax.cs"; } }
@@ -128,8 +128,8 @@ namespace Tests {
         }
     }
 
-    [Export(typeof(ITestCase))]
-    public class max_long : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class max_long : ISyncTestCase {
         private const string _Name = "max long,F_max_long";
         private const string _Description = "F.max_long(left,right) works correctly";
         public string TestFile { get { return "TestCaseMax.cs"; } }
@@ -167,8 +167,8 @@ namespace Tests {
         }
     }
 
-    [Export(typeof(ITestCase))]
-    public class max_short : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class max_short : ISyncTestCase {
         private const string _Name = "max short,F_max_short";
         private const string _Description = "F.max_short(left,right) works correctly";
         public string TestFile { get { return "TestCaseMax.cs"; } }

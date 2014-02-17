@@ -10,8 +10,8 @@ using Functional.Implementation;
 using TestContracts;
 using Tests;
 namespace Tests {
-    [Export(typeof(ITestCase))]
-    public class sqr_double : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class sqr_double : ISyncTestCase {
         private const string _Name = "sqr double,F_sqr_double";
         private const string _Description = "F.sqr_double(X) returns X * X";
         public string TestFile { get { return "TestCaseSqr.cs"; } }
@@ -51,8 +51,8 @@ namespace Tests {
             this.coverage.Add(TestCoverage.F_close_double);
         }
     }
-    [Export(typeof(ITestCase))]
-    public class sqr_float : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class sqr_float : ISyncTestCase {
         private const string _Name = "sqr float,F_sqr_float";
         private const string _Description = "F.sqr_float(X) returns X * X";
         public string TestFile { get { return "TestCaseSqr.cs"; } }
@@ -93,8 +93,8 @@ namespace Tests {
         }
     }
 
-    [Export(typeof(ITestCase))]
-    public class sqr_int : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class sqr_int : ISyncTestCase {
         private const string _Name = "sqr int,F_sqr_int";
         private const string _Description = "F.sqr_int(X) returns X * X";
         public string TestFile { get { return "TestCaseSqr.cs"; } }
@@ -133,8 +133,8 @@ namespace Tests {
         }
     }
 
-    [Export(typeof(ITestCase))]
-    public class sqr_long : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class sqr_long : ISyncTestCase {
         private const string _Name = "sqr long,F_sqr_long";
         private const string _Description = "F.sqr_long(X) returns X * X";
         public string TestFile { get { return "TestCaseSqr.cs"; } }
@@ -173,8 +173,8 @@ namespace Tests {
         }
     }
 
-    [Export(typeof(ITestCase))]
-    public class sqr_short : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class sqr_short : ISyncTestCase {
         private const string _Name = "sqr short,F_sqr_short";
         private const string _Description = "F.sqr_short(X) returns X * X";
         public string TestFile { get { return "TestCaseSqr.cs"; } }

@@ -11,8 +11,8 @@ using TestContracts;
 
 using Tests;
 namespace Tests {
-    [Export(typeof(ITestCase))]
-    public class gte_int : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class gte_int : ISyncTestCase {
         private const string _Name = "gte int,F_gte_int";
         private const string _Description = "F.gte_int(left,right) works correctly";
         public string TestFile { get { return "TestCaseGte.cs"; } }
@@ -50,8 +50,8 @@ namespace Tests {
     }
 
 
-    [Export(typeof(ITestCase))]
-    public class gte_long : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class gte_long : ISyncTestCase {
         private const string _Name = "gte long,F_gte_long";
         private const string _Description = "F.gte_long(left,right) works correctly";
         public string TestFile { get { return "TestCaseGte.cs"; } }
@@ -88,8 +88,8 @@ namespace Tests {
         }
     }
 
-    [Export(typeof(ITestCase))]
-    public class gte_short : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class gte_short : ISyncTestCase {
         private const string _Name = "gte short,F_gte_short";
         private const string _Description = "F.gte_short(left,right) works correctly";
         public string TestFile { get { return "TestCaseGte.cs"; } }

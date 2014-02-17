@@ -10,8 +10,8 @@ using Functional.Implementation;
 using TestContracts;
 using Tests;
 namespace Tests {
-    [Export(typeof(ITestCase))]
-    public class min_double : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class min_double : ISyncTestCase {
         private const string _Name = "min double,F_min_double";
         private const string _Description = "F.min_double(left,right) works correctly";
         public string TestFile { get { return "TestCaseMin.cs"; } }
@@ -49,8 +49,8 @@ namespace Tests {
         }
     }
 
-    [Export(typeof(ITestCase))]
-    public class min_float : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class min_float : ISyncTestCase {
         private const string _Name = "min float,F_min_float";
         private const string _Description = "F.min_float(left,right) works correctly";
         public string TestFile { get { return "TestCaseMin.cs"; } }
@@ -89,8 +89,8 @@ namespace Tests {
     }
 
 
-    [Export(typeof(ITestCase))]
-    public class min_int : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class min_int : ISyncTestCase {
         private const string _Name = "min int,F_min_int";
         private const string _Description = "F.min_int(left,right) works correctly";
         public string TestFile { get { return "TestCaseMin.cs"; } }
@@ -128,8 +128,8 @@ namespace Tests {
         }
     }
 
-    [Export(typeof(ITestCase))]
-    public class min_long : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class min_long : ISyncTestCase {
         private const string _Name = "min long,F_min_long";
         private const string _Description = "F.min_long(left,right) works correctly";
         public string TestFile { get { return "TestCaseMin.cs"; } }
@@ -167,8 +167,8 @@ namespace Tests {
         }
     }
 
-    [Export(typeof(ITestCase))]
-    public class min_short : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class min_short : ISyncTestCase {
         private const string _Name = "min short,F_short_int";
         private const string _Description = "F.min_short(left,right) works correctly";
         public string TestFile { get { return "TestCaseMin.cs"; } }

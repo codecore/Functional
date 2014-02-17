@@ -10,7 +10,7 @@ namespace UnitTests.Tests {
     public class integration {
         [TestMethod]
         public void test_intersperse() {
-            ITestCase test = new test_intersperse();
+            ISyncTestCase test = new test_intersperse();
             bool result = test.Run();
             Assert.IsTrue(result);
         }

@@ -9,31 +9,31 @@ namespace UnitTests.Tests {
     public class TestMin {
         [TestMethod]
         public void min_double() {
-            ITestCase test = new min_double();
+            ISyncTestCase test = new min_double();
             bool result = test.Run();
             Assert.IsTrue(result);
         }
         [TestMethod]
         public void min_float() {
-            ITestCase test = new min_float();
+            ISyncTestCase test = new min_float();
             bool result = test.Run();
             Assert.IsTrue(result);
         }
         [TestMethod]
         public void min_int() {
-            ITestCase test = new min_int();
+            ISyncTestCase test = new min_int();
             bool result = test.Run();
             Assert.IsTrue(result);
         }
         [TestMethod]
         public void min_long() {
-            ITestCase test = new min_long();
+            ISyncTestCase test = new min_long();
             bool result = test.Run();
             Assert.IsTrue(result);
         }
         [TestMethod]
         public void min_short() {
-            ITestCase test = new min_short();
+            ISyncTestCase test = new min_short();
             bool result = test.Run();
             Assert.IsTrue(result);
         }

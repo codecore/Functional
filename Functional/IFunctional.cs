@@ -1,12 +1,20 @@
 ﻿using System;
 using System.IO;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 
 namespace Functional.Contracts {
+    public interface IPair<U, V> {
+        U Left { get; }
+        V Right { get; }
+    }
     public delegate IEnumerable<string> GetStrings(StreamReader sr);
-    public interface IChain<T> {
+    public interface IStatelessChain<T> {
+        IStatelessChain<T> Run(T t);
+    }
+    public interface IStatefulChain<T> {
         T Item { get; }
-        IChain<T> Run(T t);
+        IStatefulChain<T> Run();
     }
     public interface IListener<T, U> {
         Func<T, U> Handle { get; } 
@@ -35,5 +43,15 @@ namespace Functional.Contracts {
     public interface ICurry2<T, U> {
         Func<T,Func<U, U>> Create { get; }
     }
-
+    public enum LoggerKind { Null, Console, File, HttpPost, UI }
+    public interface ILogManager {
+        IEnumerable<ILogger> Loggers { get; }
+        Task Log(string info);
+        Task Log(LoggerKind kind, string info);
+    }
+    public interface ILogger : IDisposable {
+        IEnumerable<LoggerKind> Kind { get; }
+        Task Configure(IDictionary<string, string> config);
+        Task Log(string info); 
+    }
 }

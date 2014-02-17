@@ -10,8 +10,8 @@ using Functional.Implementation;
 using TestContracts;
 using Tests;
 namespace Tests {
-    [Export(typeof(ITestCase))]
-    public class range_start_end : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class range_start_end : ISyncTestCase {
         private const string _Name = "range start end,F_range_start_end";
         private const string _Description = "F.range(start,end) returns correct";
         public string TestFile { get { return "TestCaseRange.cs"; } }
@@ -53,8 +53,8 @@ namespace Tests {
         }
     }
 
-    [Export(typeof(ITestCase))]
-    public class range_start_end_reverse : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class range_start_end_reverse : ISyncTestCase {
         private const string _Name = "range start end reverse,F_range_start_end";
         private const string _Description = "F.range(start,end) where start > end returns decreasing sequence";
         public string TestFile { get { return "TestCaseRange.cs"; } }
@@ -96,8 +96,8 @@ namespace Tests {
         }
     }
 
-    [Export(typeof(ITestCase))]
-    public class range_end : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class range_end : ISyncTestCase {
         private const string _Name = "range end,F_range_end";
         private const string _Description = "F.range(end) returns correct";
         public string TestFile { get { return "TestCaseRange.cs"; } }
@@ -139,8 +139,8 @@ namespace Tests {
         }
     }
 
-    [Export(typeof(ITestCase))]
-    public class range_start_end_step : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class range_start_end_step : ISyncTestCase {
         private const string _Name = "range start end step,F_range_start_end_step";
         private const string _Description = "F.range(start,end,step) returns sequence with step";
         public string TestFile { get { return "TestCaseRange.cs"; } }
@@ -182,8 +182,8 @@ namespace Tests {
         }
     }
 
-    [Export(typeof(ITestCase))]
-    public class range_start_end_step_descending : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class range_start_end_step_descending : ISyncTestCase {
         private const string _Name = "range start end inverse step descending,F_range_start_end_step";
         private const string _Description = "F.range(start,end,step) returns descending sequence with step";
         public string TestFile { get { return "TestCaseRange.cs"; } }

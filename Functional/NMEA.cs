@@ -50,7 +50,7 @@ namespace GPS {
     }
 
     public interface IGPS_GPGGA {
-        Task<bool> Parse(string nmea_string);
+        bool Parse(string nmea_string);
         
         ITime Time { get; }
         ILatitude Latitude { get; }
@@ -66,7 +66,7 @@ namespace GPS {
         bool Checked { get; }
     }
     public interface IGPS_GPRMC {
-        Task<bool> Parse(string nmea_string);
+        bool Parse(string nmea_string);
         bool Valid { get; }
         ITime Time { get; }
         ILatitude Latitude { get; }
@@ -81,7 +81,7 @@ namespace GPS {
         bool Checked { get; }
     }
     public interface IGPS_GPGSA {
-        Task<bool> Parse(string nmea_string);
+        bool Parse(string nmea_string);
         Selection Selection { get; }
         FixType Fix { get; }
         int Count { get; }
@@ -471,7 +471,7 @@ namespace GPS {
                 return result;
             }
 
-            public Task<bool> Parse(string nmea_string) {
+            public bool Parse(string nmea_string) {
                 bool result = false;
                 this.satelites.Clear();
                 this.Count = 0;
@@ -505,7 +505,7 @@ namespace GPS {
                 this.VDOP = NMEAHelper.parseFloat(field[INDEX_VDOP]);
 
 
-                return F<bool>.task(result);
+                return result;
             }
 
         }
@@ -550,7 +550,7 @@ namespace GPS {
             public string CheckSum { get; private set; }
             public bool Checked { get; private set; }
 
-            public Task<bool> Parse(string nmea_string) {
+            public bool Parse(string nmea_string) {
                 bool result = false;
                 this.NMEAString = nmea_string;
 
@@ -570,7 +570,7 @@ namespace GPS {
                 this.Geoid = NMEAHelper.parseGeoid(field[INDEX_GEOID], field[INDEX_GEOID_DIMENSIONS]);
                 this.DGPS_Elapsed_Time = NMEAHelper.parseFloat(field[INDEX_DGPS_UPDATE]);
                 this.DGPS_ID = field[INDEX_DGPS_ID];
-                return F<bool>.task(result);
+                return result;
             }
         }
         private class NMEAParser_GPRMC : IGPS_GPRMC {
@@ -608,7 +608,7 @@ namespace GPS {
             public bool Checked { get; private set; }
 
             public string CheckSum { get; private set; }
-            public Task<bool> Parse(string nmea_string) {
+            public bool Parse(string nmea_string) {
                 bool result = false;
                 this.NMEAString = nmea_string;
 
@@ -630,7 +630,7 @@ namespace GPS {
                 this.MagneticVariation = NMEAHelper.parseFloat(field[INDEX_MAG_VARI]);
                 this.MagneticDeviation = NMEAHelper.parseDeviation(field[INDEX_MAG_DEV]);
                 this.Mode = (field.Count() > INDEX_MODE) ? NMEAHelper.parseMode(field[INDEX_MODE]) : ModeIndicator.Data_not_valid;
-                return F<bool>.task(result);
+                return result;
             }
         }
     }

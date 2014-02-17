@@ -10,8 +10,8 @@ using Functional.Implementation;
 using TestContracts;
 using Tests;
 namespace Tests {
-    [Export(typeof(ITestCase))]
-    public class test_each : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class test_each : ISyncTestCase {
         private const string _Name = "test_each,F_T_each_naked";
         private const string _Description = "verify an action is called with each item in the sequence <h, e, l, l, o>";
         public string TestFile { get { return "TestCaseEach.cs"; } }

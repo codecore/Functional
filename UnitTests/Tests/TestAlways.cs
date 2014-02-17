@@ -9,25 +9,25 @@ namespace UnitTests.Tests {
     public class TestAlways {
         [TestMethod]
         public void always_function_true() {
-            ITestCase test = new always_functioin_true();
+            ISyncTestCase test = new always_functioin_true();
             bool result = test.Run();
             Assert.IsTrue(result);
         }
         [TestMethod]
         public void always_function_false() {
-            ITestCase test = new always_functioin_false();
+            ISyncTestCase test = new always_functioin_false();
             bool result = test.Run();
             Assert.IsTrue(result);
         }
         [TestMethod]
         public void always_true() {
-            ITestCase test = new always_true();
+            ISyncTestCase test = new always_true();
             bool result = test.Run();
             Assert.IsTrue(result);
         }
         [TestMethod]
         public void always_false() {
-            ITestCase test = new always_false();
+            ISyncTestCase test = new always_false();
             bool result = test.Run();
             Assert.IsTrue(result);
         }

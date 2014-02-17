@@ -9,7 +9,7 @@ namespace UnitTests.Tests {
     public class TestEach {
         [TestMethod]
         public void test_each() {
-            ITestCase test = new test_each();
+            ISyncTestCase test = new test_each();
             bool result = test.Run();
             Assert.IsTrue(result);
         }

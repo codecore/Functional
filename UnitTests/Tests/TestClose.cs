@@ -9,19 +9,19 @@ namespace UnitTests.Tests {
     public class TestClose {
         [TestMethod]
         public void close_double() {
-            ITestCase test = new close_double();
+            ISyncTestCase test = new close_double();
             bool result = test.Run();
             Assert.IsTrue(result);
         }
         [TestMethod]
         public void close_float() {
-            ITestCase test = new close_float();
+            ISyncTestCase test = new close_float();
             bool result = test.Run();
             Assert.IsTrue(result);
         }
         [TestMethod]
         public void bool_and() {
-            ITestCase test = new bool_and();
+            ISyncTestCase test = new bool_and();
             bool result = test.Run();
             Assert.IsTrue(result);
         }

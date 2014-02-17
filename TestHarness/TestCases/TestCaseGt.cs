@@ -10,8 +10,8 @@ using Functional.Implementation;
 using TestContracts;
 using Tests;
 namespace Tests {
-    [Export(typeof(ITestCase))]
-    public class gt_double : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class gt_double : ISyncTestCase {
         private const string _Name = "gt double,F_gt_double";
         private const string _Description = "F.gt_double(left,right) works correctly";
         public string TestFile { get { return "TestCaseGt.cs"; } }
@@ -49,8 +49,8 @@ namespace Tests {
         }
     }
 
-    [Export(typeof(ITestCase))]
-    public class gt_float : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class gt_float : ISyncTestCase {
         private const string _Name = "gt float,F_gt_float";
         private const string _Description = "F.gt_float(left,right) works correctly";
         public string TestFile { get { return "TestCaseGt.cs"; } }
@@ -87,8 +87,8 @@ namespace Tests {
             this.coverage.Add(TestCoverage.F_gt_float);
         }
     }
-    [Export(typeof(ITestCase))]
-    public class gt_int : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class gt_int : ISyncTestCase {
         private const string _Name = "gt int,F_gt_int";
         private const string _Description = "F.gt_int(left,right) works correctly";
         public string TestFile { get { return "TestCaseGt.cs"; } }
@@ -126,8 +126,8 @@ namespace Tests {
         }
     }
 
-    [Export(typeof(ITestCase))]
-    public class gt_long : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class gt_long : ISyncTestCase {
         private const string _Name = "gt long,F_gt_long";
         private const string _Description = "F.gt_long(left,right) works correctly";
         public string TestFile { get { return "TestCaseGt.cs"; } }
@@ -163,8 +163,8 @@ namespace Tests {
             this.coverage.Add(TestCoverage.F_gt_long);
         }
     }
-    [Export(typeof(ITestCase))]
-    public class gt_short : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class gt_short : ISyncTestCase {
         private const string _Name = "gt short,F_gt_short";
         private const string _Description = "F.gt_short(left,right) works correctly";
         public string TestFile { get { return "TestCaseGt.cs"; } }

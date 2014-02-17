@@ -10,8 +10,8 @@ using Functional.Implementation;
 using TestContracts;
 using Tests;
 namespace Tests {
-    [Export(typeof(ITestCase))]
-    public class always_functioin_true : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class always_functioin_true : ISyncTestCase {
         private const string _Name = "always function true,F_always_function ";
         private const string _Description = "F.always(true) return alwaysTrue";
         public string TestFile { get { return "TestCaseAlways.cs"; } }
@@ -52,8 +52,8 @@ namespace Tests {
     }
 
 
-    [Export(typeof(ITestCase))]
-    public class always_functioin_false : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class always_functioin_false : ISyncTestCase {
         private const string _Name = "always function false,F_always_function ";
         private const string _Description = "F.always(false) return alwaysFalse";
         public string TestFile { get { return "TestCaseAlways.cs"; } }
@@ -93,8 +93,8 @@ namespace Tests {
         }
     }
 
-    [Export(typeof(ITestCase))]
-    public class always_true : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class always_true : ISyncTestCase {
         private const string _Name = "always true,F_always_true ";
         private const string _Description = "F.alwaysTrue() returns true";
         public string TestFile { get { return "TestCaseAlways.cs"; } }
@@ -133,8 +133,8 @@ namespace Tests {
         }
     }
 
-    [Export(typeof(ITestCase))]
-    public class always_false : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class always_false : ISyncTestCase {
         private const string _Name = "always false,F_always_false ";
         private const string _Description = "F.alwaysFalse() returns false";
         public string TestFile { get { return "TestCaseAlways.cs"; } }

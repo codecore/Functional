@@ -10,8 +10,8 @@ using Functional.Implementation;
 using TestContracts;
 using Tests;
 namespace Tests {
-    [Export(typeof(ITestCase))]
-    public class bool_and : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class bool_and : ISyncTestCase {
         private const string _Name = "bool and,F_bool_and";
         private const string _Description = "F.bool_and() returns correct";
         public string TestFile { get { return "TestCaseBool.cs"; } }
@@ -62,8 +62,8 @@ namespace Tests {
         }
     }
 
-    [Export(typeof(ITestCase))]
-    public class bool_eqv : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class bool_eqv : ISyncTestCase {
         private const string _Name = "bool eqv,F_bool_eqv";
         private const string _Description = "F.bool_eqv() returns correct";
         public string TestFile { get { return "TestCaseBool.cs"; } }
@@ -99,8 +99,8 @@ namespace Tests {
             this.coverage.Add(TestCoverage.F_bool_eqv);
         }
     }
-    [Export(typeof(ITestCase))]
-    public class bool_or : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class bool_or : ISyncTestCase {
         private const string _Name = "bool or,F_bool_or";
         private const string _Description = "F.bool_or() returns correct";
         public string TestFile { get { return "TestCaseBool.cs"; } }
@@ -156,8 +156,8 @@ namespace Tests {
             this.coverage.Add(TestCoverage.F_bool_or);
         }
     }
-    [Export(typeof(ITestCase))]
-    public class bool_xor : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class bool_xor : ISyncTestCase {
         private const string _Name = "bool xor,F_bool_xor";
         private const string _Description = "F.bool_xor() returns correct";
         public string TestFile { get { return "TestCaseBool.cs"; } }
@@ -195,8 +195,8 @@ namespace Tests {
         }
     }
 
-    [Export(typeof(ITestCase))]
-    public class bool_And : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class bool_And : ISyncTestCase {
         private const string _Name = "bool And,bool_And";
         private const string _Description = "bool And extension returns correct";
         public string TestFile { get { return "TestCaseBool.cs"; } }
@@ -234,8 +234,8 @@ namespace Tests {
             this.coverage.Add(TestCoverage.bool_And);;
         }
     }
-    [Export(typeof(ITestCase))]
-    public class bool_Or : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class bool_Or : ISyncTestCase {
         private const string _Name = "bool Or,bool_Or";
         private const string _Description = "bool Or extension returns correct";
         public string TestFile { get { return "TestCaseBool.cs"; } }

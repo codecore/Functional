@@ -10,7 +10,7 @@ namespace UnitTests.Tests {
     public class F {
         [TestMethod]
         public void test_chars_string_same() {
-            ITestCase test = new test_chars_string_same();
+            ISyncTestCase test = new test_chars_string_same();
             bool result = test.Run();
             Assert.IsTrue(result);
         }

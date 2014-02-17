@@ -21,8 +21,8 @@ namespace Tests {
 
 
 
-    [Export(typeof(ITestCase))] 
-    public class test_chars_string_same : ITestCase {
+    [Export(typeof(ISyncTestCase))] 
+    public class test_chars_string_same : ISyncTestCase {
         private const string _Name = "test_chars_string_same";
         private const string _Description = "chars('one') should return <o,n,e>";
         public string TestFile { get { return "TestCase.cs"; } }
@@ -66,8 +66,8 @@ namespace Tests {
 
 
 
-    [Export(typeof(ITestCase))]
-    public class test_items : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class test_items : ISyncTestCase {
         private const string _Name = "test_items,F_T_items";
         private const string _Description = "a sequence of three dictionaries in which two have the value returns a sequence with both values";
         public string TestFile { get { return "TestCase.cs"; } }
@@ -111,8 +111,8 @@ namespace Tests {
         }
     }
 
-    [Export(typeof(ITestCase))]
-    public class test_transform : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class test_transform : ISyncTestCase {
         private const string _Name = "test_transform,F_T_transform";
         private const string _Description = "a sequence of ints and a function that takes string, applies a given string transform function to each int";
         public string TestFile { get { return "TestCase.cs"; } }
@@ -148,8 +148,8 @@ namespace Tests {
         }
     }
 
-    [Export(typeof(ITestCase))]
-    public class test_same : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class test_same : ISyncTestCase {
         private const string _Name = "test_same,F_T_same";
         private const string _Description = "identical sequences of ints and the equal function returns true";
         public string TestFile { get { return "TestCase.cs"; } }
@@ -187,8 +187,8 @@ namespace Tests {
 
 
 
-    [Export(typeof(ITestCase))]
-    public class test_any : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class test_any : ISyncTestCase {
         private const string _Name = "test_any,F_T_any";
         private const string _Description = "any returns correct result";
         public string TestFile { get { return "TestCase.cs"; } }
@@ -223,8 +223,8 @@ namespace Tests {
         }
     }
 
-    [Export(typeof(ITestCase))]
-    public class test_all : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class test_all : ISyncTestCase {
         private const string _Name = "test_all,F_T_all";
         private const string _Description = "all returns the corrct result";
         public string TestFile { get { return "TestCase.cs"; } }
@@ -258,8 +258,8 @@ namespace Tests {
         }
     }
 
-    [Export(typeof(ITestCase))]
-    public class test_filter : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class test_filter : ISyncTestCase {
         private const string _Name = "test_filter,F_T_filter";
         private const string _Description = "filter result in a filtered sequence";
         public string TestFile { get { return "TestCase.cs"; } }
@@ -299,8 +299,8 @@ namespace Tests {
         }
     }
 
-    [Export(typeof(ITestCase))]
-    public class test_first : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class test_first : ISyncTestCase {
         private const string _Name = "test_first,F_T_first";
         private const string _Description = "first returns the first item in a sequence";
         public string TestFile { get { return "TestCase.cs"; } }
@@ -334,8 +334,8 @@ namespace Tests {
         }
     }
 
-    [Export(typeof(ITestCase))]
-    public class test_rest : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class test_rest : ISyncTestCase {
         private const string _Name = "test_rest,F_T_rest";
         private const string _Description = "the rest of the sequence <1,...7> is the sequence <2,...,7>";
         public string TestFile { get { return "TestCase.cs"; } }
@@ -380,8 +380,8 @@ namespace Tests {
         }
     }
 
-    [Export(typeof(ITestCase))]
-    public class test_find : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class test_find : ISyncTestCase {
         private const string _Name = "test_find,F_T_find";
         private const string _Description = "find (x==7) in the sequence <3,...,9> results in '7'";
         public string TestFile { get { return "TestCase.cs"; } }
@@ -419,8 +419,8 @@ namespace Tests {
 
    
     
-    [Export(typeof(ITestCase))]
-    public class test_iterate_while: ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class test_iterate_while: ISyncTestCase {
         private const string _Name = "test_iterate_while";
         private const string _Description = "verify that starting with 0 and iterating while the calculated value is less than 4 results in the sequence '0' '1' '2' '3'";
         public string TestFile { get { return "TestCase.cs"; } }
@@ -456,8 +456,8 @@ namespace Tests {
         }
     }
 
-    [Export(typeof(ITestCase))]
-    public class test_always: ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class test_always: ISyncTestCase {
         private const string _Name = "test_always,F_T_always";
         private const string _Description = "verify that always(3) results in a function that returns a 3";
         public string TestFile { get { return "TestCase.cs"; } }
@@ -493,8 +493,8 @@ namespace Tests {
         }
     }
 
-    [Export(typeof(ITestCase))]
-    public class test_curry_one : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class test_curry_one : ISyncTestCase {
         private const string _Name = "test_curry_one";
         private const string _Description = "make a square function factory, and ask for the function that returns the square of the input value";
         public string TestFile { get { return "TestCase.cs"; } }
@@ -534,8 +534,8 @@ namespace Tests {
     }
 
 
-    [Export(typeof(ITestCase))]
-    public class test_curry_two : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class test_curry_two : ISyncTestCase {
         private const string _Name = "test_curry_two";
         private const string _Description = "make a sum function factory, and ask for a function that returns the sum of 10 and an input value";
         public string TestFile { get { return "TestCase.cs"; } }
@@ -573,8 +573,8 @@ namespace Tests {
         }
     }
 
-    [Export(typeof(ITestCase))]
-    public class test_intersperse : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class test_intersperse : ISyncTestCase {
         private const string _Name = "test_intersperse";
         private const string _Description = "verify that using reduce to create interspersed objects is possible";
         public string TestFile { get { return "TestCase.cs"; } }
@@ -625,8 +625,8 @@ namespace Tests {
         }
     }
 
-    [Export(typeof(ITestCase))]
-    public class test_flatten_one : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class test_flatten_one : ISyncTestCase {
         private const string _Name = "test_flatten_one,F_T_flatten";
         private const string _Description = "verify that the flatten function works on homogenous type int";
         public string TestFile { get { return "TestCase.cs"; } }
@@ -673,8 +673,8 @@ namespace Tests {
     }
 
 
-    [Export(typeof(ITestCase))]
-    public class test_chain_one : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class test_chain_one : ISyncTestCase {
         private const string _Name = "test_chain_one";
         private const string _Description = "verify that the chain function";
         public string TestFile { get { return "TestCase.cs"; } }
@@ -683,13 +683,19 @@ namespace Tests {
             bool result = true;
             int current = 0;
             int last = 0;
-            IChain<int> chain = Chain<int>.Create(0,(n) => n < 3).Run(current);
-            while(null != chain) {
+            IStatelessChain<int> statelessChain = StatelessChain<int>.Create((x) => x < 3, F.DoNothing<int>);
+            while(null != statelessChain) {
                 last = current;
                 current++;
-                chain = chain.Run(current);
+                statelessChain = statelessChain.Run(current);
             }
             result = result.And(F.equ_int(last, 2));
+            int count = 0;
+            IStatefulChain<int> statefulChain = StatefulChain<int>.Create((x) => x < 3, (y)=>{count++;}, (v) => v + 1, 0);
+            while (null != statefulChain) {
+                statefulChain = statefulChain.Run();
+            }
+            result = result && (count == 3);
             return result;
         }
         private IList<int> coverage = new List<int>();

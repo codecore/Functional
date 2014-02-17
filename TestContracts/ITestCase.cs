@@ -233,18 +233,72 @@ namespace TestContracts
         public const int GPS_NMEA_Parse_PRWIILOG = 967;  // rockwell
         public const int GPS_NMEA_Parse_PRWIINIT = 968;  // rockwell
 
+        public const int LandMine = 1200; // non-leaf
+        public const int LandMine_inc = 1210; // covered
+
+        public const int Lang = 2000;                  // non-leaf
+        public const int Lang_Character = 2010;        // covered
+        public const int Lang_CharacterStream = 2020;  // covered
+        public const int Lang_Editor = 2100;
+        public const int Lang_Editor_CodeDocument = 2110;
+        public const int Lang_Editor_CodeDocument_AddFirst = 2111;
+        public const int Lang_Editor_CodeDocument_AddBefore = 2112;
+        public const int Lang_Editor_CodeDocument_AddAfter = 2113;
+        public const int Lang_Editor_CodeDocument_MovePrev = 2114;
+        public const int Lang_Editor_CodeDocument_MoveNext = 2115;
+        public const int Lang_Editor_CodeLine = 2140;  // covered
+        public const int Lang_Editor_CodeLine_AddFirst = 2141;
+        public const int Lang_Editor_CodeLine_AddBefore = 2142;
+        public const int Lang_Editor_CodeLine_AddAfter = 2143;
+        public const int Lang_Editor_CodeLine_MovePrev = 2144;
+        public const int Lang_Editor_CodeLine_MoveNext = 2145;
+
+        public const int Lang_Editor_Token = 2160;
+
+        public const int Lang_Memory_Manager = 2400;                     // non-leaf
+        public const int Lang_Memory_Manager_ICharacter = 2410;          // non-leaf
+        public const int Lang_Memory_Manager_ICharacter_New = 2412;
+        public const int Lang_Memory_Manager_ICharacter_Delete = 2414;
+        public const int Lang_Memory_Manager_IToken = 2420;              // non-leaf
+        public const int Lang_Memory_Manager_IToken_New = 2422;
+        public const int Lang_Memory_Manager_IToken_Delete = 2424;
+        public const int Lang_Memory_Manager_ICodeLine = 2430;           // non-leaf
+        public const int Lang_Memory_Manager_ICodeLine_New = 2432;
+        public const int Lang_Memory_Manager_ICodeLine_Delete = 2434;
+        public const int Lang_Memory_Manager_ILocation = 2440;           // non-leaf
+        public const int Lang_Memory_Manager_ILocation_New = 2442;
+        public const int Lang_Memory_Manager_ILocation_Delete = 2444;
+
+        public const int Lang_Parser = 3000;                 // non-leaf
+        public const int Lang_Parser_Lexer = 3100;           // non-leaf
+        public const int Lang_Parser_Lexer_Space = 3110;
+
+        public const int Logger = 12000; // non-leaf
+        public const int Logger_Null = 12010;
+        public const int Logger_File = 12020;
+        public const int Logger_Console = 12030;
+        
         public const int Utility = 1000;                  // non-leaf
         public const int Utility_char_to_digit = 1001;
-
+        
     }
 
 
-    public interface ITestCase {
+    public interface ISyncTestCase {
         int ID { get; }
         string Name { get; }
         string Description { get; }
         string TestFile { get; }
         Func<bool> Run { get; }
+        IEnumerable<int> Feature { get; }
+        IEnumerable<int> Coverage { get; }
+    }
+    public interface IAsyncTestCase {
+        int ID { get; }
+        string Name { get; }
+        string Description { get; }
+        string TestFile { get; }
+        Task<bool> Run();
         IEnumerable<int> Feature { get; }
         IEnumerable<int> Coverage { get; }
     }

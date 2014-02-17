@@ -105,8 +105,8 @@ namespace Tests {
             // 2.1      Vertical dilution of precision (VDOP)
             // *39      the checksum data, always begins with *
 
-    [Export(typeof(ITestCase))]
-    public class gps_nmea_parse_gpgga : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class gps_nmea_parse_gpgga : ISyncTestCase {
         private const string _Name = "gps_nmea_parse_gpgga";
         private const string _Description = "verify that tge NMEAParser can parse NMEA GPGGA strings";
         public string TestFile { get { return "TestCaseGPS.cs"; } }
@@ -222,8 +222,8 @@ namespace Tests {
         }
     }
 
-    [Export(typeof(ITestCase))]
-    public class gps_nmea_parse_gprmc : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class gps_nmea_parse_gprmc : ISyncTestCase {
         private const string _Name = "gps_nmea_parse_gprmc";
         private const string _Description = "verify that tge NMEAParser can parse NMEA GPRMC strings";
         public string TestFile { get { return "TestCaseGPS.cs"; } }
@@ -427,8 +427,8 @@ namespace Tests {
         }
     }
 
-    [Export(typeof(ITestCase))]
-    public class gps_nmea_parse_gpgsa : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class gps_nmea_parse_gpgsa : ISyncTestCase {
         private const string _Name = "gps_nmea_parse_gpgsa";
         private const string _Description = "verify that tge NMEAParser can parse NMEA GPRMC strings";
         public string TestFile { get { return "TestCaseGPS.cs"; } }

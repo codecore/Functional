@@ -12,7 +12,6 @@ namespace ConsoleTest
     {
         public Singleton<IExtensibilityHost, ExtensibilityHost> nothing;
         public static void Main(string[] args) {
-
             ITestHarness testharness = harness.Create();
             
             CompositionCode code = Singleton<IExtensibilityHost, ExtensibilityHost>.Instance.SatisfyImports(testharness);
@@ -24,19 +23,23 @@ namespace ConsoleTest
                 Console.WriteLine("getting the testcases");
                 
                 Console.WriteLine("composed");
-                IEnumerable<bool> results = testharness.Results();
-                Console.WriteLine("results");
-                IEnumerable<ITestCase> selectedTests = F<ITestCase>.filter(testharness.Tests, x => F<int>.any(x.Feature, n => n == TestCoverage.F_T_iterate_while));
-                foreach (ITestCase test in selectedTests) {
-                    bool b = test.Run(); Console.WriteLine("{0} {1}", b, test.Name);
-                }
-                //Task<bool[]> allTasks = Task.WhenAll(results);
-                
+
+                RunSelectedTests(testharness.SyncTests, testharness.AsyncTests, TestCoverage.Chain);
 
             }
 
 
             Singleton<IExtensibilityHost, ExtensibilityHost>.Instance.Dispose();
+        }
+        public static void RunSelectedTests(IEnumerable<ISyncTestCase> syncTests, IEnumerable<IAsyncTestCase> asyncTests, int sel) {
+            IEnumerable<IAsyncTestCase> selectedAsyncTests = F<IAsyncTestCase>.filter(asyncTests, x => F<int>.any(x.Feature, n => n == sel));
+            IEnumerable<ISyncTestCase> selectedSyncTests = F<ISyncTestCase>.filter(syncTests, x => F<int>.any(x.Feature, n => n == sel));
+            foreach (IAsyncTestCase test in selectedAsyncTests) {
+                Task.WaitAll(test.Run());
+            }
+            foreach (ISyncTestCase test in selectedSyncTests) {
+                test.Run();
+            }
         }
     }
 }

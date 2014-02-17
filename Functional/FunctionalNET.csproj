@@ -58,6 +58,21 @@
     <Compile Include="Graph.cs" />
     <Compile Include="IFunctional.cs" />
     <Compile Include="IGraph.cs" />
+    <Compile Include="Language\Character.cs" />
+    <Compile Include="Language\CharacterStream.cs" />
+    <Compile Include="Language\CodeDocument.cs" />
+    <Compile Include="Language\CodeLine.cs" />
+    <Compile Include="Language\Editor.cs" />
+    <Compile Include="Language\FileStream.cs" />
+    <Compile Include="Language\GetCharacter.cs" />
+    <Compile Include="Language\LanguageService.cs" />
+    <Compile Include="Language\Contracts.cs" />
+    <Compile Include="Language\LexerState.cs" />
+    <Compile Include="Language\Location.cs" />
+    <Compile Include="Language\Parser.cs" />
+    <Compile Include="Language\Token.cs" />
+    <Compile Include="Language\TokenStream.cs" />
+    <Compile Include="MemoryManager.cs" />
     <Compile Include="NMEA.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

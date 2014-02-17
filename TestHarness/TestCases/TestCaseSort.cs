@@ -10,8 +10,8 @@ using Functional.Implementation;
 using TestContracts;
 using Tests;
 namespace Tests {
-    [Export(typeof(ITestCase))]
-    public class test_sort : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class test_sort : ISyncTestCase {
         private const string _Name = "test_sort,F_T_sort_naked";
         private const string _Description = "sort a sequence of random integers using array sort";
         public string TestFile { get { return "TestCaseSort.cs"; } }
@@ -65,8 +65,8 @@ namespace Tests {
         }
     }
 
-    [Export(typeof(ITestCase))]
-    public class test_sort_order_by : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class test_sort_order_by : ISyncTestCase {
         private const string _Name = "test_sort_order_by";
         private const string _Description = "sort a sequence of random integers using linq order by";
         public string TestFile { get { return "TestCaseSort.cs"; } }

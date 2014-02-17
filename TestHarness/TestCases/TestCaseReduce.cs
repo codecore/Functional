@@ -10,8 +10,8 @@ using Functional.Implementation;
 using TestContracts;
 using Tests;
 namespace Tests {
-    [Export(typeof(ITestCase))]
-    public class test_reduce_with_init : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class test_reduce_with_init : ISyncTestCase {
         private const string _Name = "test_reduce_with_init,F_T_reduce_init";
         private const string _Description = "verify reduce";
         public string TestFile { get { return "TestCaseReduce.cs"; } }
@@ -56,8 +56,8 @@ namespace Tests {
         }
     }
 
-    [Export(typeof(ITestCase))]
-    public class test_reduce_one : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class test_reduce_one : ISyncTestCase {
         private const string _Name = "test_reduce_one,F_T_reduce_naked";
         private const string _Description = "from a sequence of ints, verfiy that the minimum and maximum values are returned";
         public string TestFile { get { return "TestCaseReduce.cs"; } }

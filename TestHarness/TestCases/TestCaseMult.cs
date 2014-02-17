@@ -10,8 +10,8 @@ using Functional.Implementation;
 using TestContracts;
 using Tests;
 namespace Tests {
-    [Export(typeof(ITestCase))]
-    public class mult_double : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class mult_double : ISyncTestCase {
         private const string _Name = "mult double,F_mult_double";
         private const string _Description = "F.mult_double(X,Y) returns X * Y";
         public string TestFile { get { return "TestCaseMult.cs"; } }
@@ -52,8 +52,8 @@ namespace Tests {
             this.coverage.Add(TestCoverage.F_close_double);
         }
     }
-    [Export(typeof(ITestCase))]
-    public class mult_float : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class mult_float : ISyncTestCase {
         private const string _Name = "mult float,F_mult_double";
         private const string _Description = "F.mult_float(X,Y) returns X * Y";
         public string TestFile { get { return "TestCaseMult.cs"; } }
@@ -94,8 +94,8 @@ namespace Tests {
             this.coverage.Add(TestCoverage.F_close_float);
         }
     }
-    [Export(typeof(ITestCase))]
-    public class mult_int : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class mult_int : ISyncTestCase {
         private const string _Name = "mult int,F_mult_int";
         private const string _Description = "F.mult_int(X,Y) returns X * Y";
         public string TestFile { get { return "TestCaseMult.cs"; } }
@@ -134,8 +134,8 @@ namespace Tests {
             this.coverage.Add(TestCoverage.F_mult_int);
         }
     }
-    [Export(typeof(ITestCase))]
-    public class mult_long : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class mult_long : ISyncTestCase {
         private const string _Name = "mult long,F_mult_long";
         private const string _Description = "F.mult_long(X,Y) returns X * Y";
         public string TestFile { get { return "TestCaseMult.cs"; } }
@@ -174,8 +174,8 @@ namespace Tests {
             this.coverage.Add(TestCoverage.F_sqr_long);
         }
     }
-    [Export(typeof(ITestCase))]
-    public class mult_short : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class mult_short : ISyncTestCase {
         private const string _Name = "mult short,F_mult_short";
         private const string _Description = "F.mult_short(X,Y) returns X * Y";
         public string TestFile { get { return "TestCaseMult.cs"; } }

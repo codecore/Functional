@@ -10,8 +10,8 @@ using Functional.Implementation;
 using TestContracts;
 using Tests;
 namespace Tests {
-    [Export(typeof(ITestCase))]
-    public class test_map_one : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class test_map_one : ISyncTestCase {
         private const string _Name = "test_map,F_T_map";
         private const string _Description = "verify that sequence of ints and a int to string mapping function results in a sequene of strings";
         public string TestFile { get { return "TestCaseMap.cs"; } }
@@ -57,8 +57,8 @@ namespace Tests {
     }
 
 
-    [Export(typeof(ITestCase))]
-    public class test_map_two : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class test_map_two : ISyncTestCase {
         private const string _Name = "test_map_two";
         private const string _Description = "verify that a pair of sequences of integers are summed, the result is a sequence of ints where each value is the sum";
         public string TestFile { get { return "TestCaseMap.cs"; } }
@@ -104,8 +104,8 @@ namespace Tests {
     }
 
 
-    [Export(typeof(ITestCase))]
-    public class test_map_three : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class test_map_three : ISyncTestCase {
         private const string _Name = "test_map_three";
         private const string _Description = "verify that 3 sequences of chars can be correctly transformed to a sequence of functions that return a bool";
         public string TestFile { get { return "TestCaseMap.cs"; } }

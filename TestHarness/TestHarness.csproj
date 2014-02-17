@@ -38,19 +38,29 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="TestContracts, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\bin\TestContracts.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="TestCases\TestCase.cs" />
     <Compile Include="TestCases\TestCaseAdd.cs" />
     <Compile Include="TestCases\TestCaseAlways.cs" />
     <Compile Include="TestCases\TestCaseBool.cs" />
+    <Compile Include="TestCases\TestCaseCharacterStream.cs" />
     <Compile Include="TestCases\TestCaseClose.cs" />
     <Compile Include="TestCases\TestCaseCompare.cs" />
     <Compile Include="TestCases\TestCaseEach.cs" />
+    <Compile Include="TestCases\TestCaseLanguageEditorCodeDocument.cs" />
     <Compile Include="TestCases\TestCaseEqu.cs" />
     <Compile Include="TestCases\TestCaseGPS.cs" />
     <Compile Include="TestCases\TestCaseGt.cs" />
     <Compile Include="TestCases\TestCaseGte.cs" />
+    <Compile Include="TestCases\TestCaseLandMines.cs" />
+    <Compile Include="TestCases\TestCaseLanguageCharacter.cs" />
+    <Compile Include="TestCases\TestCaseLanguageEditorCodeline.cs" />
+    <Compile Include="TestCases\TestCaseLogger.cs" />
     <Compile Include="TestCases\TestCaseLt.cs" />
     <Compile Include="TestCases\TestCaseLte.cs" />
     <Compile Include="TestCases\TestCaseMap.cs" />
@@ -58,11 +68,13 @@
     <Compile Include="TestCases\TestCaseMin.cs" />
     <Compile Include="TestCases\TestCaseMult.cs" />
     <Compile Include="TestCases\TestCaseNeq.cs" />
+    <Compile Include="TestCases\TestCaseParserTokenParser.cs" />
     <Compile Include="TestCases\TestCaseRange.cs" />
     <Compile Include="TestCases\TestCaseReduce.cs" />
     <Compile Include="TestCases\TestCaseSort.cs" />
     <Compile Include="TestCases\TestCaseSqr.cs" />
     <Compile Include="TestCases\TestCaseSub.cs" />
+    <Compile Include="TestCases\TestClassMemoryManager.cs" />
     <Compile Include="TestHarness.cs" />
     <Compile Include="TestHarnessAssemblyInfo.cs" />
     <Compile Include="Tests.cs" />
@@ -71,10 +83,6 @@
     <ProjectReference Include="..\Functional\FunctionalNET.csproj">
       <Project>{88811787-8218-4d3b-8079-1f69f3f7b12a}</Project>
       <Name>FunctionalNET</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TestContracts\TestContracts.csproj">
-      <Project>{42411e7d-2a46-488a-abc1-d6314c3e5566}</Project>
-      <Name>TestContracts</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

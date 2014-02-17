@@ -10,8 +10,8 @@ using Functional.Implementation;
 using TestContracts;
 using Tests;
 namespace Tests {
-    [Export(typeof(ITestCase))]
-    public class lt_double : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class lt_double : ISyncTestCase {
         private const string _Name = "lt double,F_gt_double";
         private const string _Description = "F.lt_double(left,right) works correctly";
         public string TestFile { get { return "TestCaseLt.cs"; } }
@@ -49,8 +49,8 @@ namespace Tests {
         }
     }
 
-    [Export(typeof(ITestCase))]
-    public class lt_float : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class lt_float : ISyncTestCase {
         private const string _Name = "lt float,F_lt_float";
         private const string _Description = "F.lt_float(left,right) works correctly";
         public string TestFile { get { return "TestCaseLt.cs"; } }
@@ -88,8 +88,8 @@ namespace Tests {
         }
     }
 
-    [Export(typeof(ITestCase))]
-    public class lt_int : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class lt_int : ISyncTestCase {
         private const string _Name = "lt int,F_lt_int";
         private const string _Description = "F.lt_int(left,right) works correctly";
         public string TestFile { get { return "TestCaseLt.cs"; } }
@@ -126,8 +126,8 @@ namespace Tests {
         }
     }
 
-    [Export(typeof(ITestCase))]
-    public class lt_long : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class lt_long : ISyncTestCase {
         private const string _Name = "lt long,F_lt_long";
         private const string _Description = "F.lt_long(left,right) works correctly";
         public string TestFile { get { return "TestCaseLt.cs"; } }
@@ -164,8 +164,8 @@ namespace Tests {
             this.coverage.Add(TestCoverage.F_lt_long);
         }
     }
-    [Export(typeof(ITestCase))]
-    public class lt_short : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class lt_short : ISyncTestCase {
         private const string _Name = "lt short,F_lt_short";
         private const string _Description = "F.lt_short(left,right) works correctly";
         public string TestFile { get { return "TestCaseLt.cs"; } }

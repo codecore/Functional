@@ -9,19 +9,19 @@ namespace UnitTests.Tests {
     public class TestGPS {
         [TestMethod]
         public void gps_nmea_parse_gpgga() {
-            ITestCase test = new gps_nmea_parse_gpgga();
+            ISyncTestCase test = new gps_nmea_parse_gpgga();
             bool result = test.Run();
             Assert.IsTrue(result);
         }
         [TestMethod]
         public void gps_nmea_parse_gprmc() {
-            ITestCase test = new gps_nmea_parse_gprmc();
+            ISyncTestCase test = new gps_nmea_parse_gprmc();
             bool result = test.Run();
             Assert.IsTrue(result);
         }
         [TestMethod]
         public void gps_nmea_parse_gpgsa() {
-            ITestCase test = new gps_nmea_parse_gpgsa();
+            ISyncTestCase test = new gps_nmea_parse_gpgsa();
             bool result = test.Run();
             Assert.IsTrue(result);
         }

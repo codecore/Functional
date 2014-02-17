@@ -10,8 +10,8 @@ using Functional.Implementation;
 using TestContracts;
 using Tests;
 namespace Tests {
-    [Export(typeof(ITestCase))]
-    public class sub_double : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class sub_double : ISyncTestCase {
         private const string _Name = "dub double,F_sub_double";
         private const string _Description = "F.sub_double() returns correct";
         public string TestFile { get { return "TestCaseSub.cs"; } }
@@ -51,8 +51,8 @@ namespace Tests {
         }
     }
 
-    [Export(typeof(ITestCase))]
-    public class sub_float : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class sub_float : ISyncTestCase {
         private const string _Name = "sub float,F_sub_float";
         private const string _Description = "F.sub_float() returns correct";
         public string TestFile { get { return "TestCaseSub.cs"; } }
@@ -92,8 +92,8 @@ namespace Tests {
         }
     }
 
-    [Export(typeof(ITestCase))]
-    public class sub_int : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class sub_int : ISyncTestCase {
         private const string _Name = "sub int,F_sub_int";
         private const string _Description = "F.sub_int() returns correct";
         public string TestFile { get { return "TestCaseSub.cs"; } }
@@ -131,8 +131,8 @@ namespace Tests {
         }
     }
 
-    [Export(typeof(ITestCase))]
-    public class sub_long : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class sub_long : ISyncTestCase {
         private const string _Name = "sub long,F_sub_long";
         private const string _Description = "F.sub_long() returns correct";
         public string TestFile { get { return "TestCaseSub.cs"; } }
@@ -170,8 +170,8 @@ namespace Tests {
         }
     }
 
-    [Export(typeof(ITestCase))]
-    public class sub_short : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class sub_short : ISyncTestCase {
         private const string _Name = "sub short,F_add_short";
         private const string _Description = "F.sub_short() returns correct";
         public string TestFile { get { return "TestCaseSub.cs"; } }

@@ -9,43 +9,43 @@ namespace UnitTests.Tests {
     public class UnitTest1 {
         [TestMethod]
         public void compare_bool() {
-            ITestCase test = new compare_bool();
+            ISyncTestCase test = new compare_bool();
             bool result = test.Run();
             Assert.IsTrue(result);
         }
         [TestMethod]
         public void compare_char() {
-            ITestCase test = new close_double();
+            ISyncTestCase test = new close_double();
             bool result = test.Run();
             Assert.IsTrue(result);
         }
         [TestMethod]
         public void compare_int() {
-            ITestCase test = new compare_int();
+            ISyncTestCase test = new compare_int();
             bool result = test.Run();
             Assert.IsTrue(result);
         }
         [TestMethod]
         public void compare_long() {
-            ITestCase test = new compare_long();
+            ISyncTestCase test = new compare_long();
             bool result = test.Run();
             Assert.IsTrue(result);
         }
         [TestMethod]
         public void compare_short() {
-            ITestCase test = new compare_short();
+            ISyncTestCase test = new compare_short();
             bool result = test.Run();
             Assert.IsTrue(result);
         }
         [TestMethod]
         public void compare_string() {
-            ITestCase test = new compare_string();
+            ISyncTestCase test = new compare_string();
             bool result = test.Run();
             Assert.IsTrue(result);
         }
         [TestMethod]
         public void compare_string_insensative() {
-            ITestCase test = new compare_string_insensative();
+            ISyncTestCase test = new compare_string_insensative();
             bool result = test.Run();
             Assert.IsTrue(result);
         }

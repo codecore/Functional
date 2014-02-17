@@ -10,8 +10,8 @@ using Functional.Implementation;
 using TestContracts;
 using Tests;
 namespace Tests {
-    [Export(typeof(ITestCase))]
-    public class neq_bool : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class neq_bool : ISyncTestCase {
         private const string _Name = "neq bool,F_neq_bool";
         private const string _Description = "F.neq_bool";
         public string TestFile { get { return "TestCaseNeq.cs"; } }
@@ -49,8 +49,8 @@ namespace Tests {
         }
     }
 
-    [Export(typeof(ITestCase))]
-    public class neq_char : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class neq_char : ISyncTestCase {
         private const string _Name = "neq char,F_neq_char";
         private const string _Description = "F.neq_char";
         public string TestFile { get { return "TestCaseNeq.cs"; } }
@@ -91,8 +91,8 @@ namespace Tests {
         }
     }
 
-    [Export(typeof(ITestCase))]
-    public class neq_int : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class neq_int : ISyncTestCase {
         private const string _Name = "neq int,F_neq_int";
         private const string _Description = "F.neq_int";
         public string TestFile { get { return "TestCaseNeq.cs"; } }
@@ -135,8 +135,8 @@ namespace Tests {
         }
     }
 
-    [Export(typeof(ITestCase))]
-    public class neq_long : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class neq_long : ISyncTestCase {
         private const string _Name = "neq long,F_neq_long";
         private const string _Description = "F.neq_long";
         public string TestFile { get { return "TestCaseNeq.cs"; } }
@@ -179,8 +179,8 @@ namespace Tests {
         }
     }
 
-    [Export(typeof(ITestCase))]
-    public class neq_short : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class neq_short : ISyncTestCase {
         private const string _Name = "neq short";
         private const string _Description = "F.neq_short";
         public string TestFile { get { return "TestCaseNeq.cs"; } }
@@ -223,8 +223,8 @@ namespace Tests {
         }
     }
 
-    [Export(typeof(ITestCase))]
-    public class neq_string : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class neq_string : ISyncTestCase {
         private const string _Name = "neq string,F_neq_string";
         private const string _Description = "F.neq_string";
         public string TestFile { get { return "TestCaseNeq.cs"; } }

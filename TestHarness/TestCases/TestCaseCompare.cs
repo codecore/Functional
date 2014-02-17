@@ -10,8 +10,8 @@ using Functional.Implementation;
 using TestContracts;
 using Tests;
 namespace Tests {
-    [Export(typeof(ITestCase))]
-    public class compare_bool : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class compare_bool : ISyncTestCase {
         private const string _Name = "compare bool,F_compare_bool";
         private const string _Description = "F.compare_bool(x,y) returns -1 if x < y, 0 if x = y, and 1 if x > y";
         public string TestFile { get { return "TestCaseCompare.cs"; } }
@@ -49,8 +49,8 @@ namespace Tests {
         }
     }
 
-    [Export(typeof(ITestCase))]
-    public class compare_char : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class compare_char : ISyncTestCase {
         private const string _Name = "compare char,F_compare_ char";
         private const string _Description = "F.compare_char(x,y) returns -1 if x < y, 0 if x = y, and 1 if x > y";
         public string TestFile { get { return "TestCaseCompare.cs"; } }
@@ -87,8 +87,8 @@ namespace Tests {
         }
     }
 
-    [Export(typeof(ITestCase))]
-    public class compare_int : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class compare_int : ISyncTestCase {
         private const string _Name = "compare int,F_compare_int";
         private const string _Description = "F.compare_int(x,y) returns -1 if x < y, 0 if x = y, and 1 if x > y";
         public string TestFile { get { return "TestCaseCompare.cs"; } }
@@ -126,8 +126,8 @@ namespace Tests {
         }
     }
 
-    [Export(typeof(ITestCase))]
-    public class compare_long : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class compare_long : ISyncTestCase {
         private const string _Name = "compare long,F_compare_long";
         private const string _Description = "F.compare_long(x,y) returns -1 if x < y, 0 if x = y, and 1 if x > y";
         public string TestFile { get { return "TestCaseCompare.cs"; } }
@@ -164,8 +164,8 @@ namespace Tests {
         }
     }
 
-    [Export(typeof(ITestCase))]
-    public class compare_short : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class compare_short : ISyncTestCase {
         private const string _Name = "compare short,F_compare_short";
         private const string _Description = "F.compare_short(x,y) returns -1 if x < y, 0 if x = y, and 1 if x > y";
         public string TestFile { get { return "TestCaseCompare.cs"; } }
@@ -202,8 +202,8 @@ namespace Tests {
         }
     }
 
-    [Export(typeof(ITestCase))]
-    public class compare_string : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class compare_string : ISyncTestCase {
         private const string _Name = "compare string,F_compare_string";
         private const string _Description = "F.compare_string(x,y) returns -1 if x < y, 0 if x = y, and 1 if x > y";
         public string TestFile { get { return "TestCaseCompare.cs"; } }
@@ -240,8 +240,8 @@ namespace Tests {
         }
     }
 
-    [Export(typeof(ITestCase))]
-    public class compare_string_insensative : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class compare_string_insensative : ISyncTestCase {
         private const string _Name = "compare string insensative,F_compare_string_insensative";
         private const string _Description = "F.compare_string_insensative(x,y) returns -1 if x < y, 0 if x = y, and 1 if x > y";
         public string TestFile { get { return "TestCaseCompare.cs"; } }

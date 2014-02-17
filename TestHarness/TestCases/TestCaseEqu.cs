@@ -10,8 +10,8 @@ using Functional.Implementation;
 using TestContracts;
 using Tests;
 namespace Tests {
-    [Export(typeof(ITestCase))]
-    public class equ_bool : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class equ_bool : ISyncTestCase {
         private const string _Name = "equ bool,F_equ_bool";
         private const string _Description = "F.equ_bool";
         public string TestFile { get { return "TestCaseEqu.cs"; } }
@@ -48,8 +48,8 @@ namespace Tests {
             this.coverage.Add(TestCoverage.F_equ_bool);
         }
     }
-    [Export(typeof(ITestCase))]
-    public class equ_char : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class equ_char : ISyncTestCase {
         private const string _Name = "equ char,F_equ_char";
         private const string _Description = "F.equ_char";
         public string TestFile { get { return "TestCaseEqu.cs"; } }
@@ -89,8 +89,8 @@ namespace Tests {
             this.coverage.Add(TestCoverage.F_equ_char);
         }
     }
-    [Export(typeof(ITestCase))]
-    public class equ_int : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class equ_int : ISyncTestCase {
         private const string _Name = "equ int,F_equ_int";
         private const string _Description = "F.equ_int";
         public string TestFile { get { return "TestCaseEqu.cs"; } }
@@ -132,8 +132,8 @@ namespace Tests {
             this.coverage.Add(TestCoverage.F_equ_int);
         }
     }
-    [Export(typeof(ITestCase))]
-    public class equ_long : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class equ_long : ISyncTestCase {
         private const string _Name = "equ long,F_equ_long";
         private const string _Description = "F.equ_long";
         public string TestFile { get { return "TestCaseEqu.cs"; } }
@@ -174,8 +174,8 @@ namespace Tests {
             this.coverage.Add(TestCoverage.F_equ_long);
         }
     }
-    [Export(typeof(ITestCase))]
-    public class equ_short : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class equ_short : ISyncTestCase {
         private const string _Name = "equ short,F_equ_short";
         private const string _Description = "F.equ_short";
         public string TestFile { get { return "TestCaseEqu.cs"; } }
@@ -217,8 +217,8 @@ namespace Tests {
             this.coverage.Add(TestCoverage.F_equ_short);
         }
     }
-    [Export(typeof(ITestCase))]
-    public class equ_string : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class equ_string : ISyncTestCase {
         private const string _Name = "equ string,F_equ_string";
         private const string _Description = "F.equ_string";
         public string TestFile { get { return "TestCaseEqu.cs"; } }

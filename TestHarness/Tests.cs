@@ -15,7 +15,7 @@ using TestContracts;
 namespace Tests {
     public interface ITestSuite {
         void Initialize();
-        IEnumerable<ITestCase> Tests { get; }
+        IEnumerable<ISyncTestCase> Tests { get; }
         IEnumerable<string> Attributes { get; }
         IEnumerable<string> Constraints { get; }
     }

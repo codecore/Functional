@@ -9,19 +9,19 @@ namespace UnitTests.Tests {
     public class TestGte {
         [TestMethod]
         public void gte_int() {
-            ITestCase test = new gte_int();
+            ISyncTestCase test = new gte_int();
             bool result = test.Run();
             Assert.IsTrue(result);
         }
         [TestMethod]
         public void gte_long() {
-            ITestCase test = new gte_long();
+            ISyncTestCase test = new gte_long();
             bool result = test.Run();
             Assert.IsTrue(result);
         }
         [TestMethod]
         public void gte_short() {
-            ITestCase test = new gte_short();
+            ISyncTestCase test = new gte_short();
             bool result = test.Run();
             Assert.IsTrue(result);
         }

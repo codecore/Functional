@@ -10,8 +10,8 @@ using Functional.Implementation;
 using TestContracts;
 using Tests;
 namespace Tests {
-    [Export(typeof(ITestCase))]
-    public class add_double : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class add_double : ISyncTestCase {
         private const string _Name = "add double,F_add_double";
         private const string _Description = "F.add_double() returns correct";
         public string TestFile { get { return "TestCaseAdd.cs"; } }
@@ -55,8 +55,8 @@ namespace Tests {
         }
     }
 
-    [Export(typeof(ITestCase))]
-    public class add_float : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class add_float : ISyncTestCase {
         private const string _Name = "add float,F_add_float";
         private const string _Description = "F.add_float() returns correct";
         public string TestFile { get { return "TestCaseAdd.cs"; } }
@@ -100,8 +100,8 @@ namespace Tests {
         }
     }
 
-    [Export(typeof(ITestCase))]
-    public class add_int : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class add_int : ISyncTestCase {
         private const string _Name = "add int,F_add_int";
         private const string _Description = "F.add_int() returns correct";
         public string TestFile { get { return "TestCaseAdd.cs"; } }
@@ -138,8 +138,8 @@ namespace Tests {
         }
     }
 
-    [Export(typeof(ITestCase))]
-    public class add_long : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class add_long : ISyncTestCase {
         private const string _Name = "add long,F_add_long";
         private const string _Description = "F.add_long() returns correct";
         public string TestFile { get { return "TestCaseAdd.cs"; } }
@@ -176,8 +176,8 @@ namespace Tests {
         }
     }
 
-    [Export(typeof(ITestCase))]
-    public class add_short : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class add_short : ISyncTestCase {
         private const string _Name = "add short,F_add_short";
         private const string _Description = "F.add_short() returns correct";
         public string TestFile { get { return "TestCaseAdd.cs"; } }
@@ -214,8 +214,8 @@ namespace Tests {
         }
     }
 
-    [Export(typeof(ITestCase))]
-    public class add_string : ITestCase {
+    [Export(typeof(ISyncTestCase))]
+    public class add_string : ISyncTestCase {
         private const string _Name = "add string,F_add_string";
         private const string _Description = "F.add_string() returns correct";
         public string TestFile { get { return "TestCaseAdd.cs"; } }

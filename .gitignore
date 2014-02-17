@@ -1,7 +1,12 @@
 ConsoleTest/obj
 Functional/obj
 TestHarness/obj
-bin
+[Bb]in
+[Oo]bj
+*.suo
+*.user
+*.vs10x
+Functional/[Tt]est[Rr]esults/
 FunctionalNET.dll
 FunctionalNET.pdb
 FunctionalNET.XML

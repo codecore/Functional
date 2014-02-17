@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,12 +35,27 @@ namespace Functional.Implementation {
         private const string X = "x";
         private const string Y = "y";
 
-        public static void DoNothins() { }
+        private class Pair<U,V> : IPair<U,V> {
+            public U Left { get; private set; }
+            public V Right { get; private set; }
+            private Pair() { }
+            public Pair(U left, V right) { this.Left = left; this.Right = right; }
+        }
+        public static IEnumerable<IPair<U, V>> combination<U, V>(IEnumerable<U> Utems, IEnumerable<V> Vtems) {
+            foreach (U u in Utems)
+                foreach (V v in Vtems)
+                    yield return new Pair<U, V>(u, v);
+        }
+        public static void DoNothing() { }
         public static void DoNothing<T>(T t) { }
         public static void DoNothing<T,U>(T t, U u) { }
         public static void DoNothing<T,U,V>(T t, U u, V v) { }
 
-        
+        public static Func<Action, Task> task_action = (a) => {
+            Task task = new Task(a);
+            task.Start();
+            return task;
+        };        
 
         /// <summary>returns a function that returns either true or false</summary><returns>a Function that returns a bool</returns>
         public static Func<bool> always(bool b) {  // TestCoverage = F, F_always, F_always_function 
@@ -144,17 +160,62 @@ namespace Functional.Implementation {
         };
 
         //public static Func<int,int,int>                 add = (x, y) => x + y;
-        public static Func<int,int,int>             add_int = (x, y) => x + y; // TestCoverage = F, F_add, F_add_int
-        public static Func<long,long,long>         add_long = (x, y) => x + y; // TestCoverage = F, F_add, F_add_long
-        public static Func<short,short,short>     add_short = (x, y) => (short)(x + y); // TestCoverage = F, F_add, F_add_short
-        public static Func<float,float,float>     add_float = (x, y) => x + y; // TestCoverage = F, F_add, F_add_float
-        public static Func<double,double,double> add_double = (x, y) => x + y; // TestCoverage = F, T_add, F_add_double
+        public static int add_int(int x1, int x2){ return x1 + x2;} // TestCoverage = F, F_add, F_add_int
+        public static int add_int(int x1, int x2, int x3) { return x1 + x2 + x3; }
+        public static int add_int(int x1, int x2, int x3, int x4) { return x1 + x2 + x3 + x4; }
+        public static int add_int(int x1, int x2, int x3, int x4, int x5) { return x1 + x2 + x3 + x4 + x5; }
+        public static int add_int(int x1, int x2, int x3, int x4, int x5, int x6) { return x1 + x2 + x3 + x4 + x5 + x6; }
+        public static int add_int(IEnumerable<int> seq) { return F<int>.reduce(seq, add_int); }
+        public static int add_int(int t, IEnumerable<int> seq) { return F<int>.reduce(seq, add_int, t); }
+        public static int add_int(IEnumerable<int> seq, int t) { return F<int>.reduce(seq, add_int, t); }
+        public static IEnumerable<int> add_int(IEnumerable<int> seq1, IEnumerable<int> seq2) { return F<int>.map<int>(seq1, seq2, add_int); }
+        public static long add_long(long x1, long x2) { return x1 + x2; } // TestCoverage = F, F_add, F_add_long
+        public static long add_long(long x1, long x2, long x3) { return x1 + x3 + x3; }
+        public static long add_long(long x1, long x2, long x3, long x4) { return x1 + x2 + x3 + x4; }
+        public static long add_long(long x1, long x2, long x3, long x4, long x5) { return x1 + x2 + x3 + x4 + x5; }
+        public static long add_long(long x1, long x2, long x3, long x4, long x5, long x6) { return x1 + x2 + x3 + x4 + x5 + x6; }
+        public static long add_long(IEnumerable<long> seq) { return F<long>.reduce(seq, add_long); }
+        public static long add_long(long t, IEnumerable<long> seq) { return F<long>.reduce(seq, add_long, t); }
+        public static long add_long(IEnumerable<long> seq, long t) { return F<long>.reduce(seq, add_long, t); }
+        public static IEnumerable<long> add_long(IEnumerable<long> seq1, IEnumerable<long> seq2) { return F<long>.map<long>(seq1, seq2, add_long); }
+        public static short add_short(short x1, short x2) { return (short)(x1 + x2); } // TestCoverage = F, F_add, F_add_short
+        public static short add_short(short x1, short x2, short x3) { return (short)(x1 + x2 + x3); }
+        public static short add_short(short x1, short x2, short x3, short x4) { return (short)(x1 + x2 + x3 + x4); }
+        public static short add_short(short x1, short x2, short x3, short x4, short x5) { return (short)(x1 + x2 + x3 + x4 + x5); }
+        public static short add_short(short x11, short x2, short x3, short x4, short x5, short x6) { return (short)(x11 + x2 + x3 + x4 + x5 + x6); }
+        public static short add_short(IEnumerable<short> seq) { return F<short>.reduce(seq, add_short); }
+        public static short add_short(IEnumerable<short> seq, short t) { return F<short>.reduce(seq, add_short, t); }
+        public static short add_short(short t, IEnumerable<short> seq) { return F<short>.reduce(seq, add_short, t); }
+        public static IEnumerable<short> add_short(IEnumerable<short> seq1, IEnumerable<short> seq2) { return F<short>.map<short>(seq1, seq2, add_short); }
+        public static float add_float(float x1, float x2) { return x1 + x2; } // TestCoverage = F, F_add, F_add_float
+        public static float add_float(float x1, float x2, float x3) { return x1 + x2 + x3; }
+        public static float add_float(float x1, float x2, float x3, float x4) { return x1 + x2 + x3 + x4; }
+        public static float add_float(float x1, float x2, float x3, float x4, float x5) { return x1 + x2 + x3 + x4 + x5; }
+        public static float add_float(float x1, float x2, float x3, float x4, float x5, float x6) { return x1 + x2 + x3 + x4 + x5 + x6; }
+        public static float add_float(IEnumerable<float> seq) { return F<float>.reduce(seq, add_float); }
+        public static float add_float(IEnumerable<float> seq, float t) { return F<float>.reduce(seq, add_float, t); }
+        public static float add_float(float t, IEnumerable<float> seq) { return F<float>.reduce(seq, add_float, t); }
+        public static IEnumerable<float> add_float(IEnumerable<float> seq1, IEnumerable<float> seq2) { return F<float>.map<float>(seq1, seq2, add_float); }
+        public static double add_double(double x1, double x2) { return x1 + x2; } // TestCoverage = F, F_add, F_add_double
+        public static double add_double(double x1, double x2, double x3) { return x1 + x2 + x3; }
+        public static double add_double(double x1, double x2, double x3, double x4) { return x1 + x2 + x3 + x4; }
+        public static double add_double(double x1, double x2, double x3, double x4, double x5) { return x1 + x2 + x3 + x4 + x5; }
+        public static double add_double(double x1, double x2, double x3, double x4, double x5, double x6) { return x1 + x2 + x3 + x4 + x5 + x6; }
+        public static double add_double(IEnumerable<double> seq) { return F<double>.reduce(seq, add_double); }
+        public static double add_double(IEnumerable<double> seq, double t) { return F<double>.reduce(seq, add_double, t); }
+        public static double add_double(double t, IEnumerable<double> seq) { return F<double>.reduce(seq, add_double, t); }
+        public static IEnumerable<double> add_double(IEnumerable<double> seq1, IEnumerable<double> seq2) { return F<double>.map<double>(seq1, seq2, add_double); }
+
         /// <summary>A function given two strings, returns the combined string</summary><returns>A combined string</returns>
-        public static Func<string, string, string> add_string = (left, right) => {
-            Validate.NonNullArgument(left, LEFT);
-            Validate.NonNullArgument(right, RIGHT);
-            return left + right;
-        };
+        public static string add_string(string s1, string s2) { return s1 + s2; }
+        public static string add_string(string s1, string s2, string s3) { return s1 + s2 + s3; }
+        public static string add_string(string s1, string s2, string s3, string s4) { return s1 + s2 + s3 + s4; }
+        public static string add_string(string s1, string s2, string s3, string s4, string s5) { return s1 + s2 + s3 + s4 + s5; }
+        public static string add_string(string s1, string s2, string s3, string s4, string s5, string s6) { return s1 + s2 + s3 + s4 + s5 + s6; }
+        public static string add_string(IEnumerable<string> seq) { return F<string>.reduce(seq, add_string); }
+        public static string add_string(IEnumerable<string> seq, string s) { return F<string>.reduce(seq, add_string, s); }
+        public static string add_string(string s, IEnumerable<string> seq) { return F<string>.reduce(seq, add_string, s); }
+        public static IEnumerable<string> add_string(IEnumerable<string> seq1, IEnumerable<string> seq2) { return F<string>.map<string>(seq1, seq2, add_string); }
 
         //public static Func<int,int,int>                 sub = (x, y) => x - y;
         public static Func<int,int,int>             sub_int = (x, y) => x - y; // TestCoverage = F, F_sub, F_sub_int
@@ -164,25 +225,351 @@ namespace Functional.Implementation {
         public static Func<double,double,double> sub_double = (x, y) => x - y; // TestCoverage = F, F_sub, F_sub_double
 
         // public static Func<int,int,int>                 mult = (x, y) => x * y;
-        public static Func<int,int,int>             mult_int = (x, y) => x * y; // TestCoverage = F, F_mult, F_mult_int
-        public static Func<long,long,long>         mult_long = (x, y) => x * y; // TestCoverage = F, F_mult, F_mult_long
-        public static Func<short,short,short>     mult_short = (x, y) => (short)(x * y);  // TestCoverage = F, F_mult, F_mult_short
-        public static Func<float,float,float>     mult_float = (x, y) => x * y; // TestCoverage = F, F_mult, F_mult_float
-        public static Func<double,double,double> mult_double = (x, y) => x * y; // TestCoverage = F, F_mult, F_mult_double
+        public static int mult_int(int x1, int x2) { return x1 * x2; } // TestCoverage = F, F_mult, F_mult_int
+        public static int mult_int(int x1, int x2, int x3) { return x1 * x2 * x3; }
+        public static int mult_int(int x1, int x2, int x3, int x4) { return x1 * x2 * x3 * x4; }
+        public static int mult_int(int x1, int x2, int x3, int x4, int x5) { return x1 * x2 * x3 * x4 * x5; }
+        public static int mult_int(int x1, int x2, int x3, int x4, int x5, int x6) { return x1 * x2 * x3 * x4 * x5 * x6; }
+        public static int mult_int(IEnumerable<int> seq) { return F<int>.reduce(seq, mult_int); }
+        public static int mult_int(IEnumerable<int> seq, int x) { return F<int>.reduce(seq, mult_int, x); }
+        public static int mult_int(int x, IEnumerable<int> seq) { return F<int>.reduce(seq, mult_int, x); }
+        public static IEnumerable<int> mult_int(IEnumerable<int> seq1, IEnumerable<int> seq2) { return F<int>.map<int>(seq1, seq2, mult_int); }
 
-        // public static Func<int, int, int>               max = (x, y) => (F.gt(x, y)) ? x : y;
-        public static Func<int, int, int>           max_int = (x, y) => (F.gt_int(x, y)) ? x : y;         // TestCoverage = F, F_max, F_max_int
-        public static Func<long,long,long>         max_long = (x, y) => (F.gt_long(x,y)) ? x : y;     // TestCoverage = F, F_max, F_max_long
-        public static Func<short,short,short>     max_short = (x, y) => (F.gt_short(x,y)) ? x : y;    // TestCoverage = F, F_max, F_max_short
-        public static Func<float,float,float>     max_float = (x, y) => (F.gt_float(x, y)) ? x : y;   // TestCoverage = F, F_max, F_max_float
-        public static Func<double,double,double> max_double = (x, y) => (F.gt_double(x, y)) ? x : y;  // TestCoverage = F, F_max, F_max_double
+ 
+        public static long mult_long(long x1, long x2) { return x1 * x2; } // TestCoverage = F, F_mult, F_mult_long
+        public static long mult_long(long x1, long x2, long x3) { return x1 * x2 * x3; }
+        public static long mult_long(long x1, long x2, long x3, long x4) { return x1 * x2 * x3 * x4; }
+        public static long mult_long(long x1, long x2, long x3, long x4, long x5) { return x1 * x2 * x3 * x4 * x5; }
+        public static long mult_long(long x1, long x2, long x3, long x4, long x5, long x6) { return x1 * x2 * x3 * x4 * x5 * x6; }
+        public static long mult_long(IEnumerable<long> seq) { return F<long>.reduce(seq, mult_long); }
+        public static long mult_long(IEnumerable<long> seq, long x) { return F<long>.reduce(seq, mult_long, x); }
+        public static long mult_long(long x, IEnumerable<long> seq) { return F<long>.reduce(seq, mult_long, x); }
+        public static IEnumerable<long> mult_long(IEnumerable<long> seq1, IEnumerable<long> seq2) { return F<long>.map<long>(seq1, seq2, mult_long); }
+
+        public static short mult_short(short x1, short x2) { return (short)(x1 * x2); }  // TestCoverage = F, F_mult, F_mult_short
+        public static short mult_short(short x1, short x2, short x3) { return (short)(x1 * x2 * x3); }
+        public static short mult_short(short x1, short x2, short x3, short x4) { return (short)(x1 * x2 * x3 * x4); }
+        public static short mult_short(short x1, short x2, short x3, short x4, short x5) { return (short)(x1 * x2 * x3 * x4 * x5); }
+        public static short mult_short(short x1, short x2, short x3, short x4, short x5, short x6) { return (short)(x1 * x2 * x3 * x4 * x5 * x6); }
+        public static short mult_short(IEnumerable<short> seq) { return F<short>.reduce(seq, mult_short); }
+        public static short mult_short(IEnumerable<short> seq, short t) { return F<short>.reduce(seq, mult_short, t); }
+        public static short mult_short(short t, IEnumerable<short> seq) { return F<short>.reduce(seq, mult_short, t); }
+        public static IEnumerable<short> mult_short(IEnumerable<short> seq1, IEnumerable<short> seq2) { return F<short>.map<short>(seq1, seq2, mult_short); }
+
+        public static float mult_float(float x1, float x2) { return x1 * x2; } // TestCoverage = F, F_mult, F_mult_float
+        public static float mult_float(float x1, float x2, float x3) { return x1 * x2 * x3; }
+        public static float mult_float(float x1, float x2, float x3, float x4) { return x1 * x2 * x3 * x4; }
+        public static float mult_float(float x1, float x2, float x3, float x4, float x5) { return x1 * x2 * x3 * x4 * x5; }
+        public static float mult_float(float x1, float x2, float x3, float x4, float x5, float x6) { return x1 * x2 * x3 * x4 * x5 * x6; }
+        public static float mult_float(IEnumerable<float> seq) { return F<float>.reduce(seq, mult_float); }
+        public static float mult_float(IEnumerable<float> seq, float t) { return F<float>.reduce(seq, mult_float, t); }
+        public static float mult_float(float t, IEnumerable<float> seq) { return F<float>.reduce(seq, mult_float, t); }
+        public static IEnumerable<float> mult_float(IEnumerable<float> seq1, IEnumerable<float> seq2) { return F<float>.map<float>(seq1, seq2, mult_float); }
+
+        public static double mult_double(double x1, double x2) { return x1 * x2; } // TestCoverage = F, F_mult, F_mult_double
+        public static double mult_double(double x1, double x2, double x3) { return x1 * x2 * x3; }
+        public static double mult_double(double x1, double x2, double x3, double x4) { return x1 * x2 * x3 * x4; }
+        public static double mult_double(double x1, double x2, double x3, double x4, double x5) { return x1 * x2 * x3 * x4 * x5; }
+        public static double mult_double(double x1, double x2, double x3, double x4, double x5, double x6) { return x1 * x2 * x3 * x4 * x5 * x6; }
+        public static double mult_double(IEnumerable<double> seq) { return F<double>.reduce(seq, mult_double); }
+        public static double mult_double(IEnumerable<double> seq, double t) { return F<double>.reduce(seq, mult_double, t); }
+        public static double mutl_double(double t, IEnumerable<double> seq) { return F<double>.reduce(seq, mult_double, t); }
+        public static IEnumerable<double> mult_double(IEnumerable<double> seq1, IEnumerable<double> seq2) { return F<double>.map<double>(seq1, seq2, mult_double); }
+
+
+        public static int max_int(int x1, int x2) { return (x1 > x2) ? x1 : x2; }         // TestCoverage = F, F_max, F_max_int
+        public static int max_int(int x1, int x2, int x3) { return (x1 > x2) ? ((x1>x3)?x1:x3):((x2>x3)?x2:x3);}
+        public static int max_int(int x1, int x2, int x3, int x4) {
+            int t1 = (x1 > x2) ? x1 : x2;  int t2 = (x3 > x4) ? x3 : x4;
+            return (t1 > t2) ? t1 : t2;
+        }
+        public static int max_int(int x1, int x2, int x3, int x4, int x5) {
+            int t1 = (x1 > x2) ? ((x1 > x3) ? x1 : x3) : ((x2 > x3) ? x2 : x3);
+            int t2 = (x4 > x5) ? x4 : x5;
+            return (t1 > t2) ? t1 : t2;
+        }
+        public static int max_int(int x1, int x2, int x3, int x4, int x5, int x6) {
+            int t1 = (x1 > x2) ? ((x1 > x3) ? x1 : x3) : ((x2 > x3) ? x2 : x3);
+            int t2 = (x4 > x5) ? ((x4 > x6) ? x4 : x6) : ((x5 > x6) ? x5 : x6);
+            return (t1 > t2) ? t1 : t2;
+        }
+        public static int max_int(IEnumerable<int> seq) {
+            int result = F<int>.first(seq);
+            foreach (int t in F<int>.rest(seq)) result = max_int(result, t);
+            return result;
+        }
+        public static IEnumerable<int> max_int(IEnumerable<int> seq1, IEnumerable<int> seq2) {
+            IEnumerator<int> e1 = seq1.GetEnumerator();
+            IEnumerator<int> e2 = seq2.GetEnumerator();
+            while (e1.MoveNext() && e2.MoveNext()) {
+                yield return max_int(e1.Current,e2.Current);
+            }
+        }
+
+        public static long max_long(long x1, long x2) { return (x1 > x2) ? x1 : x2; }         // TestCoverage = F, F_max, F_max_long
+        public static long max_long(long x1, long x2, long x3) { return (x1 > x2) ? ((x1 > x3) ? x1 : x3) : ((x2 > x3) ? x2 : x3); }
+        public static long max_long(long x1, long x2, long x3, long x4) {
+            long t1 = (x1 > x2) ? x1 : x2; long t2 = (x3 > x4) ? x3 : x4;
+            return (t1 > t2) ? t1 : t2;
+        }
+        public static long max_long(long x1, long x2, long x3, long x4, long x5) {
+            long t1 = (x1 > x2) ? ((x1 > x3) ? x1 : x3) : ((x2 > x3) ? x2 : x3);
+            long t2 = (x4 > x5) ? x4 : x5;
+            return (t1 > t2) ? t1 : t2;
+        }
+        public static long max_long(long x1, long x2, long x3, long x4, long x5, long x6) {
+            long t1 = (x1 > x2) ? ((x1 > x3) ? x1 : x3) : ((x2 > x3) ? x2 : x3);
+            long t2 = (x4 > x5) ? ((x4 > x6) ? x4 : x6) : ((x5 > x6) ? x5 : x6);
+            return (t1 > t2) ? t1 : t2;
+        }
+        public static long max_long(IEnumerable<long> seq) {
+            long result = F<long>.first(seq);
+            foreach (long t in F<long>.rest(seq)) result = max_long(result, t);
+            return result;
+        }
+        public static IEnumerable<long> max_long(IEnumerable<long> seq1, IEnumerable<long> seq2) {
+            IEnumerator<long> e1 = seq1.GetEnumerator();
+            IEnumerator<long> e2 = seq2.GetEnumerator();
+            while (e1.MoveNext() && e2.MoveNext()) {
+                yield return max_long(e1.Current,e2.Current);
+            }
+        }
+        
+        public static short max_short(short x1, short x2) { return (x1 > x2) ? x1 : x2; }         // TestCoverage = F, F_max, F_max_short
+        public static short max_short(short x1, short x2, short x3) { return (x1 > x2) ? ((x1 > x3) ? x1 : x3) : ((x2 > x3) ? x2 : x3); }
+        public static short max_short(short x1, short x2, short x3, short x4) {
+            short t1 = (x1 > x2) ? x1 : x2; short t2 = (x3 > x4) ? x3 : x4;
+            return (t1 > t2) ? t1 : t2;
+        }
+        public static short max_short(short x1, short x2, short x3, short x4, short x5) {
+            short t1 = (x1 > x2) ? ((x1 > x3) ? x1 : x3) : ((x2 > x3) ? x2 : x3);
+            short t2 = (x4 > x5) ? x4 : x5;
+            return (t1 > t2) ? t1 : t2;
+        }
+        public static short max_short(short x1, short x2, short x3, short x4, short x5, short x6) {
+            short t1 = (x1 > x2) ? ((x1 > x3) ? x1 : x3) : ((x2 > x3) ? x2 : x3);
+            short t2 = (x4 > x5) ? ((x4 > x6) ? x4 : x6) : ((x5 > x6) ? x5 : x6);
+            return (t1 > t2) ? t1 : t2;
+        }
+        public static short max_short(IEnumerable<short> seq) {
+            short result = F<short>.first(seq);
+            foreach (short t in F<short>.rest(seq)) result = max_short(result, t);
+            return result;
+        }
+        public static IEnumerable<short> max_short(IEnumerable<short> seq1, IEnumerable<short> seq2) {
+            IEnumerator<short> e1 = seq1.GetEnumerator();
+            IEnumerator<short> e2 = seq2.GetEnumerator();
+            while (e1.MoveNext() && e2.MoveNext()) {
+                yield return max_short(e1.Current,e2.Current);
+            }
+        }
+        
+        
+        public static float max_float(float x1, float x2) { return (x1 > x2) ? x1 : x2; }         // TestCoverage = F, F_max, F_max_float
+        public static float max_float(float x1, float x2, float x3) { return (x1 > x2) ? ((x1 > x3) ? x1 : x3) : ((x2 > x3) ? x2 : x3); }
+        public static float max_float(float x1, float x2, float x3, float x4) {
+            float t1 = (x1 > x2) ? x1 : x2; float t2 = (x3 > x4) ? x3 : x4;
+            return (t1 > t2) ? t1 : t2;
+        }
+        public static float max_float(float x1, float x2, float x3, float x4, float x5) {
+            float t1 = (x1 > x2) ? ((x1 > x3) ? x1 : x3) : ((x2 > x3) ? x2 : x3);
+            float t2 = (x4 > x5) ? x4 : x5;
+            return (t1 > t2) ? t1 : t2;
+        }
+        public static float max_float(float x1, float x2, float x3, float x4, float x5, float x6) {
+            float t1 = (x1 > x2) ? ((x1 > x3) ? x1 : x3) : ((x2 > x3) ? x2 : x3);
+            float t2 = (x4 > x5) ? ((x4 > x6) ? x4 : x6) : ((x5 > x6) ? x5 : x6);
+            return (t1 > t2) ? t1 : t2;
+        }
+        public static float max_float(IEnumerable<float> seq) {
+            float result = F<float>.first(seq);
+            foreach (float t in F<float>.rest(seq)) result = max_float(result, t);
+            return result;
+        }
+        public static IEnumerable<float> max_float(IEnumerable<float> seq1, IEnumerable<float> seq2) {
+            IEnumerator<float> e1 = seq1.GetEnumerator();
+            IEnumerator<float> e2 = seq2.GetEnumerator();
+            while (e1.MoveNext() && e2.MoveNext()) {
+                yield return max_float(e1.Current,e2.Current);
+            }
+        }
+
+        public static double max_double(double x1, double x2) { return (x1 > x2) ? x1 : x2; }         // TestCoverage = F, F_max, F_max_double
+        public static double max_double(double x1, double x2, double x3) { return (x1 > x2) ? ((x1 > x3) ? x1 : x3) : ((x2 > x3) ? x2 : x3); }
+        public static double max_double(double x1, double x2, double x3, double x4) {
+            double t1 = (x1 > x2) ? x1 : x2; double t2 = (x3 > x4) ? x3 : x4;
+            return (t1 > t2) ? t1 : t2;
+        }
+        public static double max_double(double x1, double x2, double x3, double x4, double x5) {
+            double t1 = (x1 > x2) ? ((x1 > x3) ? x1 : x3) : ((x2 > x3) ? x2 : x3);
+            double t2 = (x4 > x5) ? x4 : x5;
+            return (t1 > t2) ? t1 : t2;
+        }
+        public static double max_double(double x1, double x2, double x3, double x4, double x5, double x6) {
+            double t1 = (x1 > x2) ? ((x1 > x3) ? x1 : x3) : ((x2 > x3) ? x2 : x3);
+            double t2 = (x4 > x5) ? ((x4 > x6) ? x4 : x6) : ((x5 > x6) ? x5 : x6);
+            return (t1 > t2) ? t1 : t2;
+        }
+        public static double max_double(IEnumerable<double> seq) {
+            double result = F<double>.first(seq);
+            foreach (double t in F<double>.rest(seq)) result = max_double(result, t);
+            return result;
+        }
+        public static IEnumerable<double> max_double(IEnumerable<double> seq1, IEnumerable<double> seq2) {
+            IEnumerator<double> e1 = seq1.GetEnumerator();
+            IEnumerator<double> e2 = seq2.GetEnumerator();
+            while (e1.MoveNext() && e2.MoveNext()) {
+                yield return max_double(e1.Current,e2.Current);
+            }
+        }
+
 
         //public static Func<int,int,int>                 min = (x, y) => (F.lt(x,y)) ? x : y;          
-        public static Func<int,int,int>             min_int = (x, y) => (F.lt_int(x,y)) ? x : y;          // TestCoverage = F, F_min, F_min_int
-        public static Func<long,long,long>         min_long = (x, y) => (F.lt_long(x,y)) ? x : y;     // TestCoverage = F, F_min, F_min_long
-        public static Func<short,short,short>     min_short = (x, y) => (F.lt_short(x,y)) ? x : y;    // TestCoverage = F, F_min, F_min_short
-        public static Func<float,float,float>     min_float = (x, y) => (F.lt_float(x, y)) ? x : y;   // TestCoverage = F, F_min, F_min_float
-        public static Func<double,double,double> min_double = (x, y) => (F.lt_double(x, y)) ? x : y;  // TestCoverage = F, T_min, F_min_double
+        public static int min_int(int x1, int x2) { return (x1 < x2) ? x1 : x2; }         // TestCoverage = F, F_max, F_min_int
+        public static int min_int(int x1, int x2, int x3) { return (x1 < x2) ? ((x1 < x3) ? x1 : x3) : ((x2 < x3) ? x2 : x3); }
+        public static int min_int(int x1, int x2, int x3, int x4) {
+            int t1 = (x1 < x2) ? x1 : x2; int t2 = (x3 < x4) ? x3 : x4;
+            return (t1 < t2) ? t1 : t2;
+        }
+        public static int min_int(int x1, int x2, int x3, int x4, int x5) {
+            int t1 = (x1 < x2) ? ((x1 < x3) ? x1 : x3) : ((x2 < x3) ? x2 : x3);
+            int t2 = (x4 < x5) ? x4 : x5;
+            return (t1 < t2) ? t1 : t2;
+        }
+        public static int min_int(int x1, int x2, int x3, int x4, int x5, int x6) {
+            int t1 = (x1 < x2) ? ((x1 < x3) ? x1 : x3) : ((x2 < x3) ? x2 : x3);
+            int t2 = (x4 < x5) ? ((x4 < x6) ? x4 : x6) : ((x5 < x6) ? x5 : x6);
+            return (t1 < t2) ? t1 : t2;
+        }
+        public static int min_int(IEnumerable<int> seq) {
+            int result = F<int>.first(seq);
+            foreach (int t in F<int>.rest(seq)) result = min_int(result, t);
+            return result;
+        }
+        public static IEnumerable<int> min_int(IEnumerable<int> seq1, IEnumerable<int> seq2) {
+            IEnumerator<int> e1 = seq1.GetEnumerator();
+            IEnumerator<int> e2 = seq2.GetEnumerator();
+            while (e1.MoveNext() && e2.MoveNext()) {
+                yield return min_int(e1.Current,e2.Current);
+            }
+        }
+
+
+        public static long min_long(long x1, long x2) { return (x1 < x2) ? x1 : x2; }         // TestCoverage = F, F_max, F_min_long
+        public static long min_long(long x1, long x2, long x3) { return (x1 < x2) ? ((x1 < x3) ? x1 : x3) : ((x2 < x3) ? x2 : x3); }
+        public static long min_long(long x1, long x2, long x3, long x4) {
+            long t1 = (x1 < x2) ? x1 : x2; long t2 = (x3 < x4) ? x3 : x4;
+            return (t1 < t2) ? t1 : t2;
+        }
+        public static long min_long(long x1, long x2, long x3, long x4, long x5) {
+            long t1 = (x1 < x2) ? ((x1 < x3) ? x1 : x3) : ((x2 < x3) ? x2 : x3);
+            long t2 = (x4 < x5) ? x4 : x5;
+            return (t1 < t2) ? t1 : t2;
+        }
+        public static long min_long(long x1, long x2, long x3, long x4, long x5, long x6) {
+            long t1 = (x1 < x2) ? ((x1 < x3) ? x1 : x3) : ((x2 < x3) ? x2 : x3);
+            long t2 = (x4 < x5) ? ((x4 < x6) ? x4 : x6) : ((x5 < x6) ? x5 : x6);
+            return (t1 < t2) ? t1 : t2;
+        }
+        public static long min_long(IEnumerable<long> seq) {
+            long result = F<long>.first(seq);
+            foreach (long t in F<long>.rest(seq)) result = min_long(result, t);
+            return result;
+        }
+        public static IEnumerable<long> min_long(IEnumerable<long> seq1, IEnumerable<long> seq2) {
+            IEnumerator<long> e1 = seq1.GetEnumerator();
+            IEnumerator<long> e2 = seq2.GetEnumerator();
+            while (e1.MoveNext() && e2.MoveNext()) {
+                yield return min_long(e1.Current,e2.Current);
+            }
+        }
+
+        public static short min_short(short x1, short x2) { return (x1 < x2) ? x1 : x2; }         // TestCoverage = F, F_max, F_min_short
+        public static short min_short(short x1, short x2, short x3) { return (x1 < x2) ? ((x1 < x3) ? x1 : x3) : ((x2 < x3) ? x2 : x3); }
+        public static short min_short(short x1, short x2, short x3, short x4) {
+            short t1 = (x1 < x2) ? x1 : x2; short t2 = (x3 < x4) ? x3 : x4;
+            return (t1 < t2) ? t1 : t2;
+        }
+        public static int min_short(short x1, short x2, short x3, short x4, short x5) {
+            short t1 = (x1 < x2) ? ((x1 < x3) ? x1 : x3) : ((x2 < x3) ? x2 : x3);
+            short t2 = (x4 < x5) ? x4 : x5;
+            return (t1 < t2) ? t1 : t2;
+        }
+        public static short min_short(short x1, short x2, short x3, short x4, short x5, short x6) {
+            short t1 = (x1 < x2) ? ((x1 < x3) ? x1 : x3) : ((x2 < x3) ? x2 : x3);
+            short t2 = (x4 < x5) ? ((x4 < x6) ? x4 : x6) : ((x5 < x6) ? x5 : x6);
+            return (t1 < t2) ? t1 : t2;
+        }
+        public static short min_short(IEnumerable<short> seq) {
+            short result = F<short>.first(seq);
+            foreach (short t in F<short>.rest(seq)) result = min_short(result, t);
+            return result;
+        }
+        public static IEnumerable<short> min_short(IEnumerable<short> seq1, IEnumerable<short> seq2) {
+            IEnumerator<short> e1 = seq1.GetEnumerator();
+            IEnumerator<short> e2 = seq2.GetEnumerator();
+            while (e1.MoveNext() && e2.MoveNext()) {
+                yield return min_short(e1.Current,e2.Current);
+            }
+        }
+
+        public static float min_float(float x1, float x2) { return (x1 < x2) ? x1 : x2; }         // TestCoverage = F, F_max, F_min_float
+        public static float min_float(float x1, float x2, float x3) { return (x1 < x2) ? ((x1 < x3) ? x1 : x3) : ((x2 < x3) ? x2 : x3); }
+        public static float min_float(float x1, float x2, float x3, float x4) {
+            float t1 = (x1 < x2) ? x1 : x2; float t2 = (x3 < x4) ? x3 : x4;
+            return (t1 < t2) ? t1 : t2;
+        }
+        public static float min_float(float x1, float x2, float x3, float x4, float x5) {
+            float t1 = (x1 < x2) ? ((x1 < x3) ? x1 : x3) : ((x2 < x3) ? x2 : x3);
+            float t2 = (x4 < x5) ? x4 : x5;
+            return (t1 < t2) ? t1 : t2;
+        }
+        public static float min_float(float x1, float x2, float x3, float x4, float x5, float x6) {
+            float t1 = (x1 < x2) ? ((x1 < x3) ? x1 : x3) : ((x2 < x3) ? x2 : x3);
+            float t2 = (x4 < x5) ? ((x4 < x6) ? x4 : x6) : ((x5 < x6) ? x5 : x6);
+            return (t1 < t2) ? t1 : t2;
+        }
+        public static float min_float(IEnumerable<float> seq) {
+            float result = F<float>.first(seq);
+            foreach (float t in F<float>.rest(seq)) result = min_float(result, t);
+            return result;
+        }
+        public static IEnumerable<float> min_float(IEnumerable<float> seq1, IEnumerable<float> seq2) {
+            IEnumerator<float> e1 = seq1.GetEnumerator();
+            IEnumerator<float> e2 = seq2.GetEnumerator();
+            while (e1.MoveNext() && e2.MoveNext()) {
+                yield return min_float(e1.Current,e2.Current);
+            }
+        }
+
+        public static double min_double(double x1, double x2) { return (x1 < x2) ? x1 : x2; }         // TestCoverage = F, F_max, F_min_double
+        public static double min_doule(double x1, double x2, double x3) { return (x1 < x2) ? ((x1 < x3) ? x1 : x3) : ((x2 < x3) ? x2 : x3); }
+        public static double min_double(double x1, double x2, double x3, double x4) {
+            double t1 = (x1 < x2) ? x1 : x2; double t2 = (x3 < x4) ? x3 : x4;
+            return (t1 < t2) ? t1 : t2;
+        }
+        public static double min_double(double x1, double x2, double x3, double x4, double x5) {
+            double t1 = (x1 < x2) ? ((x1 < x3) ? x1 : x3) : ((x2 < x3) ? x2 : x3);
+            double t2 = (x4 < x5) ? x4 : x5;
+            return (t1 < t2) ? t1 : t2;
+        }
+        public static double min_double(double x1, double x2, double x3, double x4, double x5, double x6) {
+            double t1 = (x1 < x2) ? ((x1 < x3) ? x1 : x3) : ((x2 < x3) ? x2 : x3);
+            double t2 = (x4 < x5) ? ((x4 < x6) ? x4 : x6) : ((x5 < x6) ? x5 : x6);
+            return (t1 < t2) ? t1 : t2;
+        }
+        public static double min_double(IEnumerable<double> seq) {
+            double result = F<double>.first(seq);
+            foreach (double t in F<double>.rest(seq)) result = min_double(result, t);
+            return result;
+        }
+        public static IEnumerable<double> min_double(IEnumerable<double> seq1, IEnumerable<double> seq2) {
+            IEnumerator<double> e1 = seq1.GetEnumerator();
+            IEnumerator<double> e2 = seq2.GetEnumerator();
+            while (e1.MoveNext() && e2.MoveNext()) {
+                yield return min_double(e1.Current,e2.Current);
+            }
+        }
 
         public static Func<int,int>          neg_int = (x) => -x;           // TestCoverage = F, F_neg, F_neg_int
         public static Func<long,long>       neg_long = (x) => -x;           // TestCoverage = F, F_neg, F_neg_long
@@ -205,9 +592,16 @@ namespace Functional.Implementation {
             return (F.lt_float(Math.Abs(F.sub_float(x, y)), 0.01f));
         };
 
-        public static Func<float,float,float,float>      clamp_float = (x,min,max) => (F.lt_float(x,min)) ? min : (F.gt_float(x,max)) ? max : x;
-        public static Func<double,double,double,double> clamp_double = (x,min,max) => (F.lt_double(x,min)) ? min : (F.gt_double(x,max)) ? max : x;
-
+        public static float clamp_float(float x, float min, float max) { return (x<min) ? min : (x>max) ? max : x; }
+        public static IEnumerable<float> clamp_float(IEnumerable<float> x, float min, float max) {
+            Func<float, float> clamp = (k) => (k > max) ? max : (k < min) ? min : k;
+            return F<float>.map<float>(x, clamp);
+        }
+        public static double clamp_double(double x, double min, double max) { return (x<min) ? min : (x>max) ? max : x; }
+        public static IEnumerable<double> clamp_double(IEnumerable<double> x, double min, double max) {
+            Func<double, double> clamp = (k) => (k > max) ? max : (k < min) ? min : k;
+            return F<double>.map<double>(x, clamp);
+        }
         public static Func<int,int>           sqr_int = (x) => x * x; // TestCoverage = F, F_sqr, F_sqr_int
         public static Func<long,long>        sqr_long = (x) => x * x; // TestCoverae = F, F_sqr, F_sqr_long
         public static Func<short, short>    sqr_short = (x) => (short)(x * x); // TestCoverage = F, F_sqr_short
@@ -225,7 +619,6 @@ namespace Functional.Implementation {
             return (float)Math.Sqrt(x); 
         };
         
-        //public static Func<int,int,bool>                gt = (left, right) => (left > right);
         public static Func<int,int,bool>            gt_int = (left, right) => (left > right); // TestCoverage = F, F_gt, F_gt_int
         public static Func<long,long,bool>         gt_long = (left, right) => (left > right); // TestCoverage = F, F_gt, F_gt_long
         public static Func<short,short,bool>      gt_short = (left, right) => (left > right); // TestCoverage = F, F_gt, F_gt_short
@@ -368,9 +761,94 @@ namespace Functional.Implementation {
             tcs.SetResult(t);
             return tcs.Task;
         };
-
         public static Func<T, T> identity = (item) => item;
+        
 
+        public static IEnumerable<T> sequence(T t1) {
+            yield return t1;
+        }
+        public static IEnumerable<T> sequence(T t1, T t2) {
+            yield return t1;
+            yield return t2;
+        }
+        public static IEnumerable<T> sequence(T t1, T t2, T t3) {
+            yield return t1;
+            yield return t2;
+            yield return t3;
+        }
+        public static IEnumerable<T> sequence(T t1, T t2, T t3, T t4) {
+            yield return t1;
+            yield return t2;
+            yield return t3;
+            yield return t4;
+        }
+        public static IEnumerable<T> sequence(T t1, T t2, T t3, T t4, T t5) {
+            yield return t1;
+            yield return t2;
+            yield return t3;
+            yield return t4;
+            yield return t5;
+        }
+        public static IEnumerable<T> sequence(T t1, T t2, T t3, T t4, T t5, T t6) {
+            yield return t1;
+            yield return t2;
+            yield return t3;
+            yield return t4;
+            yield return t5;
+            yield return t6;
+        }
+        public static IEnumerable<T> sequence(T t, IEnumerable<T> seq) {
+            yield return t;
+            foreach (T x in seq) yield return x;
+        }
+        public static IEnumerable<T> sequence(IEnumerable<T> seq, T t) {
+            foreach (T x in seq) yield return x;
+            yield return t;
+        }
+        public static IEnumerable<T> sequence(IEnumerable<T> seq) { 
+            foreach (T x in seq) yield return x; 
+        }
+        public static IEnumerable<T> sequence(IEnumerable<T> seq1, IEnumerable<T> seq2) {
+            foreach (T x in seq1) yield return x;
+            foreach (T x in seq2) yield return x;
+        }
+        public static IEnumerable<T> sequence(IEnumerable<T> seq1, IEnumerable<T> seq2, IEnumerable<T> seq3) {
+            foreach (T x in seq1) yield return x;
+            foreach (T x in seq2) yield return x;
+            foreach (T x in seq3) yield return x;
+        }
+        public static IEnumerable<T> sequence(IEnumerable<T> seq1, IEnumerable<T> seq2, IEnumerable<T> seq3, IEnumerable<T> seq4) {
+            foreach (T x in seq1) yield return x;
+            foreach (T x in seq2) yield return x;
+            foreach (T x in seq3) yield return x;
+            foreach (T x in seq4) yield return x;
+        }
+        public static IEnumerable<T> sequence(IEnumerable<T> seq1, IEnumerable<T> seq2, IEnumerable<T> seq3, IEnumerable<T> seq4, IEnumerable<T> seq5) {
+            foreach (T x in seq1) yield return x;
+            foreach (T x in seq2) yield return x;
+            foreach (T x in seq3) yield return x;
+            foreach (T x in seq4) yield return x;
+            foreach (T x in seq5) yield return x;
+        }
+        public static IEnumerable<T> sequence(IEnumerable<T> seq1, IEnumerable<T> seq2, IEnumerable<T> seq3, IEnumerable<T> seq4, IEnumerable<T> seq5, IEnumerable<T> seq6) {
+            foreach (T x in seq1) yield return x;
+            foreach (T x in seq2) yield return x;
+            foreach (T x in seq3) yield return x;
+            foreach (T x in seq4) yield return x;
+            foreach (T x in seq5) yield return x;
+            foreach (T x in seq6) yield return x;
+        }
+        public static IEnumerable<T> sequence(IEnumerable<IEnumerable<T>> sseq) {
+            foreach (IEnumerable<T> seq in sseq) 
+                foreach(T x in seq)
+                    yield return x;
+        }
+        public static IEnumerable<T> sequence(IEnumerable<IEnumerable<IEnumerable<T>>> ssseq) {
+            foreach (IEnumerable<IEnumerable<T>> sseq in ssseq)
+                foreach (IEnumerable<T> seq in sseq) 
+                    foreach (T x in seq)
+                        yield return x;
+        }
         public static void invoke(Action<T> action,T t) {
             Validate.NonNullArgument(action, ACTION);
             action.Invoke(t);
@@ -579,6 +1057,27 @@ namespace Functional.Implementation {
             // TestCoverage = F_T, F_T_forever, F_T_forever_item
             while (true) yield return t; 
         }
+        public static IEnumerable<T> forever(T t1, T t2) {
+            while (true) {
+                yield return t1;
+                yield return t2;
+            }
+        }
+        public static IEnumerable<T> forever(T t1, T t2, T t3) {
+            while (true) foreach(T t in F<T>.sequence(t1,t2,t3)) yield return t;
+        }
+        public static IEnumerable<T> forever(T t1, T t2, T t3, T t4) {
+            while (true) foreach(T t in F<T>.sequence(t1,t2,t3,t4)) yield return t;
+        }
+        public static IEnumerable<T> forever(T t1, T t2, T t3, T t4, T t5) {
+            while (true) foreach (T t in F<T>.sequence(t1, t2, t3, t4, t5)) yield return t;
+        }
+        public static IEnumerable<T> forever(T t1, T t2, T t3, T t4, T t5, T t6) {
+            while (true) foreach (T t in F<T>.sequence(t1, t2, t3, t4, t5, t6)) yield return t;
+        }
+        public static IEnumerable<T> forever(IEnumerable<T> e) {
+            while (true) foreach (T t in e) yield return t;
+        }
         public static IEnumerable<T> forever(Func<T, T> fn, T t) {
             // TestCoverage = F_T, F_T_forever, F_T_forever_function
             Validate.NonNullArgument(fn, FN);
@@ -642,11 +1141,9 @@ namespace Functional.Implementation {
             // TestCoverage = F_T, F_T_flatten
             Validate.NonNullArgument(lst, LST);
             Validate.NonNullArgument(fn, FN);
-            foreach (T t in lst) {
-                foreach (U u in fn(t)) {
+            foreach (T t in lst) 
+                foreach (U u in fn(t)) 
                     yield return u;
-                }
-            }
         }
         /// <summary>Takes a sequence of T and an accumulation function</summary><returns>the accumulation of the sequence</returns>
         public static T reduce(IEnumerable<T> lst,Func<T, T, T> fn) {
@@ -673,11 +1170,9 @@ namespace Functional.Implementation {
         }
         
         public static IEnumerable<KeyValuePair<T, U>> combination<U>(IEnumerable<T> keys, IEnumerable<U> values) {
-            foreach (T key in keys) {
-                foreach (U value in values) {
+            foreach (T key in keys) 
+                foreach (U value in values) 
                     yield return new KeyValuePair<T, U>(key, value);
-                }
-            }
         }
         public static Action<T, T[], int> set_array = (item, array, index) => {
             Validate.NonNullArgument(array,"array");
@@ -691,9 +1186,13 @@ namespace Functional.Implementation {
             if (index >= array.Length) throw new ArgumentOutOfRangeException("index");
             return array[index];
         };
-        public static IChain<T> Run(IChain<T> item, T t) {
+        public static IStatelessChain<T> Run(IStatelessChain<T> item, T t) {
             Validate.NonNullArgument(item, ITEM);
             return item.Run(t);
+        }
+        public static IStatefulChain<T> Run(IStatefulChain<T> item) {
+            Validate.NonNullArgument(item, ITEM);
+            return item.Run();
         }
         public static void AddNonNull(IList<T> lst, T t) { 
             Validate.NonNullArgument(lst, LST);
@@ -728,20 +1227,54 @@ namespace Functional.Implementation {
             }
         }
     }
-    public class Chain<T> : IChain<T> {
+    public class StatelessChain<T> : IStatelessChain<T> {
         // TestCoverage = Chain
-        private Func<T, bool> fn = null;
-        private Chain(T t,Func<T, bool> predicate) {
-            this.Item = t;
-            this.fn = predicate;
+        private Action<T> action = F.DoNothing<T>;
+        private Func<T, bool> predicate = null;
+        private StatelessChain(Func<T, bool> pred, Action<T> a = null) {
+            this.action = (a != null)?a:F.DoNothing<T>;
+            this.predicate = pred;
         }
+        /// <summary>Run action(t) if predicate(t)</summary><returns>IStatelessChain if predicate(t) is true, else null</returns>in.
+        public IStatelessChain<T> Run(T t) {
+            bool do_this = this.predicate(t);
+            if (do_this) this.action(t);
+            return (do_this) ? this : null;
+        }
+
+        /// <summary>Takes a predicate ans an optional action</summary><returns>IStatelessChain</returns>
+        public static IStatelessChain<T> Create(Func<T,bool> predicate, Action<T> a = null) { return new StatelessChain<T>(predicate,a); }
+
+    }
+    public class StatefulChain<T> : IStatefulChain<T> {
+        private Action<T> action = null;
+        private Func<T, T> trans = null;
+        private Func<T, bool> predicate = null;
+
         public T Item { get; private set; }
-        public IChain<T> Run(T t) {
-            IChain<T> result = null;
-            if (this.fn(t)) result = this;
-            return result;
+        private StatefulChain(Func<T, bool> pred, Action<T> a, Func<T, T> tr, T t) {
+            this.action = a;
+            this.predicate = pred;
+            this.trans = tr;
+            this.Item = t;
         }
-        public static IChain<T> Create(T t, Func<T, bool> predicate) { return new Chain<T>(t, predicate); }
+        /// <summary>if predicate(state) calls action, and updates state</summary><returns>IStatefulChain if predicate(state), else null</returns>
+        public IStatefulChain<T> Run() {
+            IStatefulChain<T> result = null;
+            if (null != this.trans) {
+                bool do_this = this.predicate(this.Item);
+                if (do_this) {
+                    this.action(this.Item);
+                    this.Item = this.trans(this.Item);
+                    result = this;
+                }
+            }
+            return result; 
+        }
+        /// <summary>Takes a predicate and an action and a transform and an initial item of T</summary><returns>IStatelessChain</returns>
+        public static IStatefulChain<T> Create(Func<T, bool> predicate, Action<T> a, Func<T, T> tr, T item) {
+            return new StatefulChain<T>(predicate, a, tr, item);
+        }
     }
     public class Listener<T, U> : IListener<T, U> {
         private const string FUN = "fun";
@@ -902,7 +1435,24 @@ namespace Functional.Implementation {
         public static void PositiveArgument(double d,string name) { if (d<0.0d) throw new ArgumentOutOfRangeException(name); }
         public static void StringArgument(string s, string name) { if (String.IsNullOrEmpty(s)) throw new ArgumentNullException(name); }
     }
+
+
     public static class Utility {
+        public static void DeleteFile(string filename) {
+            if (File.Exists(filename)) {
+                File.Delete(filename);
+            }
+        }
+        public static bool FileExists(string filename) {
+            return File.Exists(filename);
+        }
+        public static long FileLength(string filename) {
+            long length = 0L;
+            FileStream fs = File.Open(filename, FileMode.Open);
+            length = fs.Length;
+            fs.Dispose();
+            return length;
+        }
         public static int char_to_digit(char c) {
             int result = 0;
             switch (c) {
@@ -967,5 +1517,51 @@ namespace Functional.Implementation {
         }
         private Singleton(){}
     }
-
+    
+    [Export(typeof(ILogger))]
+    public class LoggerNULL : ILogger {
+        private IList<LoggerKind> kind = new List<LoggerKind>();
+        public IEnumerable<LoggerKind> Kind { get { return this.kind; } }
+        public LoggerNULL() { this.kind.Add(LoggerKind.Null); }
+        public Task Configure(IDictionary<string, string> config) { return F.task_action(F.DoNothing); }
+        public Task Log(string info) { return F.task_action(() => { }); }
+        public void Dispose() { }
+    }
+    [Export(typeof(ILogger))]
+    public class LoggerCONSOLE : ILogger {
+        private IList<LoggerKind> kind = new List<LoggerKind>();
+        public IEnumerable<LoggerKind> Kind { get { return this.kind; } }
+        public LoggerCONSOLE() { this.kind.Add(LoggerKind.Console); }
+        public Task Configure(IDictionary<string, string> config) { return F.task_action(F.DoNothing); }
+        public Task Log(string info) { return F.task_action(()=> Console.WriteLine(info)); }
+        public void Dispose() { }
+    }
+    [Export(typeof(ILogger))]
+    public class LoggerFILE : ILogger {
+        private IList<LoggerKind> kind = new List<LoggerKind>();
+        private TextWriter logfile = null;
+        public IEnumerable<LoggerKind> Kind { get { return this.kind; } }
+        public LoggerFILE() { this.kind.Add(LoggerKind.File); }
+        public Task Configure(IDictionary<string, string> config) {
+            if (config.Keys.Contains("logfile")) {
+                try {
+                    this.logfile = new StreamWriter(config["logfile"], false, Encoding.UTF8, 1024);
+                } catch { }
+            }
+            return F.task_action(F.DoNothing); 
+        }
+        public Task Log(string info) {
+            Task task = null;
+            if (null != this.logfile) {
+                task = this.logfile.WriteLineAsync(info);
+            } else task = F.task_action(F.DoNothing);
+            return task; 
+        }
+        public void Dispose() {
+            if (null != this.logfile) {
+                this.logfile.Dispose();
+                this.logfile = null;
+            }
+        }
+    }
 }

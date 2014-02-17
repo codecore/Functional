@@ -77,7 +77,11 @@
     <Compile Include="Tests\TestSort.cs" />
     <Compile Include="Tests\TestSqr.cs" />
     <Compile Include="Tests\TestSub.cs" />
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="Tests\TestLanguageCharacter.cs" />
+    <Compile Include="Tests\TestLanguageCharacterStream.cs" />
+    <Compile Include="Tests\TestLandmineIncrement.cs" />
+    <Compile Include="Tests\TestLanguageEditor.cs" />
+    <Compile Include="Tests\TestLogger.cs" />
     <Compile Include="UnitTestsAssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

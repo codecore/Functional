@@ -45,6 +45,10 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="TestContracts, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\bin\TestContracts.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConsoleTest.cs" />
@@ -58,10 +62,6 @@
     <ProjectReference Include="..\Functional\FunctionalNET.csproj">
       <Project>{88811787-8218-4d3b-8079-1f69f3f7b12a}</Project>
       <Name>FunctionalNET</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TestContracts\TestContracts.csproj">
-      <Project>{42411e7d-2a46-488a-abc1-d6314c3e5566}</Project>
-      <Name>TestContracts</Name>
     </ProjectReference>
     <ProjectReference Include="..\TestHarness\TestHarness.csproj">
       <Project>{c1e7331b-965d-4442-b4ed-37434d58ab08}</Project>
