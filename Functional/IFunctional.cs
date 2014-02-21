@@ -51,7 +51,7 @@ namespace Functional.Contracts {
     }
     public interface ILogger : IDisposable {
         IEnumerable<LoggerKind> Kind { get; }
-        Task Configure(IDictionary<string, string> config);
-        Task Log(string info); 
+        Task ConfigureAsync(IDictionary<string, string> config);
+        Task LogAsync(string info); 
     }
 }

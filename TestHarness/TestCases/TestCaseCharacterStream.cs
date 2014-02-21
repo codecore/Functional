@@ -18,7 +18,7 @@ namespace Tests {
         private const string _Name = "test character stream";
         private const string _Description = "test character stream";
         public string TestFile { get { return "TestCaseCharacterStream.cs"; } }
-        public async Task<bool> Run() {
+        public async Task<bool> RunAsync() {
             bool result = true;
             IInputStream inputStream = new InputStreamMock(3,"jiljsadfoi ajdn\nfkjn.*79\n498&<<[{mf] +==s kdjflij");
             IGetChar getChar = new GetChar();

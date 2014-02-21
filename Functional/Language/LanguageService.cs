@@ -8,7 +8,14 @@ using Functional.Language.Contract;
 
 namespace Functional.Language.Implimentation {
     public static class LanguageService {
-        public const string PUNCTUATION = "~.?-+=!@#$%^&*()_><,';:[]{}\\|/'`";
+        public const char DOT = '.';
+        public const char DASH = '-';
+        public const char COMMA = ',';
+        public const char OPEN_PAREN = '(';
+        public const char CLOSE_PAREN = ')';
+        public const char OPEN_SQ = '{';
+        public const char CLOSE_SQ = '}';
+        public const string PUNCTUATION = "~?+=!@#$%^&*_><';:[]\\|/'`";
         public const string LETTERS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
         public const string DIGITS = "0123456789";
         public const char SPACE = ' ';
@@ -22,6 +29,13 @@ namespace Functional.Language.Implimentation {
             else if (LanguageService.LETTERS.Contains(ch)) result = CharKind.ALPHA;
             else if (LanguageService.DIGITS.Contains(ch)) result = CharKind.DIGIT;
             else if (LanguageService.SPACE == ch) result = CharKind.SPACE;
+            else if (LanguageService.DOT == ch) result = CharKind.DOT;
+            else if (LanguageService.DASH == ch) result = CharKind.DASH;
+            else if (LanguageService.COMMA == ch) result = CharKind.COMMA;
+            else if (LanguageService.OPEN_PAREN == ch) result = CharKind.OPEN_PAREN;
+            else if (LanguageService.CLOSE_PAREN == ch) result = CharKind.CLOSE_PAREN;
+            else if (LanguageService.OPEN_SQ == ch) result = CharKind.OPEN_SQ;
+            else if (LanguageService.CLOSE_SQ == ch) result = CharKind.CLOSE_SQ;
             else if (LanguageService.LINEFEED == ch) result = CharKind.LINEFEED;
             else if (LanguageService.CARRAGERETURN == ch) result = CharKind.CARRAGERETURN;
             else if (LanguageService.PUNCTUATION.Contains(ch)) result = CharKind.PUNCTUATION;

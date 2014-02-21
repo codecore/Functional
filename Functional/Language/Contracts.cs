@@ -19,8 +19,9 @@ namespace Functional.Language.Contract {
         int Length { get; set; }
         ILocation Next { get; set; }
     }
-    public enum CharKind { PUNCTUATION, ALPHA, DIGIT, SPACE, CARRAGERETURN, LINEFEED, QUOTE, NULL, UNKNOWN };
-    public enum TokenKind { Unknown, Punctuation, UnquotedWord, LiteralNumber, LiteralString, OneOrMoreSpace, CarrageReturn, LineFeed, Trivia, NULL };
+    public enum CharKind { UNKNOWN, DOT, DASH, COMMA, OPEN_PAREN, CLOSE_PAREN, OPEN_SQ, CLOSE_SQ, PUNCTUATION, ALPHA, DIGIT, QUOTE, SPACE, CARRAGERETURN, LINEFEED, NULL };
+    public enum TokenKind { Unknown, Dot, Dash, Comma, Open_Paren, Close_Paren, Open_Sq, Close_Sq, Punctuation, UnquotedWord, LiteralInteger, LiteralFloat, LiteralString, OneOrMoreSpace, CarrageReturn, LineFeed, NULL };
+    
     public interface IMemoryManagement<T> {
         T New();
         void Delete(T t);
@@ -106,5 +107,4 @@ namespace Functional.Language.Contract {
         ILexerState NextState(CharKind ck);
         ILexerState DefaultNextState { set; }
     }
-
 }

@@ -6,6 +6,7 @@ using System.ComponentModel.Composition;
 
 using Functional.Language.Contract;
 using Functional.Language.Implimentation;
+using Functional.Implementation;
 
 namespace Functional.Language.Implimentation {
     [Export(typeof(ILexer))]
@@ -29,34 +30,32 @@ namespace Functional.Language.Implimentation {
                     return false;
                 };
                 
-            ILexerState endLiteralStringState = new LexerState("end literal string");
-                endLiteralStringState.DefaultNextState = createLiteralStringTokenState;
-                endLiteralStringState.Handle = (c, tokenStream, queue) => {
-                    ++this.Position; // still a bug here
-                    return true; // we eat the end quote
+            ILexerState inEndQuoteState = new LexerState("in end quote");
+                inEndQuoteState.DefaultNextState = createLiteralStringTokenState;
+                inEndQuoteState.Handle = (c, tokenStream, queue) => {
+                    return this.HandleStorage((k, v) => k == v.Kind, CharKind.QUOTE, c, queue);
                 };
-                
+
             ILexerState inLiteralStringState = new LexerState("in literal string");
                 inLiteralStringState.DefaultNextState = inLiteralStringState;
                 inLiteralStringState.Handle = (c, tokenStream, queue) => {
-                    bool handled = false;
-                    if (c.Kind != CharKind.QUOTE) {
-                        queue.Enqueue(c.Info);
-                        ++this.Position;
-                        handled = true;
-                    }
-                    return handled;
+                    return this.HandleStorage((k, v) => k != v.Kind, CharKind.QUOTE, c, queue);
                 };
                 inLiteralStringState.AddTransitionState(CharKind.CARRAGERETURN, this.ErrorState); // unexpected \n
                 inLiteralStringState.AddTransitionState(CharKind.NULL, this.ErrorState); // unexpected \0
-                inLiteralStringState.AddTransitionState(CharKind.QUOTE, endLiteralStringState);
+                inLiteralStringState.AddTransitionState(CharKind.QUOTE, inEndQuoteState);
+
+            ILexerState inStartQuoteState = new LexerState("in start quote");
+                inStartQuoteState.DefaultNextState = inLiteralStringState;
+                inStartQuoteState.Handle = (c, tokenStream, queue) => {
+                    return this.HandleStorage((k, v) => k == v.Kind,CharKind.QUOTE, c, queue);
+                };
 
             ILexerState beginLiteralStringState = new LexerState("begin literal string");
-                beginLiteralStringState.DefaultNextState = inLiteralStringState;
+                beginLiteralStringState.DefaultNextState = inStartQuoteState;
                 beginLiteralStringState.Handle = (c, tokenStream, queue) => {
-                    this.verifyKind(CharKind.QUOTE, c);
-                    ++this.Position; // bug here
-                    return true; // we eat the open quote
+                    this.StartOfCurrentToken = this.Position;
+                    return false;
                 };
 
             ILexerState createPunctuationTokenState = new LexerState("create punctuation token");
@@ -69,47 +68,66 @@ namespace Functional.Language.Implimentation {
             ILexerState inPunctuationState = new LexerState("in punctuation");
                 inPunctuationState.DefaultNextState = createPunctuationTokenState;
                 inPunctuationState.Handle = (c, tokenStream, queue) => {
-                    bool handled = false;
-                    if (c.Kind == CharKind.PUNCTUATION) {
-                        queue.Enqueue(c.Info);
-                        ++this.Position;
-                        handled = true;
-                    }
-                    return handled;
+                    return this.HandleStorage((k, v) => k == v.Kind,CharKind.PUNCTUATION, c, queue);
                 };
 
             ILexerState beginPunctuationState = new LexerState("begin punctuation state");
                 beginPunctuationState.DefaultNextState = inPunctuationState;
                 beginPunctuationState.Handle = (c, tokenStream, queue) => {
-                    this.verifyKind(CharKind.PUNCTUATION, c);
                     this.StartOfCurrentToken = this.Position;
                     return false;
                 };
 
-            ILexerState createLiteralNumberTokenState = new LexerState("create literal number token");
-                createLiteralNumberTokenState.DefaultNextState = this.StartState;
-                createLiteralNumberTokenState.Handle = (c, tokenStream, queue) => {
-                    this.CreateToken(tokenStream, queue, TokenKind.LiteralNumber);
+            ILexerState createFractionTokenState = new LexerState("create fraction token");
+                createFractionTokenState.DefaultNextState = this.StartState;
+                createFractionTokenState.Handle = (c, tokenStream, queue) => {
+                    this.CreateToken(tokenStream, queue, TokenKind.LiteralFloat);
+                    return false;
+                };
+
+            ILexerState inFractionState = new LexerState("in fraction");
+                inFractionState.DefaultNextState = createFractionTokenState;
+                inFractionState.Handle = (c, tokenStream, queue) => {
+                    return this.HandleStorage((k, v) => k == v.Kind,CharKind.DIGIT, c, queue);
+                };
+                inFractionState.AddTransitionState(CharKind.DIGIT, inFractionState);
+
+            ILexerState beginFractionState = new LexerState("begin fraction");
+                beginFractionState.DefaultNextState = inFractionState;
+                beginFractionState.Handle = (c, tokenStream, queue) => false;
+
+            ILexerState inDecimalPointState = new LexerState("in decimal point");
+                inDecimalPointState.DefaultNextState = this.ErrorState; // there must be a number after the decimal point
+                inDecimalPointState.Handle = (c, tokenStream, queue) => {
+                    return this.HandleStorage((k, v) => k == v.Kind,CharKind.DOT, c, queue);
+                };
+                inDecimalPointState.AddTransitionState(CharKind.DOT, beginFractionState); // hack
+                inDecimalPointState.AddTransitionState(CharKind.DIGIT, beginFractionState);
+
+            ILexerState beginDecimalPointState = new LexerState("begin decimal point");
+                beginDecimalPointState.DefaultNextState = inDecimalPointState;
+                beginDecimalPointState.Handle = (c, tokenStream, queue) => {
+                    return false;
+                };
+
+            ILexerState createLiteralIntegerTokenState = new LexerState("create literal integer token");
+                createLiteralIntegerTokenState.DefaultNextState = this.StartState;
+                createLiteralIntegerTokenState.Handle = (c, tokenStream, queue) => {
+                    this.CreateToken(tokenStream, queue, TokenKind.LiteralInteger);
                     return false;
                 };
 
             ILexerState inLiteralNumberState = new LexerState("in number");
-                inLiteralNumberState.DefaultNextState = createLiteralNumberTokenState;
+                inLiteralNumberState.DefaultNextState = createLiteralIntegerTokenState;
                 inLiteralNumberState.Handle = (c, tokenStream, queue) => {
-                    bool handled = false;
-                    if (c.Kind == CharKind.DIGIT) {
-                        queue.Enqueue(c.Info);
-                        ++this.Position;
-                        handled = true;
-                     }
-                     return handled;
+                    return this.HandleStorage((k, v) => k == v.Kind,CharKind.DIGIT, c, queue);
                 };
                 inLiteralNumberState.AddTransitionState(CharKind.DIGIT, inLiteralNumberState);
+                inLiteralNumberState.AddTransitionState(CharKind.DOT, beginDecimalPointState);
 
             ILexerState beginLiteralNumberState = new LexerState("begin literal number state");
                 beginLiteralNumberState.DefaultNextState = inLiteralNumberState;
                 beginLiteralNumberState.Handle = (c, tokenStream, queue) => {
-                    this.verifyKind(CharKind.DIGIT, c);
                     this.StartOfCurrentToken = this.Position;
                     return false;
                 };
@@ -124,20 +142,13 @@ namespace Functional.Language.Implimentation {
             ILexerState inOneOrMoreSpaceState = new LexerState("in one or more space");
                 inOneOrMoreSpaceState.DefaultNextState = createOneOrMoreSpaceTokenState;
                 inOneOrMoreSpaceState.Handle = (c, tokenStream, queue) => {
-                    bool handled = false;
-                    if (c.Kind == CharKind.SPACE) {
-                        queue.Enqueue(c.Info);
-                        ++this.Position;
-                        handled = true;
-                    }
-                    return handled;
+                    return this.HandleStorage((k, v) => k == v.Kind,CharKind.SPACE, c, queue);
                 };
                 inOneOrMoreSpaceState.AddTransitionState(CharKind.SPACE, inOneOrMoreSpaceState);
 
-            ILexerState beginOneOrMoreSpaceState = new LexerState("begine one or more space");
+            ILexerState beginOneOrMoreSpaceState = new LexerState("begin one or more space");
                 beginOneOrMoreSpaceState.DefaultNextState = inOneOrMoreSpaceState;
                 beginOneOrMoreSpaceState.Handle = (c, tokenStream, queue) => {
-                    this.verifyKind(CharKind.SPACE, c);
                     this.StartOfCurrentToken = this.Position;
                     return false;
                 };
@@ -152,19 +163,12 @@ namespace Functional.Language.Implimentation {
             ILexerState inLineFeedState = new LexerState("in line feed");
                 inLineFeedState.DefaultNextState = createLineFeedTokenState;
                 inLineFeedState.Handle = (c, tokenStream, queue) => {
-                    bool handled = false;
-                    if (c.Kind == CharKind.LINEFEED) {
-                        queue.Enqueue(c.Info);
-                        ++this.Position;
-                        handled = true;
-                    }
-                    return handled;
+                    return this.HandleStorage((k, v) => k == v.Kind,CharKind.LINEFEED, c, queue);
                 };
 
             ILexerState beginLineFeedState = new LexerState("begin line feed state");
                 beginLineFeedState.DefaultNextState = inLineFeedState;
                 beginLineFeedState.Handle = (c, tokenStream, queue) => {
-                    this.verifyKind(CharKind.LINEFEED, c);
                     this.StartOfCurrentToken = this.Position;
                     return false;
                 };
@@ -181,18 +185,12 @@ namespace Functional.Language.Implimentation {
             ILexerState inCarrageReturnState = new LexerState("in carrage return");
                 inCarrageReturnState.DefaultNextState = createCarrageReturnTokenState;
                 inCarrageReturnState.Handle = (c, tokenStream, queue) => {
-                    bool handled = false;
-                    if (c.Kind == CharKind.CARRAGERETURN) {
-                        queue.Enqueue(c.Info);
-                        ++this.Position;
-                        handled = true;
-                    }
-                    return handled;
+                    return this.HandleStorage((k, v) => k == v.Kind,CharKind.CARRAGERETURN, c, queue);
                 };
+
             ILexerState beginCarrageReturnState = new LexerState("begin carrage return");
                 beginCarrageReturnState.DefaultNextState = inCarrageReturnState;
                 beginCarrageReturnState.Handle = (c, tokenStream, queue) => {
-                    this.verifyKind(CharKind.CARRAGERETURN, c);
                     this.StartOfCurrentToken = this.Position;
                     return false;
                 };
@@ -207,19 +205,13 @@ namespace Functional.Language.Implimentation {
             ILexerState inNULLState = new LexerState("in NULL");
                 inNULLState.DefaultNextState = createNULLTokenState;
                 inNULLState.Handle = (c, tokenStream, queue) => {
-                    bool handled = false;
-                    if (c.Kind == CharKind.NULL) {
-                        queue.Enqueue(c.Info);
-                        ++this.Position;
-                        handled = false; // once we get a null, we don't ask for more
-                    }
-                    return handled;
+                    bool throwaway = this.HandleStorage((k, v) => k == v.Kind,CharKind.NULL, c, queue);
+                    return false; // always return false once we get a null
                 };
 
             ILexerState beginNULLState = new LexerState("begin NULL");
                 beginNULLState.DefaultNextState = inNULLState;
                 beginNULLState.Handle = (c, tokenStream, queueu) => {
-                    this.verifyKind(CharKind.NULL, c);
                     this.StartOfCurrentToken = this.Position;
                     return false;
                 };
@@ -234,20 +226,13 @@ namespace Functional.Language.Implimentation {
             ILexerState inAlphaState = new LexerState("in alpha");
                 inAlphaState.DefaultNextState = createAlphaTokenState;
                 inAlphaState.Handle = (c, tokenStream, queue) => {
-                    bool handled = false;
-                    if (c.Kind == CharKind.ALPHA) {
-                        queue.Enqueue(c.Info);
-                        ++this.Position;
-                        handled = true;
-                    }
-                    return handled;
+                    return this.HandleStorage((k, v) => k == v.Kind,CharKind.ALPHA, c, queue);
                 };
                 inAlphaState.AddTransitionState(CharKind.ALPHA, inAlphaState);
 
             ILexerState beginAlphaState = new LexerState("begin alpha");
                 beginAlphaState.DefaultNextState = inAlphaState;
                 beginAlphaState.Handle = (c, tokenStream, queue) => {
-                    this.verifyKind(CharKind.ALPHA, c);
                     this.StartOfCurrentToken = this.Position;
                     return false;
                 };
@@ -262,20 +247,157 @@ namespace Functional.Language.Implimentation {
             ILexerState inUnknownCharacterState = new LexerState("in unknown character");
                 inUnknownCharacterState.DefaultNextState = createUnknownCharacterTokenState;
                 inUnknownCharacterState.Handle = (c, tokenStream, queue) => {
-                    bool handled = false;
-                    if (c.Kind == CharKind.UNKNOWN) {
-                        queue.Enqueue(c.Info);
-                        ++this.Position;
-                        handled = true;
-                    }
-                    return handled;
+                    return this.HandleStorage((k, v) => k == v.Kind,CharKind.UNKNOWN, c, queue);
                 };
                 inUnknownCharacterState.AddTransitionState(CharKind.UNKNOWN, inUnknownCharacterState);
 
             ILexerState beginUnknownCharacterState = new LexerState("begin unknown character");
                 beginUnknownCharacterState.DefaultNextState = inUnknownCharacterState;
                 beginUnknownCharacterState.Handle = (c, tokenStream, queue) => {
-                    this.verifyKind(CharKind.UNKNOWN, c);
+                    this.StartOfCurrentToken = this.Position;
+                    return false;
+                };
+            
+            ILexerState createDotTokenState = new LexerState("create dot");
+                createDotTokenState.DefaultNextState = this.StartState;
+                createDotTokenState.Handle = (c, tokenStream, queue) => {
+                    this.CreateToken(tokenStream, queue, TokenKind.Dot);
+                    return false;
+                };
+
+            ILexerState inDotState = new LexerState("in dot");
+                inDotState.DefaultNextState = createDotTokenState;
+                inDotState.Handle = (c, tokenStream, queue) => {
+                    return this.HandleStorage((k, v) => k == v.Kind,CharKind.DOT, c, queue);
+                };
+
+            ILexerState beginDotState = new LexerState("begin dot");
+                beginDotState.DefaultNextState = inDotState;
+                beginDotState.Handle = (c, tokenStream, queue) => {
+                    this.StartOfCurrentToken = this.Position;
+                    return false;
+                };
+
+            ILexerState createDashTokenState = new LexerState("create dash");
+                createDashTokenState.DefaultNextState = this.StartState;
+                createDashTokenState.Handle = (c, tokenStream, queue) => {
+                    this.CreateToken(tokenStream, queue, TokenKind.Dash);
+                    return false;
+                };
+            ILexerState decideDashOrNegativeState = new LexerState("decide");
+                decideDashOrNegativeState.DefaultNextState = createDashTokenState;
+                decideDashOrNegativeState.Handle = (c, tokenStream, queue) => false;
+                decideDashOrNegativeState.AddTransitionState(CharKind.DIGIT,inLiteralNumberState);
+
+            ILexerState inDashState = new LexerState("in dash");
+                inDashState.DefaultNextState = decideDashOrNegativeState ;
+                inDashState.Handle = (c, tokenStream, queue) => {
+                    return this.HandleStorage((k, v) => k == v.Kind,CharKind.DASH, c, queue);
+                };
+
+            ILexerState beginDashState = new LexerState("begin dash");
+                beginDashState.DefaultNextState = inDashState;
+                beginDashState.Handle = (c, tokenStream, queue) => {
+                    this.StartOfCurrentToken = this.Position;
+                    return false;
+                };
+
+            ILexerState createCommaTokenState = new LexerState("create comma"); // candy to help downstream language parser
+                createCommaTokenState.DefaultNextState = this.StartState;
+                createCommaTokenState.Handle = (c, tokenStream, queue) => {
+                    this.CreateToken(tokenStream, queue, TokenKind.Comma);
+                    return false;
+                };
+
+            ILexerState inCommaState = new LexerState("in comma");
+                inCommaState.DefaultNextState = createCommaTokenState;
+                inCommaState.Handle = (c, tokenStream, queue) => {
+                    return this.HandleStorage((k,v)=>k==v.Kind, CharKind.COMMA, c, queue);
+                };
+
+            ILexerState beginCommaState = new LexerState("begin comma");
+                beginCommaState.DefaultNextState = inCommaState;
+                beginCommaState.Handle = (c, tokenStream, queue) => {
+                    this.StartOfCurrentToken = this.Position;
+                    return false;
+                };
+
+            ILexerState createOpenParenTokenState = new LexerState("create open paren token");
+                createOpenParenTokenState.DefaultNextState = this.StartState;
+                createOpenParenTokenState.Handle = (c, tokenStream, queue) => {
+                    this.CreateToken(tokenStream, queue, TokenKind.Open_Paren);
+                    return false;
+                };
+
+            ILexerState inOpenParenState = new LexerState("in open paren");
+                inOpenParenState.DefaultNextState = createOpenParenTokenState;
+                inOpenParenState.Handle = (c, tokenStream, queue) => {
+                    return this.HandleStorage((k, v) => k == v.Kind, CharKind.OPEN_PAREN, c, queue);
+                };
+
+            ILexerState beginOpenParenState = new LexerState("begin open paren");
+                beginOpenParenState.DefaultNextState = inOpenParenState;
+                beginOpenParenState.Handle = (c, tokenStream, queueu) => {
+                    this.StartOfCurrentToken = this.Position;
+                    return false;
+                };
+
+            ILexerState createCloseParenTokenState = new LexerState("create close paren token");
+                createCloseParenTokenState.DefaultNextState = this.StartState;
+                createCloseParenTokenState.Handle = (c, tokenStream, queue) => {
+                    this.CreateToken(tokenStream, queue, TokenKind.Close_Paren);
+                    return false;
+                };
+
+            ILexerState inCloseParenState = new LexerState("in close paren");
+                inCloseParenState.DefaultNextState = createCloseParenTokenState;
+                inCloseParenState.Handle = (c, tokenStream, queue) => {
+                    return this.HandleStorage((k, v) => k == v.Kind, CharKind.CLOSE_PAREN, c, queue);
+            };
+            
+            ILexerState beginCloseParenState = new LexerState("begin close paren");
+                beginCloseParenState.DefaultNextState = inCloseParenState;
+                beginCloseParenState.Handle = (c, tokenStream, queueu) => {
+                    this.StartOfCurrentToken = this.Position;
+                    return false;
+                };
+
+            ILexerState createOpenSqTokenState = new LexerState("create open sq token");
+                createOpenSqTokenState.DefaultNextState = this.StartState;
+                createOpenSqTokenState.Handle = (c, tokenStream, queue) => {
+                    this.CreateToken(tokenStream, queue, TokenKind.Open_Sq);
+                    return false;
+                };
+
+            ILexerState inOpenSqState = new LexerState("in open sq");
+                inOpenSqState.DefaultNextState = createOpenSqTokenState;
+                inOpenSqState.Handle = (c, tokenStream, queue) => {
+                    return this.HandleStorage((k, v) => k == v.Kind, CharKind.OPEN_SQ, c, queue);
+                };
+
+            ILexerState beginOpenSqState = new LexerState("begin open sq");
+                beginOpenSqState.DefaultNextState = inOpenSqState;
+                beginOpenSqState.Handle = (c, tokenStream, queue) => {
+                    this.StartOfCurrentToken = this.Position;
+                    return false;
+                };
+
+            ILexerState createCloseSqTokenState = new LexerState("create close sq token");
+                createCloseSqTokenState.DefaultNextState = this.StartState;
+                createCloseSqTokenState.Handle = (c, tokenStream, queue) => {
+                    this.CreateToken(tokenStream, queue, TokenKind.Close_Sq);
+                    return false;
+                };
+
+            ILexerState inCloseSqState = new LexerState("in close sq");
+                inCloseSqState.DefaultNextState = createCloseSqTokenState;
+                inCloseSqState.Handle = (c, tokenStream, queue) => {
+                    return this.HandleStorage((k, v) => k == v.Kind, CharKind.CLOSE_SQ, c, queue);
+                };
+
+            ILexerState beginCloseSqState = new LexerState("begin close sq");
+                beginCloseSqState.DefaultNextState = inCloseSqState;
+                beginCloseSqState.Handle = (c, tokenStream, queue) => {
                     this.StartOfCurrentToken = this.Position;
                     return false;
                 };
@@ -289,11 +411,23 @@ namespace Functional.Language.Implimentation {
             this.StartState.AddTransitionState(CharKind.LINEFEED, beginLineFeedState);
             this.StartState.AddTransitionState(CharKind.UNKNOWN, beginUnknownCharacterState);
             this.StartState.AddTransitionState(CharKind.NULL, beginNULLState);
+            this.StartState.AddTransitionState(CharKind.DASH, beginDashState);
+            this.StartState.AddTransitionState(CharKind.DOT, beginDotState);
+            this.StartState.AddTransitionState(CharKind.COMMA, beginCommaState);
+            this.StartState.AddTransitionState(CharKind.OPEN_PAREN, beginOpenParenState);
+            this.StartState.AddTransitionState(CharKind.CLOSE_PAREN, beginCloseParenState);
+            this.StartState.AddTransitionState(CharKind.OPEN_SQ, beginOpenSqState);
+            this.StartState.AddTransitionState(CharKind.CLOSE_SQ, beginCloseSqState);
 
         }
-        private void verifyKind(CharKind expected, ICharacter c) {
-            if (c.Kind != expected) throw new Exception(String.Format("lexer incorrectly catagorized {0} as {1} rather than {2}", c.Info,c.Kind.ToString(),expected.ToString()));
-            
+        private bool HandleStorage(Func<CharKind,ICharacter,bool> predicate, CharKind kind, ICharacter c, Queue<char> queue) {
+            bool handled = false;
+            if (predicate(kind,c)) {
+                queue.Enqueue(c.Info);
+                ++this.Position;
+                handled = true;
+            }
+            return handled;
         }
 
         private void CreateToken(ITokenStream tokenStream, Queue<char> queue, TokenKind kind) {

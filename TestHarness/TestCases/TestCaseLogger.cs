@@ -22,11 +22,11 @@ namespace Tests {
                 this.logger = null; 
             }
         }
-        public async Task<bool> Run() {
+        public async Task<bool> RunAsync() {
             this.logger = new LoggerNULL();
             IDictionary<string, string> config = new Dictionary<string, string>();
-            await this.logger.Configure(config);
-            await this.logger.Log("log this line");
+            await this.logger.ConfigureAsync(config);
+            await this.logger.LogAsync("log this line");
             this.dispose();
             return true;
         }
@@ -60,12 +60,12 @@ namespace Tests {
                 this.logger = null; 
             } 
         }
-        public async Task<bool> Run() {
+        public async Task<bool> RunAsync() {
             this.logger = new LoggerCONSOLE();
             IDictionary<string, string> config = new Dictionary<string, string>();
 
-            await this.logger.Configure(config);
-            await this.logger.Log("log this line");
+            await this.logger.ConfigureAsync(config);
+            await this.logger.LogAsync("log this line");
             this.dispose();
             return true;
         }
@@ -99,7 +99,7 @@ namespace Tests {
                 this.logger = null; 
             }
         }
-        public async Task<bool> Run() {
+        public async Task<bool> RunAsync() {
             string filename = "C:\\Temp\\logfile.txt";
             bool result = true;
             this.logger = new LoggerFILE();
@@ -107,8 +107,8 @@ namespace Tests {
             config.Add("logfile",filename);
             Utility.DeleteFile(filename);
             result = result && (false == Utility.FileExists(filename));
-            await this.logger.Configure(config);
-            await this.logger.Log("log this line");
+            await this.logger.ConfigureAsync(config);
+            await this.logger.LogAsync("log this line");
             this.dispose();
             result = result && Utility.FileExists(filename);
             result = result && (18 == Utility.FileLength(filename));

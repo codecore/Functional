@@ -60,6 +60,7 @@
     <Compile Include="TestCases\TestCaseLandMines.cs" />
     <Compile Include="TestCases\TestCaseLanguageCharacter.cs" />
     <Compile Include="TestCases\TestCaseLanguageEditorCodeline.cs" />
+    <Compile Include="TestCases\TestCaseLanguageParserLexerTokenNumbers.cs" />
     <Compile Include="TestCases\TestCaseLogger.cs" />
     <Compile Include="TestCases\TestCaseLt.cs" />
     <Compile Include="TestCases\TestCaseLte.cs" />
@@ -68,7 +69,7 @@
     <Compile Include="TestCases\TestCaseMin.cs" />
     <Compile Include="TestCases\TestCaseMult.cs" />
     <Compile Include="TestCases\TestCaseNeq.cs" />
-    <Compile Include="TestCases\TestCaseParserTokenParser.cs" />
+    <Compile Include="TestCases\TestCaseLanguageParserLexerTokenStrings.cs" />
     <Compile Include="TestCases\TestCaseRange.cs" />
     <Compile Include="TestCases\TestCaseReduce.cs" />
     <Compile Include="TestCases\TestCaseSort.cs" />

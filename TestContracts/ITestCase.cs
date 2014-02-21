@@ -268,10 +268,33 @@ namespace TestContracts
         public const int Lang_Memory_Manager_ILocation = 2440;           // non-leaf
         public const int Lang_Memory_Manager_ILocation_New = 2442;
         public const int Lang_Memory_Manager_ILocation_Delete = 2444;
-
+        
         public const int Lang_Parser = 3000;                 // non-leaf
         public const int Lang_Parser_Lexer = 3100;           // non-leaf
-        public const int Lang_Parser_Lexer_Space = 3110;
+        public const int Lang_Parser_Lexer_Token = 3200;     // non=leaf
+        
+        public const int Lang_Parser_Lexer_Token_Unknown = 3300;
+        public const int Lang_Parser_Lexer_Token_Dot = 3310;
+        public const int Lang_Parser_Lexer_Token_Dash = 3320;
+        public const int Lang_Parser_Lexer_Token_Comma = 3330;
+        public const int Lang_Parser_Lexer_Token_Open_Paren = 3340;
+        public const int Lang_Parser_Lexer_Token_Close_Paren = 3350;
+        public const int Lang_Parser_Lexer_Token_Open_Sq = 3360;
+        public const int Lang_Parser_Lexer_Token_Close_Sq = 3370;
+        public const int Lang_Parser_Lexer_Token_Punctuation = 3380;
+        public const int Lang_Parser_Lexer_Token_UnquotedWord= 3390;
+        public const int Lang_Parser_Lexer_Token_LiteralInteger = 3400;
+        public const int Lang_Parser_Lexer_Token_LiteralInteger_Negative = 3410;
+        public const int Lang_Parser_Lexer_Token_LiteralFloat = 3420;
+        public const int Lang_Parser_Lexer_Token_LiteralFloat_Negative = 3430;
+        public const int Lang_Parser_Lexer_Token_LiteralString = 3450;
+        public const int Lang_Parser_Lexer_Token_OneOrMoreSpace = 3460;
+        public const int Lang_Parser_Lexer_Token_OneOrMoreSpace_OneSpace = 3462;
+        public const int Lang_Parser_Lexer_Token_OneOrMoreSpace_TwoSpace = 3463;
+        public const int Lang_Parser_Lexer_Token_OneOrMoreSpace_ThreeSpace = 3464;
+        public const int Lang_Parser_Lexer_Token_CarrageReturn = 3470;
+        public const int Lang_Parser_Lexer_Token_LineFeed = 3480;
+        public const int Lang_Parser_Lexer_Token_NULL = 3490;
 
         public const int Logger = 12000; // non-leaf
         public const int Logger_Null = 12010;
@@ -298,7 +321,7 @@ namespace TestContracts
         string Name { get; }
         string Description { get; }
         string TestFile { get; }
-        Task<bool> Run();
+        Task<bool> RunAsync();
         IEnumerable<int> Feature { get; }
         IEnumerable<int> Coverage { get; }
     }

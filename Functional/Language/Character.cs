@@ -16,6 +16,6 @@ namespace Functional.Language.Implimentation {
             this.Kind = (eof) ? CharKind.NULL : LanguageService.Crack(c);      
         }
         public ICharacter Next { get; set; }
-        public override string ToString() { return this.Info.ToString(); }
+        public override string ToString() { return this.Info.ToString()+":"+this.Kind.ToString(); }
     }
 }

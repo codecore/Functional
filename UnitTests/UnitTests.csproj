@@ -82,6 +82,7 @@
     <Compile Include="Tests\TestLandmineIncrement.cs" />
     <Compile Include="Tests\TestLanguageEditor.cs" />
     <Compile Include="Tests\TestLogger.cs" />
+    <Compile Include="Tests\TestParserLexerTokens.cs" />
     <Compile Include="UnitTestsAssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

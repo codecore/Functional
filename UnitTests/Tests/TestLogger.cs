@@ -11,19 +11,19 @@ namespace UnitTests.Tests {
         [TestMethod]
         public async Task logger_null_test() {
             IAsyncTestCase test = new logger_null();
-            bool result = await test.Run();
+            bool result = await test.RunAsync();
             Assert.IsTrue(result);
         }
         [TestMethod]
         public async Task logger_console_test() {
             IAsyncTestCase test = new logger_console();
-            bool result = await test.Run();
+            bool result = await test.RunAsync();
             Assert.IsTrue(result);
         }
         [TestMethod]
         public async Task logger_file_test() {
             IAsyncTestCase test = new logger_file();
-            bool result = await test.Run();
+            bool result = await test.RunAsync();
             Assert.IsTrue(result);
         }
     }

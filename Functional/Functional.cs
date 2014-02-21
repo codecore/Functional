@@ -1429,6 +1429,9 @@ namespace Functional.Implementation {
         }
     }
     public static class Validate {
+        public static void Verify<T, U>(Func<T, U, bool> validate, T t, U u, string format_message) {
+            if (!validate(t, u)) throw new Exception(String.Format(format_message, t, u));
+        }
         public static void NonNullArgument(object item, string name) { if (null == item) throw new ArgumentNullException(name); }
         public static void PositiveArgument(int n, string name) { if (n < 0) throw new ArgumentOutOfRangeException(name); }
         public static void PositiveArgument(float f,string name) { if (f<0.0f) throw new ArgumentOutOfRangeException(name); }
@@ -1523,8 +1526,8 @@ namespace Functional.Implementation {
         private IList<LoggerKind> kind = new List<LoggerKind>();
         public IEnumerable<LoggerKind> Kind { get { return this.kind; } }
         public LoggerNULL() { this.kind.Add(LoggerKind.Null); }
-        public Task Configure(IDictionary<string, string> config) { return F.task_action(F.DoNothing); }
-        public Task Log(string info) { return F.task_action(() => { }); }
+        public Task ConfigureAsync(IDictionary<string, string> config) { return F.task_action(F.DoNothing); }
+        public Task LogAsync(string info) { return F.task_action(() => { }); }
         public void Dispose() { }
     }
     [Export(typeof(ILogger))]
@@ -1532,8 +1535,8 @@ namespace Functional.Implementation {
         private IList<LoggerKind> kind = new List<LoggerKind>();
         public IEnumerable<LoggerKind> Kind { get { return this.kind; } }
         public LoggerCONSOLE() { this.kind.Add(LoggerKind.Console); }
-        public Task Configure(IDictionary<string, string> config) { return F.task_action(F.DoNothing); }
-        public Task Log(string info) { return F.task_action(()=> Console.WriteLine(info)); }
+        public Task ConfigureAsync(IDictionary<string, string> config) { return F.task_action(F.DoNothing); }
+        public Task LogAsync(string info) { return F.task_action(()=> Console.WriteLine(info)); }
         public void Dispose() { }
     }
     [Export(typeof(ILogger))]
@@ -1542,7 +1545,7 @@ namespace Functional.Implementation {
         private TextWriter logfile = null;
         public IEnumerable<LoggerKind> Kind { get { return this.kind; } }
         public LoggerFILE() { this.kind.Add(LoggerKind.File); }
-        public Task Configure(IDictionary<string, string> config) {
+        public Task ConfigureAsync(IDictionary<string, string> config) {
             if (config.Keys.Contains("logfile")) {
                 try {
                     this.logfile = new StreamWriter(config["logfile"], false, Encoding.UTF8, 1024);
@@ -1550,7 +1553,7 @@ namespace Functional.Implementation {
             }
             return F.task_action(F.DoNothing); 
         }
-        public Task Log(string info) {
+        public Task LogAsync(string info) {
             Task task = null;
             if (null != this.logfile) {
                 task = this.logfile.WriteLineAsync(info);

@@ -24,7 +24,7 @@ namespace ConsoleTest
                 
                 Console.WriteLine("composed");
 
-                RunSelectedTests(testharness.SyncTests, testharness.AsyncTests, TestCoverage.Chain);
+                RunSelectedTests(testharness.SyncTests, testharness.AsyncTests, TestCoverage.Lang_Parser_Lexer_Token_LiteralFloat_Negative);
 
             }
 
@@ -35,7 +35,7 @@ namespace ConsoleTest
             IEnumerable<IAsyncTestCase> selectedAsyncTests = F<IAsyncTestCase>.filter(asyncTests, x => F<int>.any(x.Feature, n => n == sel));
             IEnumerable<ISyncTestCase> selectedSyncTests = F<ISyncTestCase>.filter(syncTests, x => F<int>.any(x.Feature, n => n == sel));
             foreach (IAsyncTestCase test in selectedAsyncTests) {
-                Task.WaitAll(test.Run());
+                Task.WaitAll(test.RunAsync());
             }
             foreach (ISyncTestCase test in selectedSyncTests) {
                 test.Run();

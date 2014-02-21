@@ -33,7 +33,7 @@ namespace Tests {
             result = result && (ch.Kind == CharKind.SPACE);
             MemoryManager.Delete(ch);
 
-            foreach (char x in F.chars("~.?-+=!@#$%^&*()_><,';:[]{}\\|/'`")) {
+            foreach (char x in F.chars("~?+=!@#$%^&*_><';:[]\\|/'`")) {
                 ch = MemoryManager.New(x);
                 result = result && (ch.Kind == CharKind.PUNCTUATION);
                 MemoryManager.Delete(ch);
@@ -44,6 +44,41 @@ namespace Tests {
             ch = MemoryManager.New('\r');
             result = result && (ch.Kind == CharKind.LINEFEED);
             MemoryManager.Delete(ch);
+            
+            ch = MemoryManager.New('.');
+            result = result && (ch.Kind == CharKind.DOT);
+            MemoryManager.Delete(ch);
+            
+            ch = MemoryManager.New(',');
+            result = result && (ch.Kind == CharKind.COMMA);
+            MemoryManager.Delete(ch);
+
+            ch = MemoryManager.New('-');
+            result = result && (ch.Kind == CharKind.DASH);
+            MemoryManager.Delete(ch);
+
+            ch = MemoryManager.New('(');
+            result = result && (ch.Kind == CharKind.OPEN_PAREN);
+            MemoryManager.Delete(ch);
+
+            ch = MemoryManager.New(')');
+            result = result && (ch.Kind == CharKind.CLOSE_PAREN);
+            MemoryManager.Delete(ch);
+
+            ch = MemoryManager.New('{');
+            result = result && (ch.Kind == CharKind.OPEN_SQ);
+            MemoryManager.Delete(ch);
+
+            ch = MemoryManager.New('}');
+            result = result && (ch.Kind == CharKind.CLOSE_SQ);
+            MemoryManager.Delete(ch);
+
+            foreach (char c in F.chars("0123456789")) {
+                ch = MemoryManager.New(c);
+                result = result && (ch.Kind == CharKind.DIGIT);
+                MemoryManager.Delete(ch);
+            }
+
             return result;
         }
         private IList<int> coverage = new List<int>();
@@ -55,7 +90,7 @@ namespace Tests {
         public IEnumerable<int> Coverage { get { return this.coverage; } }
         public IEnumerable<int> Feature { get { return this.feature; } }
         public test_character() {
-            this.ID = 0;
+            this.ID = TestCoverage.Lang_Character;
             this.Name = _Name;
             this.Description = _Description;
             this.Run = _Run;

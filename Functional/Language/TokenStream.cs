@@ -28,5 +28,11 @@ namespace Functional.Language.Implimentation {
                 MemoryManager.Delete(token); // this should dealloc the locations also
             }
         }
+        public override string ToString() {
+            StringBuilder sb = new StringBuilder();
+            foreach (IToken token in this.stack) sb.Append(token.ToString());
+            foreach (IToken token in this.queue) sb.Append(token.ToString());
+            return sb.ToString();
+        }
     }
 }

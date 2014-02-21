@@ -18,6 +18,8 @@ namespace Functional.Language.Implimentation {
             this.Info = info;
             this.Kind = kind;
         }
-        public override string ToString() { return this.Info; }
+        public override string ToString() { return this.Info+":"+this.Kind.ToString(); }
+    }
+    public class LanguageToken {
     }
 }

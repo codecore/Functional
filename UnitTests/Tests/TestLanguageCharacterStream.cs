@@ -11,7 +11,7 @@ namespace UnitTests.Tests {
         [TestMethod]
         public async Task test_character_stream() {
             IAsyncTestCase test = new test_character_stream();
-            bool result = await test.Run();
+            bool result = await test.RunAsync();
             Assert.IsTrue(result);
         }
     }

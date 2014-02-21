@@ -26,14 +26,14 @@ namespace Tests {
             
             result = result && (document.Cursor == codeline);
             
-            IToken tokenFirst = MemoryManager.New(MemoryManager.New("filename", 0, 0, 10), "first", TokenKind.LiteralNumber);
+            IToken tokenFirst = MemoryManager.New(MemoryManager.New("filename", 0, 0, 10), "first", TokenKind.LiteralString);
             codeline.AddBefore(tokenFirst);  // codeline = [(first)]
             result = result && (codeline.Cursor == tokenFirst);
-            IToken tokenAfter = MemoryManager.New(MemoryManager.New("filename", 0, 0, 10), "after", TokenKind.Trivia);
+            IToken tokenAfter = MemoryManager.New(MemoryManager.New("filename", 0, 0, 10), "after", TokenKind.LiteralInteger);
             codeline.AddAfter(tokenAfter); // codeline = (first)[(after)]
             result = result && (codeline.Cursor == tokenAfter); // we set cursor to added item
 
-            IToken tokenBefore = MemoryManager.New(MemoryManager.New("filename", 0, 0, 10), "before", TokenKind.LiteralNumber);
+            IToken tokenBefore = MemoryManager.New(MemoryManager.New("filename", 0, 0, 10), "before", TokenKind.LiteralFloat);
             codeline.AddBefore(tokenBefore); // codeline = (first)[(before)](after)
             result = result && (codeline.Cursor == tokenBefore);
 
