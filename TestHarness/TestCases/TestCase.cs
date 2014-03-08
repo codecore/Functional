@@ -6,8 +6,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Functional.Contracts;
 using Functional.Implementation;
+using Functional.Test;
 
-using TestContracts;
+using Functional.Utility;
+
+using Test.Contracts;
 using Tests;
 namespace Tests {
     
@@ -67,8 +70,8 @@ namespace Tests {
 
 
     [Export(typeof(ISyncTestCase))]
-    public class test_items : ISyncTestCase {
-        private const string _Name = "test_items,F_T_items";
+    public class test_dictionary_extract_values : ISyncTestCase {
+        private const string _Name = "test dictionary extract values ";
         private const string _Description = "a sequence of three dictionaries in which two have the value returns a sequence with both values";
         public string TestFile { get { return "TestCase.cs"; } }
         public Func<bool> Run { get; private set; }
@@ -84,8 +87,10 @@ namespace Tests {
             lst.Add(d1);
             lst.Add(d2);
             lst.Add(d3);
-            IList<int> result = F<int>.items(lst, "xyz").ToList();
+            IList<int> result = F<int>.dictionary_extract_values(lst, "xyz").ToList();
             success = success && (result.Contains(7) && result.Contains(21) && (result.Count() == 2));
+
+
             return success;
         }
         private IList<int> coverage = new List<int>();
@@ -96,7 +101,7 @@ namespace Tests {
 
         public IEnumerable<int> Coverage { get { return this.coverage; } }
         public IEnumerable<int> Feature { get { return this.feature; } }
-        public test_items() {
+        public test_dictionary_extract_values() {
             this.ID = 0;
             this.Name = _Name;
             this.Description = _Description;
@@ -104,10 +109,12 @@ namespace Tests {
 
             this.feature.Add(TestCoverage.Test_All);
             this.feature.Add(TestCoverage.F_T);
-            this.feature.Add(TestCoverage.F_T_items);
+            this.feature.Add(TestCoverage.F_T_dictionary);
+            this.feature.Add(TestCoverage.F_T_dictionary_extract_values_key_string);
 
             this.coverage.Add(TestCoverage.F_T);
-            this.coverage.Add(TestCoverage.F_T_items);
+            this.coverage.Add(TestCoverage.F_T_dictionary);
+            this.coverage.Add(TestCoverage.F_T_dictionary_extract_values_key_string);
         }
     }
 
@@ -522,9 +529,11 @@ namespace Tests {
             this.Run = _Run;
 
             this.feature.Add(TestCoverage.Test_All);
-            this.feature.Add(TestCoverage.Curry1);
+            this.feature.Add(TestCoverage.Curry);
+            this.feature.Add(TestCoverage.Curry_curry1);
 
-            this.coverage.Add(TestCoverage.Curry1);
+            this.coverage.Add(TestCoverage.Curry);
+            this.coverage.Add(TestCoverage.Curry_curry1);
 
             this.coverage.Add(TestCoverage.F);
             this.coverage.Add(TestCoverage.F_sqr);
@@ -563,13 +572,15 @@ namespace Tests {
             this.Run = _Run;
 
             this.feature.Add(TestCoverage.Test_All);
-            this.feature.Add(TestCoverage.Curry2);
+            this.feature.Add(TestCoverage.Curry);
+            this.feature.Add(TestCoverage.Curry_curry2);
 
             this.coverage.Add(TestCoverage.F);
             this.coverage.Add(TestCoverage.F_add);
             this.coverage.Add(TestCoverage.F_add_int);
             this.coverage.Add(TestCoverage.F_equ_int);
-            this.coverage.Add(TestCoverage.Curry2);
+            this.coverage.Add(TestCoverage.Curry);
+            this.coverage.Add(TestCoverage.Curry_curry2);
         }
     }
 
@@ -583,7 +594,7 @@ namespace Tests {
             bool success = true;
             Func<char, string, string> intersperse = (c, s) => {
                 IEnumerable<char> seq = F.chars(s);
-                string result = F<char>.reduce<string>(F<char>.rest(seq), (st, ch) => st + c + ch, (F<char>.toString(F<char>.first(seq))));
+                string result = F<char>.reduce<string>(F<char>.rest(seq), (st, ch) => st + c + ch, (Functional.Utility.Converter.toString(F<char>.first(seq))));
                 return result;
             };
             Func<string, string> swedish = (s) => {

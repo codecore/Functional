@@ -6,8 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Functional.Contracts;
 using Functional.Implementation;
+using Functional.Test;
 
-using TestContracts;
+using Test.Contracts;
 using Tests;
 namespace Tests {
     [Export(typeof(ISyncTestCase))]

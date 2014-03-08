@@ -8,7 +8,7 @@ using System.ComponentModel.Composition;
 using Functional.Implementation;
 using Tests;
 
-using TestContracts;
+using Test.Contracts;
 namespace TestHarness
 {
     public interface ITestHarness {

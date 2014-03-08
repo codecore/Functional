@@ -5,9 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Functional.Contracts;
-using Functional.Implementation;
+using Functional.Utility;
+using Functional.Test;
 
-using TestContracts;
+using Test.Contracts;
 using Tests;
 namespace Tests {
     [Export(typeof(IAsyncTestCase))]
@@ -63,7 +64,6 @@ namespace Tests {
         public async Task<bool> RunAsync() {
             this.logger = new LoggerCONSOLE();
             IDictionary<string, string> config = new Dictionary<string, string>();
-
             await this.logger.ConfigureAsync(config);
             await this.logger.LogAsync("log this line");
             this.dispose();
@@ -105,13 +105,13 @@ namespace Tests {
             this.logger = new LoggerFILE();
             IDictionary<string, string> config = new Dictionary<string, string>();
             config.Add("logfile",filename);
-            Utility.DeleteFile(filename);
-            result = result && (false == Utility.FileExists(filename));
+            FileUtility.DeleteFile(filename);
+            result = result && (false == FileUtility.FileExists(filename));
             await this.logger.ConfigureAsync(config);
             await this.logger.LogAsync("log this line");
             this.dispose();
-            result = result && Utility.FileExists(filename);
-            result = result && (18 == Utility.FileLength(filename));
+            result = result && FileUtility.FileExists(filename);
+            result = result && (18 == FileUtility.FileLength(filename));
             return result;
         }
         private IList<int> coverage = new List<int>();

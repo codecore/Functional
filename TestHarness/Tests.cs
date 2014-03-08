@@ -11,7 +11,9 @@ using Functional.Contracts;
 using Functional.Implementation;
 using Functional.Graph;
 
-using TestContracts;
+using Functional.Utility;
+
+using Test.Contracts;
 namespace Tests {
     public interface ITestSuite {
         void Initialize();

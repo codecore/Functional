@@ -3,14 +3,14 @@ using System.Threading.Tasks;
 using Functional.Implementation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using TestContracts;
+using Test.Contracts;
 using Tests;
 namespace UnitTests.Tests {
     [TestClass]
     public class F_T {
         [TestMethod]
-        public void test_items() {
-            ISyncTestCase test = new test_items();
+        public void test_dictionary_extract_values() {
+            ISyncTestCase test = new test_dictionary_extract_values();
             bool result = test.Run();
             Assert.IsTrue(result);
         }

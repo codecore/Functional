@@ -107,4 +107,13 @@ namespace Functional.Language.Contract {
         ILexerState NextState(CharKind ck);
         ILexerState DefaultNextState { set; }
     }
+
+
+    public interface IAutoCompleteItem {
+        string Value { get; set; }
+    }
+    public interface IAutoComplete {
+        IEnumerable<IAutoCompleteItem> Items { get; }
+        void AddItem(IAutoCompleteItem item);
+    }
 }

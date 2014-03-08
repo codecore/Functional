@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Functional.Implementation;
-using TestContracts;
+using Test.Contracts;
 using Tests;
 namespace UnitTests.Tests {
     [TestClass]
@@ -22,6 +22,18 @@ namespace UnitTests.Tests {
         [TestMethod]
         public void gps_nmea_parse_gpgsa() {
             ISyncTestCase test = new gps_nmea_parse_gpgsa();
+            bool result = test.Run();
+            Assert.IsTrue(result);
+        }
+        [TestMethod]
+        public void gps_nmea_parse_gpvtg() {
+            ISyncTestCase test = new gps_nmea_parse_gpvtg();
+            bool result = test.Run();
+            Assert.IsTrue(result);
+        }
+        [TestMethod]
+        public void gps_nmea_parse_gpgsv() {
+            ISyncTestCase test = new gps_nmea_parse_gpgsv();
             bool result = test.Run();
             Assert.IsTrue(result);
         }

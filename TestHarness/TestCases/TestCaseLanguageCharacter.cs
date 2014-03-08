@@ -8,8 +8,9 @@ using Functional.Contracts;
 using Functional.Implementation;
 using Functional.Language.Contract;
 using Functional.Language.Implimentation;
+using Functional.Test;
 
-using TestContracts;
+using Test.Contracts;
 using Tests;
 namespace Tests {
     [Export(typeof(ISyncTestCase))]

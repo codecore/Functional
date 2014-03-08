@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Functional.Implementation;
 
-using TestContracts;
+using Test.Contracts;
 using Tests;
 namespace UnitTests.Tests {
     [TestClass]

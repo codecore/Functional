@@ -6,13 +6,14 @@ using System.Text;
 using System.Threading.Tasks;
 using Functional.Contracts;
 using Functional.Implementation;
+using Functional.Test;
 
-using TestContracts;
+using Test.Contracts;
 using Tests;
 namespace Tests {
     [Export(typeof(ISyncTestCase))]
     public class neq_bool : ISyncTestCase {
-        private const string _Name = "neq bool,F_neq_bool";
+        private const string _Name = "neq bool";
         private const string _Description = "F.neq_bool";
         public string TestFile { get { return "TestCaseNeq.cs"; } }
         public Func<bool> Run { get; private set; }

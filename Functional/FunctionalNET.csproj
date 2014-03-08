@@ -16,22 +16,22 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\bin\lib\net45\</OutputPath>
+    <OutputPath>..\bin\</OutputPath>
     <DefineConstants>TRACE;DEBUG;NET;ASYNC</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>3</WarningLevel>
-    <DocumentationFile>..\bin\lib\net45\FunctionalNET.XML</DocumentationFile>
+    <DocumentationFile>..\bin\FunctionalNET.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\bin\lib\net45\</OutputPath>
+    <OutputPath>..\bin\</OutputPath>
     <DefineConstants>NET;ASYNC;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>3</WarningLevel>
     <FileAlignment>1024</FileAlignment>
     <BaseAddress>8388608</BaseAddress>
-    <DocumentationFile>..\bin\lib\net45\FunctionalNET.XML</DocumentationFile>
+    <DocumentationFile>..\bin\FunctionalNET.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
@@ -44,20 +44,70 @@
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="TestContracts, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\bin\TestContracts.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <None Include="FunctionalNet.key.pfx" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Exstensible.cs" />
+    <Compile Include="Implementation\Add.cs" />
+    <Compile Include="Implementation\All.cs" />
+    <Compile Include="Implementation\Always.cs" />
+    <Compile Include="Implementation\Any.cs" />
+    <Compile Include="Implementation\Bool.cs" />
+    <Compile Include="Implementation\Bool_and.cs" />
+    <Compile Include="Implementation\Bool_or.cs" />
+    <Compile Include="Implementation\Chain.cs" />
+    <Compile Include="Implementation\Clamp.cs" />
+    <Compile Include="Implementation\Close.cs" />
+    <Compile Include="Implementation\Collection.cs" />
+    <Compile Include="Implementation\Combination.cs" />
+    <Compile Include="Implementation\Compare.cs" />
+    <Compile Include="Implementation\Compliment.cs" />
+    <Compile Include="Implementation\Curry.cs" />
+    <Compile Include="Implementation\Dictionary.cs" />
+    <Compile Include="Implementation\DoNothing.cs" />
     <Compile Include="Functional.cs" />
     <Compile Include="Graph.cs" />
     <Compile Include="IFunctional.cs" />
     <Compile Include="IGraph.cs" />
+    <Compile Include="Implementation\Each.cs" />
+    <Compile Include="Implementation\Equ.cs" />
+    <Compile Include="Implementation\Find.cs" />
+    <Compile Include="Implementation\First.cs" />
+    <Compile Include="Implementation\Flatten.cs" />
+    <Compile Include="Implementation\Forever.cs" />
+    <Compile Include="Implementation\Func.cs" />
+    <Compile Include="Implementation\Gt.cs" />
+    <Compile Include="Implementation\Gte.cs" />
+    <Compile Include="Implementation\Identity.cs" />
+    <Compile Include="Implementation\Inc.cs" />
+    <Compile Include="Implementation\Infinite.cs" />
+    <Compile Include="Implementation\Lt.cs" />
+    <Compile Include="Implementation\Lte.cs" />
+    <Compile Include="Implementation\Map.cs" />
+    <Compile Include="Implementation\Max.cs" />
+    <Compile Include="Implementation\Min.cs" />
+    <Compile Include="Implementation\Mult.cs" />
+    <Compile Include="Implementation\Neg.cs" />
+    <Compile Include="Implementation\Neq.cs" />
+    <Compile Include="Implementation\Random.cs" />
+    <Compile Include="Implementation\Range.cs" />
+    <Compile Include="Implementation\Reduce.cs" />
+    <Compile Include="Implementation\Rest.cs" />
+    <Compile Include="Implementation\Same.cs" />
+    <Compile Include="Implementation\Sequence.cs" />
+    <Compile Include="Implementation\Sort.cs" />
+    <Compile Include="Implementation\Sqr.cs" />
+    <Compile Include="Implementation\Sqrt.cs" />
+    <Compile Include="Implementation\Sub.cs" />
+    <Compile Include="Implementation\Task.cs" />
+    <Compile Include="Implementation\Transform.cs" />
     <Compile Include="Language\Character.cs" />
     <Compile Include="Language\CharacterStream.cs" />
     <Compile Include="Language\CodeDocument.cs" />
@@ -73,8 +123,23 @@
     <Compile Include="Language\Token.cs" />
     <Compile Include="Language\TokenStream.cs" />
     <Compile Include="MemoryManager.cs" />
-    <Compile Include="NMEA.cs" />
+    <Compile Include="GPS\NMEA.cs" />
+    <Compile Include="Test\TestCoverageAttribute.cs" />
+    <Compile Include="Utility\Comparer.cs" />
+    <Compile Include="Utility\Converter.cs" />
+    <Compile Include="Utility\Default.cs" />
+    <Compile Include="Utility\Exstensible.cs" />
+    <Compile Include="Utility\FileUtility.cs" />
+    <Compile Include="Utility\Listener.cs" />
+    <Compile Include="Utility\Logger.cs" />
+    <Compile Include="Utility\Pair.cs" />
+    <Compile Include="Utility\ServiceProvider.cs" />
+    <Compile Include="Utility\Singleton.cs" />
+    <Compile Include="Utility\Something.cs" />
+    <Compile Include="Utility\TextFile.cs" />
+    <Compile Include="Utility\Validate.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

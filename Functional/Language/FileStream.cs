@@ -5,9 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.Composition;
+
 using Functional.Implementation;
 using Functional.Language.Contract;
 using Functional.Language.Implimentation;
+
+using Functional.Utility;
+
 namespace Functional.Language.Implimentation {
     [Export(typeof(IInputStream))]
     public class InputStreamMock : IInputStream {
@@ -36,7 +40,7 @@ namespace Functional.Language.Implimentation {
         public InputStreamKind Kind { get { return InputStreamKind.File; } }
         public async Task Initialize(string filename) {
             if (String.IsNullOrEmpty(filename)) throw new ArgumentException("filename must be valid");
-            if (Utility.FileExists(filename)) {
+            if (FileUtility.FileExists(filename)) {
                 this.reader = new StreamReader(filename, Encoding.Unicode, true);
             } else throw new ArgumentException(String.Format("file {%0} does not exist ", filename));
             await Task.Delay(0); // quit bitching about no awaits in async method

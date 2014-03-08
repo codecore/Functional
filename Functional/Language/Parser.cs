@@ -472,4 +472,21 @@ namespace Functional.Language.Implimentation {
             }
         }
     }
+    public class Parser {
+
+    }
+    public class AutoComplete : IAutoComplete {
+        private IList<IAutoCompleteItem> items = new List<IAutoCompleteItem>();
+        private object lockObject = new object();
+        public IEnumerable<IAutoCompleteItem> Items { get { return this.items; } }
+        public void AddItem(IAutoCompleteItem item) {
+            lock (this.lockObject) {
+                if (!this.items.Contains(item)) this.items.Add(item);
+            }
+        }
+    }
+    public class AutoCompleteItem : IAutoCompleteItem {
+
+        public string Value { get; set; }
+    }
 }

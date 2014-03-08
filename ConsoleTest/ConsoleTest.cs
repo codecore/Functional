@@ -4,7 +4,12 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Functional.Implementation;
 using TestHarness;
-using TestContracts;
+using Test.Contracts;
+
+using Functional.Contracts;
+using Functional.Utility;
+using Functional.Test;
+
 namespace ConsoleTest
 {
 
@@ -20,11 +25,11 @@ namespace ConsoleTest
                 Action<string> output = text => Console.WriteLine(text);
                 Func<string, bool, string> format = (text, result) => String.Format(text, result);
 
-                Console.WriteLine("getting the testcases");
+                output.Invoke("getting the testcases");
                 
-                Console.WriteLine("composed");
+                output.Invoke("composed");
 
-                RunSelectedTests(testharness.SyncTests, testharness.AsyncTests, TestCoverage.Lang_Parser_Lexer_Token_LiteralFloat_Negative);
+                RunSelectedTests(testharness.SyncTests, testharness.AsyncTests, TestCoverage.Lang_Editor_AutoComplete_Add_Item);
 
             }
 

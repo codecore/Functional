@@ -6,10 +6,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Functional.Contracts;
 using Functional.Implementation;
+using Functional.Test;
+
 using GPS;
 using Tests;
 
-using TestContracts;
+using Test.Contracts;
 namespace Tests {
 
     /****************************************************/
@@ -495,6 +497,312 @@ namespace Tests {
             this.coverage.Add(TestCoverage.F);
             this.coverage.Add(TestCoverage.F_close);
             this.coverage.Add(TestCoverage.F_close_float);
+        }
+    }
+
+    [Export(typeof(ISyncTestCase))]
+    public class gps_nmea_parse_gpvtg : ISyncTestCase {
+        private const string _Name = "gps_nmea_parse_gpvtg";
+        private const string _Description = "verify that the NMEAParser can parse NMEA GPRMC strings";
+        public string TestFile { get { return "TestCaseGPS.cs"; } }
+        public Func<bool> Run { get; private set; }
+        private static bool _Run() {
+            bool result = true;
+            string NMEA_String = String.Empty;
+
+            IGPS_GPVTG x = NMEAHelper.CreateVTG();
+
+            NMEA_String = "$GPVTG,330.24,T,,M,0.18,N,0.3,K,A*01";
+            x.Parse(NMEA_String);
+            result = result && (x.CheckSum == "01");
+            result = result && (x.TrueCourseValid == true);
+            result = result && (F.close_float(x.TrueTrackMadeGood,330.24f));
+            result = result && (x.MagneticCourseValid == false);
+            result = result && (x.KnotsValid == true);
+            result = result && (F.close_float(x.Knots,0.18f));
+            result = result && (x.KPHValid == true);
+            result = result && (F.close_float(x.KilometersPerHour,0.3f));
+            // don't know about the "A". Ignore it
+            result = result && x.Checked;
+            return result;
+        }
+        private IList<int> coverage = new List<int>();
+        private IList<int> feature = new List<int>();
+        public int ID { get; private set; }
+        public string Name { get; private set; }
+        public string Description { get; private set; }
+
+        public IEnumerable<int> Coverage { get { return this.coverage; } }
+        public IEnumerable<int> Feature { get { return this.feature; } }
+        public gps_nmea_parse_gpvtg() {
+            this.ID = 0;
+            this.Name = _Name;
+            this.Description = _Description;
+            this.Run = _Run;
+
+            this.feature.Add(TestCoverage.Test_All);
+            this.feature.Add(TestCoverage.GPS);
+            this.feature.Add(TestCoverage.GPS_NMEA);
+            this.feature.Add(TestCoverage.GPS_NMEA_Parse);
+            this.feature.Add(TestCoverage.GPS_NMEA_Parse_GPVTG);
+
+            this.coverage.Add(TestCoverage.GPS);
+            this.coverage.Add(TestCoverage.GPS_NMEA);
+            this.coverage.Add(TestCoverage.GPS_NMEA_Parse);
+            this.coverage.Add(TestCoverage.GPS_NMEA_Parse_GPVTG);
+            this.coverage.Add(TestCoverage.F);
+            this.coverage.Add(TestCoverage.F_close);
+            this.coverage.Add(TestCoverage.F_close_float);
+        }
+    }
+
+    [Export(typeof(ISyncTestCase))]
+    public class gps_nmea_parse_gpgsv : ISyncTestCase {
+        private const string _Name = "gps_nmea_parse_gpgvs";
+        private const string _Description = "verify that tge NMEAParser can parse NMEA GPGSV strings";
+        public string TestFile { get { return "TestCaseGPS.cs"; } }
+        public Func<bool> Run { get; private set; }
+
+        private static bool _Run() { return RunExampleOne() && RunExampleTwo(); }
+        private static bool RunExampleOne() {
+            bool result = true;
+            string[] NMEA_Strings = new string[3];
+            //
+            // 
+            // from http://www.gpsinformation.org/dale/nmea.htmI
+            IGPS_GPGSV x = NMEAHelper.CreateGSV();
+            NMEA_Strings[0] = "$GPGSV,3,1,11,03,03,111,00,04,15,270,00,06,01,010,00,13,06,292,00*74";
+            NMEA_Strings[1] = "$GPGSV,3,2,11,14,25,170,00,16,57,208,39,18,67,296,40,19,40,246,00*74";
+            NMEA_Strings[2] = "$GPGSV,3,3,11,22,42,067,42,24,14,311,43,27,05,244,00,,,,*4D";
+            x.Parse(NMEA_Strings);
+
+            result = result && (x.Count == 11);
+            result = result && (x.CheckSum.Count() == 3);
+            if (x.CheckSum.Count() == 3) {
+                result = result && (x.CheckSum[0] == "74");
+                result = result && (x.CheckSum[1] == "74");
+                result = result && (x.CheckSum[2] == "4D");
+            }
+            int current = 0;
+            foreach(ISateliteView sateliteView in x.Satelites) {
+                switch(current) {
+                    case 0:  // $GPGSV,3,1,11,[03,03,111,00],04,15,270,00,06,01,010,00,13,06,292,00*74
+                        result = result && (sateliteView.PRN == 3);
+                        result = result && (sateliteView.Elevation == 3); // 3 degrees above the horivon
+                        result = result && (sateliteView.Azimuth == 111); // from true North
+                        result = result && (sateliteView.SNR == 0);
+                        result = result && (sateliteView.Tracking == true);
+                        break;
+                    case 1: // $GPGSV,3,1,11,03,03,111,00,[04,15,270,00],06,01,010,00,13,06,292,00*74
+                        result = result && (sateliteView.PRN == 4);
+                        result = result && (sateliteView.Elevation == 15);
+                        result = result && (sateliteView.Azimuth == 270);
+                        result = result && (sateliteView.SNR == 0);
+                        result = result && (sateliteView.Tracking == true);
+                        break;
+                    case 2: // $GPGSV,3,1,11,03,03,111,00,04,15,270,00,[06,01,010,00],13,06,292,00*74
+                        result = result && (sateliteView.PRN == 6);
+                        result = result && (sateliteView.Elevation == 1);
+                        result = result && (sateliteView.Azimuth == 10);
+                        result = result && (sateliteView.SNR == 0);
+                        result = result && (sateliteView.Tracking == true);
+                        break;
+                    case 3: // $GPGSV,3,1,11,03,03,111,00,04,15,270,00,06,01,010,00,[13,06,292,00]*74
+                        result = result && (sateliteView.PRN == 13);
+                        result = result && (sateliteView.Elevation == 6); // lots of low satelites
+                        result = result && (sateliteView.Azimuth == 292);
+                        result = result && (sateliteView.SNR == 0);
+                        result = result && (sateliteView.Tracking == true);
+                        break;
+                    case 4: // $GPGSV,3,2,11,[14,25,170,00],16,57,208,39,18,67,296,40,19,40,246,00*74
+                        result = result && (sateliteView.PRN == 14);
+                        result = result && (sateliteView.Elevation == 25);
+                        result = result && (sateliteView.Azimuth == 170);
+                        result = result && (sateliteView.SNR == 0);  // noisy
+                        result = result && (sateliteView.Tracking == true);
+                        break;
+                    case 5: // $GPGSV,3,2,11,14,25,170,00,[16,57,208,39],18,67,296,40,19,40,246,00*74
+                        result = result && (sateliteView.PRN == 16);
+                        result = result && (sateliteView.Elevation == 57);
+                        result = result && (sateliteView.Azimuth == 208);
+                        result = result && (sateliteView.SNR == 39); // stronger signal
+                        result = result && (sateliteView.Tracking == true);
+                        break;
+                    case 6: // $GPGSV,3,2,11,14,25,170,00,16,57,208,39,[18,67,296,40],19,40,246,00*74
+                        result = result && (sateliteView.PRN == 18);
+                        result = result && (sateliteView.Elevation == 67);
+                        result = result && (sateliteView.Azimuth == 296);
+                        result = result && (sateliteView.SNR == 40);
+                        result = result && (sateliteView.Tracking == true);
+                        break;
+                    case 7: // $GPGSV,3,2,11,14,25,170,00,16,57,208,39,18,67,296,40,[19,40,246,00]*74
+                        result = result && (sateliteView.PRN == 19);
+                        result = result && (sateliteView.Elevation == 40); // pretty high in the sky
+                        result = result && (sateliteView.Azimuth == 246);
+                        result = result && (sateliteView.SNR == 0); // a bit noisy for being as high as it is
+                        result = result && (sateliteView.Tracking == true);
+                        break;
+                    case 8: // $GPGSV,3,3,11,[22,42,067,42],24,14,311,43,27,05,244,00,,,,*4D
+                        result = result && (sateliteView.PRN == 22);
+                        result = result && (sateliteView.Elevation == 42);
+                        result = result && (sateliteView.Azimuth == 67);
+                        result = result && (sateliteView.SNR == 42);
+                        result = result && (sateliteView.Tracking == true);
+                        break;
+                    case 9: // $GPGSV,3,3,11,22,42,067,42,[24,14,311,43],27,05,244,00,,,,*4D
+                        result = result && (sateliteView.PRN == 24);
+                        result = result && (sateliteView.Elevation == 14);
+                        result = result && (sateliteView.Azimuth == 311);
+                        result = result && (sateliteView.SNR == 43);
+                        result = result && (sateliteView.Tracking == true);
+                        break;
+                    case 10: // $GPGSV,3,3,11,22,42,067,42,24,14,311,43,[27,05,244,00],,,,*4D
+                        result = result && (sateliteView.PRN == 27);
+                        result = result && (sateliteView.Elevation == 5);
+                        result = result && (sateliteView.Azimuth == 244);
+                        result = result && (sateliteView.SNR == 0);
+                        result = result && (sateliteView.Tracking == true);
+                        break;
+                    default:
+                        result = false; // there should only be 11
+                        break;
+                }
+                ++current;
+            }
+            return result;
+        }
+        private static bool RunExampleTwo() {
+            bool result = true;
+            string[] NMEA_Strings = new string[3];
+            IGPS_GPGSV x = NMEAHelper.CreateGSV();
+            // $GPGSV,3,1,12,17,72,064,,05,50,292,,27,44,303,,02,40,130,*71
+            // $GPGSV,3,2,12,04,31,153,35,28,30,090,33,15,17,242,31,12,15,284,*71
+            // $GPGSV,3,3,12,01,14,037,29,26,04,199,22,09,03,150,,20,02,069,*71
+            NMEA_Strings[0] = "$GPGSV,3,1,12,17,72,064,,05,50,292,,27,44,303,,02,40,130,*71";
+            NMEA_Strings[1] = "$GPGSV,3,2,12,04,31,153,35,28,30,090,33,15,17,242,31,12,15,284,*71";
+            NMEA_Strings[2] = "$GPGSV,3,3,12,01,14,037,29,26,04,199,22,09,03,150,,20,02,069,*71";
+            x.Parse(NMEA_Strings);
+
+            result = result && (x.Count == 12);
+            result = result && (x.CheckSum.Count() == 3); // 3 sentences
+            if (x.CheckSum.Count() == 3) {
+                result = result && (x.CheckSum[0] == "71");
+                result = result && (x.CheckSum[1] == "71");
+                result = result && (x.CheckSum[2] == "71"); // strange
+            }
+            int current = 0;
+            foreach(ISateliteView sateliteView in x.Satelites) {
+                switch(current) {
+                    case 0:  // $GPGSV,3,1,12,[17,72,064,],05,50,292,,27,44,303,,02,40,130,*71
+                        result = result && (sateliteView.PRN == 17);
+                        result = result && (sateliteView.Elevation == 72); // 3 degrees above the horivon
+                        result = result && (sateliteView.Azimuth == 64); // from true North
+                        result = result && (sateliteView.Tracking == false);
+                        break;
+                    case 1: // $GPGSV,3,1,12,17,72,064,,[05,50,292,],27,44,303,,02,40,130,*71
+                        result = result && (sateliteView.PRN == 5);
+                        result = result && (sateliteView.Elevation == 50);
+                        result = result && (sateliteView.Azimuth == 292);
+                        result = result && (sateliteView.Tracking == false);
+                        break;
+                    case 2: // $GPGSV,3,1,12,17,72,064,,05,50,292,,[27,44,303,],02,40,130,*71
+                        result = result && (sateliteView.PRN == 27);
+                        result = result && (sateliteView.Elevation == 44);
+                        result = result && (sateliteView.Azimuth == 303);
+                        result = result && (sateliteView.Tracking == false);
+                        break;
+                    case 3: // $GPGSV,3,1,12,17,72,064,,05,50,292,,27,44,303,,[02,40,130,]*71
+                        result = result && (sateliteView.PRN == 2);
+                        result = result && (sateliteView.Elevation == 40);
+                        result = result && (sateliteView.Azimuth == 130);
+                        result = result && (sateliteView.Tracking == false);
+                        break;
+                    case 4: // $GPGSV,3,2,12,[04,31,153,35],28,30,090,33,15,17,242,31,12,15,284,*71
+                        result = result && (sateliteView.PRN == 4);
+                        result = result && (sateliteView.Elevation == 31);
+                        result = result && (sateliteView.Azimuth == 153);
+                        result = result && (sateliteView.SNR == 35);
+                        result = result && (sateliteView.Tracking == true); // finally tracking some of these birds
+                        break;
+                    case 5: // $GPGSV,3,2,12,04,31,153,35,[28,30,090,33],15,17,242,31,12,15,284,*71
+                        result = result && (sateliteView.PRN == 28);
+                        result = result && (sateliteView.Elevation == 30);
+                        result = result && (sateliteView.Azimuth == 90);
+                        result = result && (sateliteView.SNR == 33);
+                        result = result && (sateliteView.Tracking == true);
+                        break;
+                    case 6: // $GPGSV,3,2,12,04,31,153,35,28,30,090,33,[15,17,242,31],12,15,284,*71
+                        result = result && (sateliteView.PRN == 15);
+                        result = result && (sateliteView.Elevation == 17);
+                        result = result && (sateliteView.Azimuth == 242);
+                        result = result && (sateliteView.SNR == 31);
+                        result = result && (sateliteView.Tracking == true);
+                        break;
+                    case 7: // $GPGSV,3,2,12,04,31,153,35,28,30,090,33,15,17,242,31,[12,15,284,]*71
+                        result = result && (sateliteView.PRN == 12);
+                        result = result && (sateliteView.Elevation == 15);
+                        result = result && (sateliteView.Azimuth == 284);
+                        result = result && (sateliteView.Tracking == false);
+                        break;
+                    case 8: // $GPGSV,3,3,12,[01,14,037,29],26,04,199,22,09,03,150,,20,02,069,*71
+                        result = result && (sateliteView.PRN == 1);  // bird 1!
+                        result = result && (sateliteView.Elevation == 14);
+                        result = result && (sateliteView.Azimuth == 37);
+                        result = result && (sateliteView.SNR == 29);
+                        result = result && (sateliteView.Tracking == true);
+                        break;
+                    case 9: // $GPGSV,3,3,12,01,14,037,29,[26,04,199,22],09,03,150,,20,02,069,*71
+                        result = result && (sateliteView.PRN == 26);
+                        result = result && (sateliteView.Elevation == 4);
+                        result = result && (sateliteView.Azimuth == 199);
+                        result = result && (sateliteView.SNR == 22);
+                        result = result && (sateliteView.Tracking == true);
+                        break;
+                    case 10: // $GPGSV,3,3,12,01,14,037,29,26,04,199,22,[09,03,150,],20,02,069,*71
+                        result = result && (sateliteView.PRN == 9);
+                        result = result && (sateliteView.Elevation == 3);
+                        result = result && (sateliteView.Azimuth == 150);
+                        result = result && (sateliteView.Tracking == false);
+                        break;
+                    case 11: // $GPGSV,3,3,12,01,14,037,29,26,04,199,22,09,03,150,,[20,02,069,]*71
+                        result = result && (sateliteView.PRN == 20);
+                        result = result && (sateliteView.Elevation == 2); // low low bird
+                        result = result && (sateliteView.Azimuth == 69);
+                        result = result && (sateliteView.Tracking == false);
+                        break;
+                    default:
+                        result = false; // there should only be 12
+                        break;
+                }
+                ++current;
+            }
+            return result;
+        }
+        private IList<int> coverage = new List<int>();
+        private IList<int> feature = new List<int>();
+        public int ID { get; private set; }
+        public string Name { get; private set; }
+        public string Description { get; private set; }
+
+        public IEnumerable<int> Coverage { get { return this.coverage; } }
+        public IEnumerable<int> Feature { get { return this.feature; } }
+        public gps_nmea_parse_gpgsv() {
+            this.ID = 0;
+            this.Name = _Name;
+            this.Description = _Description;
+            this.Run = _Run;
+
+            this.feature.Add(TestCoverage.Test_All);
+            this.feature.Add(TestCoverage.GPS);
+            this.feature.Add(TestCoverage.GPS_NMEA);
+            this.feature.Add(TestCoverage.GPS_NMEA_Parse);
+            this.feature.Add(TestCoverage.GPS_NMEA_Parse_GPGSV);
+
+            this.coverage.Add(TestCoverage.GPS);
+            this.coverage.Add(TestCoverage.GPS_NMEA);
+            this.coverage.Add(TestCoverage.GPS_NMEA_Parse);
+            this.coverage.Add(TestCoverage.GPS_NMEA_Parse_GPGSV);
+
         }
     }
 }
