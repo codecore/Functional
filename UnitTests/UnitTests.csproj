@@ -87,6 +87,7 @@
     <Compile Include="Tests\TestLogger.cs" />
     <Compile Include="Tests\TestParserLexerTokens.cs" />
     <Compile Include="Tests\TestLanguageEditorAutoComplete.cs" />
+    <Compile Include="Tests\TestTuple.cs" />
     <Compile Include="UnitTestsAssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

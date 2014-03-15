@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+
 using Functional.Contracts;
 
 namespace Functional.Utility {
@@ -11,5 +13,15 @@ namespace Functional.Utility {
         public override int Compare(T x, T y) {
             return this.compare.Invoke(x, y);
         }
+    }
+    public class EqualityComparer<T> : IEqualityComparer<T> {
+        private Func<T, T, bool> compare = null;
+        public bool Equals(T t1, T t2) {
+            return this.compare(t1, t2);
+        }
+        public int GetHashCode(T t) { return t.GetHashCode(); } // where the value here?
+        private EqualityComparer() { }
+        private EqualityComparer(Func<T, T, bool> fn) { this.compare = fn; }
+        public static IEqualityComparer<T> Create(Func<T, T, bool> fn) { return new EqualityComparer<T>(fn); }
     }
 }

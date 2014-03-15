@@ -79,6 +79,7 @@
     <Compile Include="TestCases\TestCaseSort.cs" />
     <Compile Include="TestCases\TestCaseSqr.cs" />
     <Compile Include="TestCases\TestCaseSub.cs" />
+    <Compile Include="TestCases\TestCaseTuple.cs" />
     <Compile Include="TestCases\TestClassMemoryManager.cs" />
     <Compile Include="TestHarness.cs" />
     <Compile Include="TestHarnessAssemblyInfo.cs" />

@@ -53,6 +53,11 @@ namespace Functional.Contracts {
     public interface ICurry2<T, U> {
         Func<T,Func<U, U>> Create { get; }
     }
+    public interface IOption<T> { // inspired by F# Option
+        T Value { get; }
+        bool IsSome { get; }
+        bool IsNone { get; }
+    }
     public enum LoggerKind { Null, Console, File, HttpPost, UI }
     public interface ILogManager {
         IEnumerable<ILogger> Loggers { get; }
@@ -502,6 +507,53 @@ namespace Functional.Test {
         public const int Logger_Null             = 26010;
         public const int Logger_File             = 26020;
         public const int Logger_Console          = 26030;
+
+        public const int Option                  = 26100; // non-leaf
+        public const int Option_bind             = 26110;
+        public const int Option_count            = 26120;
+        public const int Option_exists           = 26130;
+        public const int Option_forall           = 26140;
+        public const int Option_get              = 26150;
+        public const int Option_iter             = 26160;
+        public const int Option_None             = 26170;
+        public const int Option_Some             = 26180;
+        public const int Option_toArray          = 26190;
+        public const int Option_toList           = 26200;
+
+        public const int Tuple                      = 27000; // non-leaf
+        public const int Tuple_A_B                  = 27010; // non-leaf
+        public const int Tuple_A_B_first            = 27011;   // covered
+        public const int Tuple_A_B_second           = 27012;   // covered
+        public const int Tuple_A_B_Extract          = 27013;   // covered
+        public const int Tuple_A_B_C                = 27020; // non-leaf
+        public const int Tuple_A_B_C_first          = 27021;   // covered
+        public const int Tuple_A_B_C_second         = 27022;   // covered
+        public const int Tuple_A_B_C_third          = 27023;   // covered
+        public const int Tuple_A_B_C_Extract        = 27024;   // covered
+        public const int Tuple_A_B_C_D              = 27030; // non-leaf
+        public const int Tuple_A_B_C_D_first        = 27031;   // covered
+        public const int Tuple_A_B_C_D_second       = 27032;   // covered
+        public const int Tuple_A_B_C_D_third        = 27033;   // covered
+        public const int Tuple_A_B_C_D_fourth       = 27034;   // covered
+        public const int Tuple_A_B_C_D_Extract      = 27035;   // covered
+        public const int Tuple_A_B_C_D_E            = 27040; // non-leaf
+        public const int Tuple_A_B_C_D_E_first      = 27041;   // covered
+        public const int Tuple_A_B_C_D_E_second     = 27042;   // covered
+        public const int Tuple_A_B_C_D_E_third      = 27043;   // covered
+        public const int Tuple_A_B_C_D_E_fourth     = 27044;   // covered
+        public const int Tuple_A_B_C_D_E_fifth      = 27045;   // covered
+        public const int Tuple_A_B_C_D_E_Extract    = 27046;   // covered
+        public const int Tuple_A_B_C_D_E_F          = 27050; // non-leaf
+        public const int Tuple_A_B_C_D_E_F_first    = 27051;   // covered
+        public const int Tuple_A_B_C_D_E_F_second   = 27052;   // covered
+        public const int Tuple_A_B_C_D_E_F_third    = 27053;   // covered
+        public const int Tuple_A_B_C_D_E_F_fourth   = 27054;   // covered
+        public const int Tuple_A_B_C_D_E_F_fifth    = 27055;   // covered
+        public const int Tuple_A_B_C_D_E_F_sixth    = 27056;   // covered
+        public const int Tuple_A_B_C_D_E_F_Extract  = 27057;   // covered
+
+
+
 
         public const int Utility                 = 28000;                  // non-leaf
         public const int Utility_char_to_digit   = 28010;

@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Functional.Language.Contract;
+using Functional.Language.Contract.Parser;
+using Functional.Language.Contract.Editor;
 using Functional.Language.Implimentation;
 
 namespace Functional.Language.Implimentation {

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using Functional.Test;
 
@@ -28,5 +29,19 @@ namespace Functional.Implementation {
         public static void list_add_item(IList<T> lst, T item) {
             lst.Add(item);
         }
+        public static void list_add_non_duplicate_item(IList<T> lst, T item, Func<T, T, bool> eq = null) {
+            bool contains = false;
+            if (null != eq) {
+                IEqualityComparer<T> equality_comparer = Functional.Utility.EqualityComparer<T>.Create(eq);
+                contains = lst.Contains(item, equality_comparer);
+            } else {
+                contains = lst.Contains(item);
+            }
+            if (!contains) lst.Add(item);
+        }
+        public static void list_add_non_duplicate_item(IList<T> lst, T item, IEqualityComparer<T> equality_comparer) {
+            if (!lst.Contains(item, equality_comparer)) lst.Add(item);
+        }
     }
+
 }
