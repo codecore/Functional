@@ -29,7 +29,7 @@ namespace ConsoleTest
                 
                 output.Invoke("composed");
 
-                RunSelectedTests(testharness.SyncTests, testharness.AsyncTests, TestCoverage.Lang_Editor_AutoComplete_Add_Item);
+                RunSelectedTests(testharness.SyncTests, testharness.AsyncTests, TestCoverage.F_T_sort_merge);
 
             }
 
