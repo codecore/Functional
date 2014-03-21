@@ -53,7 +53,7 @@ namespace Functional.Contracts {
     public interface ICurry2<T, U> {
         Func<T,Func<U, U>> Create { get; }
     }
-    public interface IOption<T> { // inspired by F# Option
+    public interface IOption<T> : IEnumerable<T> { // inspired by F# Option
         T Value { get; }
         bool IsSome { get; }
         bool IsNone { get; }
@@ -387,6 +387,7 @@ namespace Functional.Test {
         public const int F_T_sort_naked          = 12510;     // covered
         public const int F_T_sort_order_by       = 12520;  // covered
         public const int F_T_sort_bubble         = 12530;
+        public const int F_T_sort_merge          = 12540;
 
         public const int F_T_task                = 12700;  // non-leaf
         public const int F_T_task_task           = 12710;
