@@ -19,5 +19,11 @@ namespace UnitTests.Tests {
             bool result = test.Run();
             Assert.IsTrue(result);
         }
+        [TestMethod]
+        public void test_merge_sort() {
+            ISyncTestCase test = new test_sort_merge();
+            bool result = test.Run();
+            Assert.IsTrue(result);
+        }
     }
 }
