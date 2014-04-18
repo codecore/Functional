@@ -17,13 +17,8 @@ namespace Functional.Language.Contract.Parser {
         CharKind Kind { get; set; }
         ICharacter Next { get; set; }
     }
-    public interface IGetChar {
-        void Initialize(IInputStream i);
-        Task<char> Get();
-        bool EOF { get; }
-    }
     public interface ICharacterStream {
-        void Initialize(IGetChar g);
+        void Initialize(IInputStream stream);
         Task<ICharacter> Get();         // get the next character n the stream
         void Push(ICharacter c);  // push the character back to the stream
         void Put(ICharacter c);   // Unknown YODO
@@ -35,25 +30,39 @@ namespace Functional.Language.Contract.Parser {
         TokenKind Kind { get; set; }
         IToken Next { get; set; }
     }
+    public interface IFalseToken {
+        string Info { get; set; }
+        TokenKind Kind { get; set; }
+    }
     public interface ITokenStream {
         IToken Get();
         void Push(IToken t);
         void Put(IToken t);
         void Clear();
     }
-    public interface ILexer {
+    public interface ITokenizer {
         int StartOfCurrentToken { get; }
         int Line { get; }
         int Position { get; }
         string Filename { get; }
         void Initialize();
-        Task Parse(ITokenStream tokenStream, ICharacterStream characterStream, string filename, int startLine, int startPosition);
+        Task Tokenize(ITokenStream tokenStream, ICharacterStream characterStream, string filename, int startLine, int startPosition);
     }
-    public interface ILexerState {
+    public interface ITokenizerState {
         string Name { get; }
-        void AddTransitionState(CharKind c, ILexerState next);
+        void AddTransitionState(CharKind c, ITokenizerState next);
         Func<ICharacter, ITokenStream, Queue<char>, bool> Handle { get; set; }
-        ILexerState NextState(CharKind ck);
-        ILexerState DefaultNextState { set; }
+        ITokenizerState NextState(CharKind ck);
+        ITokenizerState DefaultNextState { set; }
+    }
+    public interface IParserContext { 
+        // this has current known type
+        IEnumerable<Type> KnownTypes { get; }
+        void Add(Type type);
+    }
+    public interface IParser : IDisposable {
+        IParserContext Context { get; }
+        Task Initialize();
+        Task<ITokenStream> Tokenize();
     }
 }

@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>FunctionalNET</RootNamespace>
     <AssemblyName>FunctionalNET</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -55,8 +56,11 @@
     <None Include="FunctionalNet.key.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Implementation\Count.cs" />
+    <Compile Include="Implementation\Extract.cs" />
+    <Compile Include="Implementation\Iterate_While.cs" />
+    <Compile Include="Implementation\Limit.cs" />
     <Compile Include="Implementation\Option.cs" />
-    <Compile Include="Implementation\Tuple.cs" />
     <Compile Include="Language\Contract.Core.cs" />
     <Compile Include="Implementation\Add.cs" />
     <Compile Include="Implementation\All.cs" />
@@ -115,19 +119,27 @@
     <Compile Include="Language\Contract.Parser.cs" />
     <Compile Include="Language\Core\Evaluator\Context.cs" />
     <Compile Include="Language\Core\Evaluator\Evaluator.cs" />
+    <Compile Include="Language\Core\Expressions\DeclareExpression.cs" />
+    <Compile Include="Language\Core\Expressions\Bindings\FunctionBinder.cs" />
+    <Compile Include="Language\Core\Expressions\CommentExpression.cs" />
     <Compile Include="Language\Core\Expressions\Expression.cs" />
     <Compile Include="Language\Core\Expressions\FunctionExpression.cs" />
     <Compile Include="Language\Core\Expressions\LiteralExpression.cs" />
+    <Compile Include="Language\Language.cs" />
     <Compile Include="Language\Parser\Character.cs" />
     <Compile Include="Language\Parser\CharacterStream.cs" />
     <Compile Include="Language\Editor\CodeDocument.cs" />
     <Compile Include="Language\Editor\CodeLine.cs" />
     <Compile Include="Language\Editor\Editor.cs" />
+    <Compile Include="Language\Parser\Expression\CommentExpressionParser.cs" />
+    <Compile Include="Language\Parser\Expression\DeclareExpressionParser.cs" />
     <Compile Include="Language\Parser\FileStream.cs" />
-    <Compile Include="Language\Parser\GetCharacter.cs" />
     <Compile Include="Language\Parser\LanguageService.cs" />
     <Compile Include="Language\Contracts.cs" />
-    <Compile Include="Language\Parser\LexerState.cs" />
+    <Compile Include="Language\Parser\ParseError.cs" />
+    <Compile Include="Language\Parser\ParserContext.cs" />
+    <Compile Include="Language\Parser\Tokenizer.cs" />
+    <Compile Include="Language\Parser\TokenizerrState.cs" />
     <Compile Include="Language\Parser\Location.cs" />
     <Compile Include="Language\Parser\Parser.cs" />
     <Compile Include="Language\Parser\Token.cs" />
@@ -137,6 +149,7 @@
     <Compile Include="Test\TestCoverageAttribute.cs" />
     <Compile Include="Utility\Comparer.cs" />
     <Compile Include="Utility\Converter.cs" />
+    <Compile Include="Utility\Crc16.cs" />
     <Compile Include="Utility\Default.cs" />
     <Compile Include="Utility\Exstensible.cs" />
     <Compile Include="Utility\FileUtility.cs" />
@@ -146,6 +159,7 @@
     <Compile Include="Utility\ServiceProvider.cs" />
     <Compile Include="Utility\Singleton.cs" />
     <Compile Include="Utility\Something.cs" />
+    <Compile Include="Utility\TaskManagement.cs" />
     <Compile Include="Utility\TextFile.cs" />
     <Compile Include="Utility\Validate.cs" />
   </ItemGroup>

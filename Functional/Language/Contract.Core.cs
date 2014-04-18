@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Functional.Language.Contract;
 
 namespace Functional.Language.Contract.Core {
+    public class NOOP : Object { }
     public interface IContext { } // the runtime state
     public interface IEvaluator {
         string LastError { get; }
@@ -18,7 +19,7 @@ namespace Functional.Language.Contract.Core {
     }
     public interface IExpression {
         Type BaseType { get; }
-        
+        IEnumerable<Functional.Language.Contract.Parser.IToken> Tokens { get; }
     }
     public interface IExpression<T> : IExpression {
         IExpression<T> Evaluate(IEvaluator ev, IContext context);
@@ -75,5 +76,22 @@ namespace Functional.Language.Contract.Core {
     public interface ITransformFunctionExpression<T, U> : IFunctionExpression<T, U> { }
     public interface ILiteralTransformFunctionExpression<T, U> : ITransformFunctionExpression<T, U> {
         IExpression Invoke(T t1);
+    }
+
+    public interface IParseError {
+        bool Error { get; set; }
+        string ErrorInfo { get; set; }
+    }
+
+    public interface IDecerator {
+    }
+
+    public interface IExpressionParser {
+        string Keyword { get; }
+        IExpression Parse(Functional.Language.Contract.Parser.IParser parser, Functional.Language.Contract.Parser.ITokenStream tokenParser,ref IParseError parseError);
+    }
+    public interface IDeclareExpressionParser : IExpressionParser {
+    }
+    public interface ICommentExpressionParser : IExpressionParser {
     }
 }

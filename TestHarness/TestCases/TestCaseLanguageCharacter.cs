@@ -22,63 +22,49 @@ namespace Tests {
         public Func<bool> Run { get; private set; }
         private static bool _Run() {
             bool result = true;
-            ICharacter ch = MemoryManager.New('a');
+            ICharacter ch = Character.Create('a');
             result = result && (ch.Info == 'a');
             result = result && (ch.Kind == CharKind.ALPHA);
-            MemoryManager.Delete(ch);
             
-            ch = MemoryManager.New('"');
+            ch = Character.Create('"');
             result = result && (ch.Kind == CharKind.QUOTE);
-            MemoryManager.Delete(ch);
 
-            ch = MemoryManager.New(' ');
+            ch = Character.Create(' ');
             result = result && (ch.Kind == CharKind.SPACE);
-            MemoryManager.Delete(ch);
 
             foreach (char x in F.chars("~?+=!@#$%^&*_><';:[]\\|/'`")) {
-                ch = MemoryManager.New(x);
+                ch = Character.Create(x);
                 result = result && (ch.Kind == CharKind.PUNCTUATION);
-                MemoryManager.Delete(ch);
             }
-            ch = MemoryManager.New('\n');
+            ch = Character.Create('\n');
             result = result && (ch.Kind == CharKind.CARRAGERETURN);
-            MemoryManager.Delete(ch);
-            ch = MemoryManager.New('\r');
+            ch = Character.Create('\r');
             result = result && (ch.Kind == CharKind.LINEFEED);
-            MemoryManager.Delete(ch);
             
-            ch = MemoryManager.New('.');
+            ch = Character.Create('.');
             result = result && (ch.Kind == CharKind.DOT);
-            MemoryManager.Delete(ch);
             
-            ch = MemoryManager.New(',');
+            ch = Character.Create(',');
             result = result && (ch.Kind == CharKind.COMMA);
-            MemoryManager.Delete(ch);
 
-            ch = MemoryManager.New('-');
+            ch = Character.Create('-');
             result = result && (ch.Kind == CharKind.DASH);
-            MemoryManager.Delete(ch);
 
-            ch = MemoryManager.New('(');
+            ch = Character.Create('(');
             result = result && (ch.Kind == CharKind.OPEN_PAREN);
-            MemoryManager.Delete(ch);
 
-            ch = MemoryManager.New(')');
+            ch = Character.Create(')');
             result = result && (ch.Kind == CharKind.CLOSE_PAREN);
-            MemoryManager.Delete(ch);
 
-            ch = MemoryManager.New('{');
+            ch = Character.Create('{');
             result = result && (ch.Kind == CharKind.OPEN_SQ);
-            MemoryManager.Delete(ch);
 
-            ch = MemoryManager.New('}');
+            ch = Character.Create('}');
             result = result && (ch.Kind == CharKind.CLOSE_SQ);
-            MemoryManager.Delete(ch);
 
             foreach (char c in F.chars("0123456789")) {
-                ch = MemoryManager.New(c);
+                ch = Character.Create(c);
                 result = result && (ch.Kind == CharKind.DIGIT);
-                MemoryManager.Delete(ch);
             }
 
             return result;
@@ -103,10 +89,6 @@ namespace Tests {
 
             this.coverage.Add(TestCoverage.Lang);
             this.coverage.Add(TestCoverage.Lang_Character);
-            this.coverage.Add(TestCoverage.Lang_Memory_Manager);
-            this.coverage.Add(TestCoverage.Lang_Memory_Manager_ICharacter);
-            this.coverage.Add(TestCoverage.Lang_Memory_Manager_ICharacter_New);
-            this.coverage.Add(TestCoverage.Lang_Memory_Manager_ICharacter_Delete);
             this.coverage.Add(TestCoverage.F);
             this.coverage.Add(TestCoverage.F_chars);
         }

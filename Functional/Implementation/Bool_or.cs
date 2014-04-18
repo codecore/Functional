@@ -25,6 +25,6 @@ namespace Functional.Implementation {
         [Coverage(TestCoverage.F_bool_or)]
         public static bool bool_or(bool b1, bool b2, bool b3, bool b4, bool b5, bool b6) { return (b1 || b2 || b3 || b4 || b5 || b6); }
         /// <summary>or sequence</summary><returns>true if any the members of the boolean sequence is true</returns>
-        public static bool bool_or(IEnumerable<bool> items) { return F<bool>.reduce(items, (b1, b2) => b1 || b2, false); }
+        public static bool bool_or(IEnumerable<bool> items) { return F.reduce<bool>(items, (b1, b2) => b1 || b2, false); }
     }
 }

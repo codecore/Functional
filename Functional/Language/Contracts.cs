@@ -9,11 +9,12 @@ using Functional.Language.Contract.Editor;
 using Functional.Language.Contract.Parser;
 
 namespace Functional.Language.Contract {
+
     public enum InputStreamKind { Mock, File }
     public interface IInputStream : IDisposable {
         InputStreamKind Kind { get; }
         Task Initialize(string filename);
-        Task<string> ReadLine();
+        Task<char> ReadAsync();
         bool EOF { get; }
     }
     public interface IMemoryManagement<T> {

@@ -10,6 +10,7 @@ using Functional.Language.Contract.Editor;
 using Functional.Language.Implimentation;
 
 namespace Functional.Language.Implimentation {
+    /*
     public static class MemoryManager {
         public static IToken Avail_Token() { return avail_token; }
         public static ICodeLine Avail_CodeLine() { return avail_codeline; }
@@ -111,6 +112,11 @@ namespace Functional.Language.Implimentation {
                 avail_character = null;
                 avail_character = next_character;
             }
+        }
+    }*/
+    public static class TokenUtility {
+        public static bool similar(IToken token, IFalseToken ftoken) {
+            return ((token.Kind == ftoken.Kind) && (token.Info == ftoken.Info));
         }
     }
 }

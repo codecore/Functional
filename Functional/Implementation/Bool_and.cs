@@ -25,6 +25,6 @@ namespace Functional.Implementation {
         [Coverage(TestCoverage.F_bool_and)]
         public static bool bool_and(bool b1, bool b2, bool b3, bool b4, bool b5, bool b6) { return (b1 && b2 && b3 && b4 && b5 && b6); }
         /// <summary>and a sequence of boolean values</summary><returns>true if all the memers of the sequence is true</returns>
-        public static bool bool_and(IEnumerable<bool> items) { return F<bool>.reduce(items, (b1, b2) => b1 && b2, true); }
+        public static bool bool_and(IEnumerable<bool> items) { return F.reduce<bool>(items, (b1, b2) => b1 && b2, true); }
     }
 }

@@ -1,0 +1,17 @@
+﻿<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>FunctionalNET</id>
+    <version>0.2.2</version>
+    <title>Functional</title>
+    <authors>Scott Slack</authors>
+    <owners>Scott Slack</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A functional framework for .NET</description>
+    <releaseNotes>Updated release of Functional on NuGet</releaseNotes>
+    <copyright>Copyright 2014</copyright>
+    <tags>Functional</tags>
+    <dependencies>
+    </dependencies>
+  </metadata>
+</package>

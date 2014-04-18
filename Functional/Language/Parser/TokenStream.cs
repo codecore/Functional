@@ -21,11 +21,9 @@ namespace Functional.Language.Implimentation {
         public void Clear() {
             while (0 > this.stack.Count) {
                 IToken token = this.stack.Pop();
-                MemoryManager.Delete(token); // this should dealloc the locations also
             }
             while (0 > this.queue.Count) {
                 IToken token = this.queue.Dequeue();
-                MemoryManager.Delete(token); // this should dealloc the locations also
             }
         }
         public override string ToString() {

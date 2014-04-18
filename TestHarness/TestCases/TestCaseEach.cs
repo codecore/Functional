@@ -20,7 +20,7 @@ namespace Tests {
         private static bool _Run() {
             bool result = true;
             string hello = "";
-            F<char>.each(new List<char>() { 'h', 'e', 'l', 'l', 'o' }, (c) => { hello = hello + c; });
+            F.each<char>(new List<char>() { 'h', 'e', 'l', 'l', 'o' }, (c) => { hello = hello + c; });
             result = result && ("hello" == hello);
             return result;
         }
@@ -40,12 +40,12 @@ namespace Tests {
 
             this.feature.Add(TestCoverage.Test_All);
             this.feature.Add(TestCoverage.F_T);
-            this.feature.Add(TestCoverage.F_T_each);
-            this.feature.Add(TestCoverage.F_T_each_naked);
+            this.feature.Add(TestCoverage.F_each_T);
+            this.feature.Add(TestCoverage.F_each_naked_T);
 
             this.coverage.Add(TestCoverage.F_T);
-            this.coverage.Add(TestCoverage.F_T_each);
-            this.coverage.Add(TestCoverage.F_T_each_naked);
+            this.coverage.Add(TestCoverage.F_each_T);
+            this.coverage.Add(TestCoverage.F_each_naked_T);
         }
     }
 }

@@ -84,44 +84,44 @@ namespace Functional.Implementation {
             this.which = Which._fn_7_1;
             this.fn_7_1 = fun;
         }
-        [Coverage(TestCoverage.Curry_monster)]
         /// <summary>Creates a curry function object</summary><returns>curry function object</returns>
+        [Coverage(TestCoverage.Curry_monster)]
         public Action<T> Create() {
             if (this.which != Which._fn_1_1) throw new Exception(INVALID);
             return (t) => this.fn_1_1(t);
         }
-        [Coverage(TestCoverage.Curry_monster)]
         /// <summary>Creates a curry function object</summary><returns>curry function object</returns>
+        [Coverage(TestCoverage.Curry_monster)]
         public Func<T,T> Create(T t1) {
             if (this.which != Which._fn_2_1) throw new Exception(INVALID);
             return (t) => this.fn_2_1(t, t1);
         }
-        [Coverage(TestCoverage.Curry_monster)]
         /// <summary>Creates a curry function object</summary><returns>curry function object</returns>
+        [Coverage(TestCoverage.Curry_monster)]
         public Func<T,T> Create(T t1, T t2) {
             if (this.which != Which._fn_3_1) throw new Exception(INVALID);
             return (t) => this.fn_3_1(t, t1, t2);
         }
-        [Coverage(TestCoverage.Curry_monster)]
         /// <summary>Creates a curry function object</summary><returns>curry function object</returns>
+        [Coverage(TestCoverage.Curry_monster)]
         public Func<T,T> Create(T t1, T t2, T t3) {
             if (this.which != Which._fn_4_1) throw new Exception(INVALID);
             return (t) => this.fn_4_1(t, t1, t2, t3);
         }
-        [Coverage(TestCoverage.Curry_monster)]
         /// <summary>Creates a curry function object</summary><returns>curry function object</returns>
+        [Coverage(TestCoverage.Curry_monster)]
         public Func<T, T> Create(T t1, T t2, T t3, T t4) {
             if (this.which != Which._fn_5_1) throw new Exception(INVALID);
             return (t) => this.fn_5_1(t, t1, t2, t3, t4);
         }
-        [Coverage(TestCoverage.Curry_monster)]
         /// <summary>Creates a curry function object</summary><returns>curry function object</returns>
+        [Coverage(TestCoverage.Curry_monster)]
         public Func<T, T> Create(T t1, T t2, T t3,T t4,T t5) {
             if (this.which != Which._fn_6_1) throw new Exception(INVALID);
             return (t) => this.fn_6_1(t, t1, t2, t3,t4,t5);
         }
-        [Coverage(TestCoverage.Curry_monster)]
         /// <summary>Creates a curry function object</summary><returns>curry function object</returns>
+        [Coverage(TestCoverage.Curry_monster)]
         public Func<T, T> Create(T t1, T t2, T t3,T t4,T t5,T t6) {
             if (this.which != Which._fn_7_1) throw new Exception(INVALID);
             return (t) => this.fn_7_1(t, t1, t2, t3, t4, t5, t6);

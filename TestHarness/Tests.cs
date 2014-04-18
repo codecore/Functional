@@ -33,6 +33,7 @@ namespace Tests {
         public void action(T t) { this.Count++; }
         public T func(T t) { this.Count++; return t; }
     }
+    /*
     public static class Test {
         private static bool Test_BinarySearch() {
             bool result = true;
@@ -235,5 +236,7 @@ namespace Tests {
 
             return result;
         }
+     
     }
+*/
 }

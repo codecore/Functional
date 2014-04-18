@@ -16,46 +16,40 @@ using Tests;
 namespace Tests {
 
     [Export(typeof(IAsyncTestCase))]
-    public class test_parser_lexer_token_numbers : IAsyncTestCase {
-        private const string _Name = "test parser lexer token numbers";
-        private const string _Description = "parse string in to correct tokens.";
-        public string TestFile { get { return "TestCaseLanguageToken.cs"; } }
+    public class test_parser_tokenizer_token_numbers : IAsyncTestCase {
+        private const string _Name = "test parser tokenizer token numbers";
+        private const string _Description = "tokenize string in to correct tokens.";
+        public string TestFile { get { return "TestCaseLanguageParserLexerTokenNumbers.cs"; } }
         public async Task<bool> RunAsync() {
             bool result = true;
-            IInputStream inputStream = new InputStreamMock(1, " 2,9.0-77.4");
-            IGetChar getChar = new GetChar();
-            ICharacterStream characterStream = new CharacterStream();
-            getChar.Initialize(inputStream);
-            characterStream.Initialize(getChar);
+            IInputStream stream = new InputStreamMock();//" 2,9.0-77.4"
+            await stream.Initialize(" 2,9.0-77.4");
+            ICharacterStream cStream = new CharacterStream();
+            cStream.Initialize(stream);
 
             ITokenStream tokenStream = new TokenStream();
             Queue<char> word = new Queue<char>();
 
-            ILexer lexer = new Lexer();
-            lexer.Initialize();
-            await lexer.Parse(tokenStream, characterStream, "filename", 0, 0);
+            Functional.Language.Contract.Parser.ITokenizer tokenizer = new Tokenizer();
+            tokenizer.Initialize();
+            await tokenizer.Tokenize(tokenStream, cStream, "filename", 0, 0);
 
             IToken token = tokenStream.Get();
             result = result && (token.Kind == TokenKind.OneOrMoreSpace);
-            MemoryManager.Delete(token);
             
             token = tokenStream.Get();
             result = result && ((token.Kind == TokenKind.LiteralInteger) && (token.Info == "2"));
-            MemoryManager.Delete(token);
 
             token = tokenStream.Get();
             result = result && ((token.Kind == TokenKind.Comma) && (token.Info == ","));
-            MemoryManager.Delete(token);
 
             token = tokenStream.Get();
             result = result && ((token.Kind == TokenKind.LiteralFloat) && (token.Info == "9.0"));
-            MemoryManager.Delete(token);
 
             token = tokenStream.Get();
             result = result && ((token.Kind == TokenKind.LiteralFloat) && (token.Info == "-77.4"));
-            MemoryManager.Delete(token);
 
-            MemoryManager.FreeMemory();
+            stream.Dispose();
             return result;
         }
         private IList<int> coverage = new List<int>();
@@ -66,7 +60,7 @@ namespace Tests {
 
         public IEnumerable<int> Coverage { get { return this.coverage; } }
         public IEnumerable<int> Feature { get { return this.feature; } }
-        public test_parser_lexer_token_numbers() {
+        public test_parser_tokenizer_token_numbers() {
             this.ID = 0;
             this.Name = _Name;
             this.Description = _Description;
@@ -74,26 +68,26 @@ namespace Tests {
             this.feature.Add(TestCoverage.Test_All);
             this.feature.Add(TestCoverage.Lang);
             this.feature.Add(TestCoverage.Lang_Parser);
-            this.feature.Add(TestCoverage.Lang_Parser_Lexer);
-            this.feature.Add(TestCoverage.Lang_Parser_Lexer_Token);
-            this.feature.Add(TestCoverage.Lang_Parser_Lexer_Token_OneOrMoreSpace);
-            this.feature.Add(TestCoverage.Lang_Parser_Lexer_Token_OneOrMoreSpace_OneSpace);
-            this.feature.Add(TestCoverage.Lang_Parser_Lexer_Token_LiteralInteger);
-            this.feature.Add(TestCoverage.Lang_Parser_Lexer_Token_Comma);
-            this.feature.Add(TestCoverage.Lang_Parser_Lexer_Token_LiteralFloat);
-            this.feature.Add(TestCoverage.Lang_Parser_Lexer_Token_LiteralFloat_Negative);
+            this.feature.Add(TestCoverage.Lang_Parser_Tokenizer);
+            this.feature.Add(TestCoverage.Lang_Parser_Tokenizer_Token);
+            this.feature.Add(TestCoverage.Lang_Parser_Tokenizer_Token_OneOrMoreSpace);
+            this.feature.Add(TestCoverage.Lang_Parser_Tokenizer_Token_OneOrMoreSpace_1_Space);
+            this.feature.Add(TestCoverage.Lang_Parser_Tokenizer_Token_LiteralInteger);
+            this.feature.Add(TestCoverage.Lang_Parser_Tokenizer_Token_Comma);
+            this.feature.Add(TestCoverage.Lang_Parser_Tokenizer_Token_LiteralFloat);
+            this.feature.Add(TestCoverage.Lang_Parser_Tokenizer_Token_LiteralFloat_Negative);
 
 
             this.coverage.Add(TestCoverage.Lang);
             this.coverage.Add(TestCoverage.Lang_Parser);
-            this.coverage.Add(TestCoverage.Lang_Parser_Lexer);
-            this.coverage.Add(TestCoverage.Lang_Parser_Lexer_Token);
-            this.coverage.Add(TestCoverage.Lang_Parser_Lexer_Token_OneOrMoreSpace);
-            this.coverage.Add(TestCoverage.Lang_Parser_Lexer_Token_OneOrMoreSpace_OneSpace);
-            this.coverage.Add(TestCoverage.Lang_Parser_Lexer_Token_LiteralInteger);
-            this.coverage.Add(TestCoverage.Lang_Parser_Lexer_Token_Comma);
-            this.coverage.Add(TestCoverage.Lang_Parser_Lexer_Token_LiteralFloat);
-            this.coverage.Add(TestCoverage.Lang_Parser_Lexer_Token_LiteralFloat_Negative);
+            this.coverage.Add(TestCoverage.Lang_Parser_Tokenizer);
+            this.coverage.Add(TestCoverage.Lang_Parser_Tokenizer_Token);
+            this.coverage.Add(TestCoverage.Lang_Parser_Tokenizer_Token_OneOrMoreSpace);
+            this.coverage.Add(TestCoverage.Lang_Parser_Tokenizer_Token_OneOrMoreSpace_1_Space);
+            this.coverage.Add(TestCoverage.Lang_Parser_Tokenizer_Token_LiteralInteger);
+            this.coverage.Add(TestCoverage.Lang_Parser_Tokenizer_Token_Comma);
+            this.coverage.Add(TestCoverage.Lang_Parser_Tokenizer_Token_LiteralFloat);
+            this.coverage.Add(TestCoverage.Lang_Parser_Tokenizer_Token_LiteralFloat_Negative);
         }
     }
 }

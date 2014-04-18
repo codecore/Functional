@@ -21,8 +21,8 @@ namespace UnitTests.Tests {
             Assert.IsTrue(result);
         }
         [TestMethod]
-        public async Task logger_file_test() {
-            IAsyncTestCase test = new logger_file();
+        public async Task logger_filename_test() {
+            IAsyncTestCase test = new logger_filename();
             bool result = await test.RunAsync();
             Assert.IsTrue(result);
         }

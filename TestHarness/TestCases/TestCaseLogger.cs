@@ -25,7 +25,7 @@ namespace Tests {
         }
         public async Task<bool> RunAsync() {
             this.logger = new LoggerNULL();
-            IDictionary<string, string> config = new Dictionary<string, string>();
+            IDictionary<string, object> config = new Dictionary<string, object>();
             await this.logger.ConfigureAsync(config);
             await this.logger.LogAsync("log this line");
             this.dispose();
@@ -63,7 +63,7 @@ namespace Tests {
         }
         public async Task<bool> RunAsync() {
             this.logger = new LoggerCONSOLE();
-            IDictionary<string, string> config = new Dictionary<string, string>();
+            IDictionary<string, object> config = new Dictionary<string, object>();
             await this.logger.ConfigureAsync(config);
             await this.logger.LogAsync("log this line");
             this.dispose();
@@ -88,9 +88,9 @@ namespace Tests {
     }
 
     [Export(typeof(IAsyncTestCase))]
-    public class logger_file : IAsyncTestCase {
-        private const string _Name = "logger file";
-        private const string _Description = "tests the file logger";
+    public class logger_filename : IAsyncTestCase {
+        private const string _Name = "logger filename";
+        private const string _Description = "tests the filename logger";
         public string TestFile { get { return "TestCaseLogger.cs"; } }
         private ILogger logger = null;
         private void dispose() { 
@@ -102,9 +102,9 @@ namespace Tests {
         public async Task<bool> RunAsync() {
             string filename = "C:\\Temp\\logfile.txt";
             bool result = true;
-            this.logger = new LoggerFILE();
-            IDictionary<string, string> config = new Dictionary<string, string>();
-            config.Add("logfile",filename);
+            this.logger = new LoggerFILENAME();
+            IDictionary<string, object> config = new Dictionary<string, object>();
+            config.Add("logfilename",filename);
             FileUtility.DeleteFile(filename);
             result = result && (false == FileUtility.FileExists(filename));
             await this.logger.ConfigureAsync(config);
@@ -116,14 +116,14 @@ namespace Tests {
         }
         private IList<int> coverage = new List<int>();
         private IList<int> feature = new List<int>();
-        public logger_file() {
+        public logger_filename() {
             this.ID = 0;
             this.Name = _Name;
             this.Description = _Description;
             this.feature.Add(TestCoverage.Logger);
-            this.feature.Add(TestCoverage.Logger_File);
+            this.feature.Add(TestCoverage.Logger_Filename);
             this.coverage.Add(TestCoverage.Logger);
-            this.coverage.Add(TestCoverage.Logger_File);
+            this.coverage.Add(TestCoverage.Logger_Filename);
         }
         public int ID { get; private set; }
         public string Name { get; private set; }

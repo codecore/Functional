@@ -23,20 +23,20 @@ namespace Tests {
         public Func<bool> Run { get; private set; }
         private static bool _Run() {
             bool result = true;
-            ICodeDocument document = new CodeDocument();
-            ICodeLine codeline = MemoryManager.New(document);
+            ICodeDocument document = CodeDocument.Create();
+            ICodeLine codeline = CodeLine.Create(document);
             document.AddBefore(codeline);
             
             result = result && (document.Cursor == codeline);
             
-            IToken tokenFirst = MemoryManager.New(MemoryManager.New("filename", 0, 0, 10), "first", TokenKind.LiteralString);
+            IToken tokenFirst = Token.Create(Location.Create("filename", 0, 0, 10), "first", TokenKind.LiteralString);
             codeline.AddBefore(tokenFirst);  // codeline = [(first)]
             result = result && (codeline.Cursor == tokenFirst);
-            IToken tokenAfter = MemoryManager.New(MemoryManager.New("filename", 0, 0, 10), "after", TokenKind.LiteralInteger);
+            IToken tokenAfter = Token.Create(Location.Create("filename", 0, 0, 10), "after", TokenKind.LiteralInteger);
             codeline.AddAfter(tokenAfter); // codeline = (first)[(after)]
             result = result && (codeline.Cursor == tokenAfter); // we set cursor to added item
 
-            IToken tokenBefore = MemoryManager.New(MemoryManager.New("filename", 0, 0, 10), "before", TokenKind.LiteralFloat);
+            IToken tokenBefore = Token.Create(Location.Create("filename", 0, 0, 10), "before", TokenKind.LiteralFloat);
             codeline.AddBefore(tokenBefore); // codeline = (first)[(before)](after)
             result = result && (codeline.Cursor == tokenBefore);
 

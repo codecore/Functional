@@ -55,7 +55,9 @@
     <Compile Include="TestCases\TestCaseCharacterStream.cs" />
     <Compile Include="TestCases\TestCaseClose.cs" />
     <Compile Include="TestCases\TestCaseCompare.cs" />
+    <Compile Include="TestCases\TestCaseCrc16.cs" />
     <Compile Include="TestCases\TestCaseEach.cs" />
+    <Compile Include="TestCases\TestCaseExtract.cs" />
     <Compile Include="TestCases\TestCaseLanguageEditorCodeDocument.cs" />
     <Compile Include="TestCases\TestCaseEqu.cs" />
     <Compile Include="TestCases\TestCaseGPS.cs" />
@@ -64,6 +66,8 @@
     <Compile Include="TestCases\TestCaseLandMines.cs" />
     <Compile Include="TestCases\TestCaseLanguageCharacter.cs" />
     <Compile Include="TestCases\TestCaseLanguageEditorCodeline.cs" />
+    <Compile Include="TestCases\TestCaseLanguageParseFileCommentExpression.cs" />
+    <Compile Include="TestCases\TestCaseLanguageParserFileParser.cs" />
     <Compile Include="TestCases\TestCaseLanguageParserLexerTokenNumbers.cs" />
     <Compile Include="TestCases\TestCaseLogger.cs" />
     <Compile Include="TestCases\TestCaseLt.cs" />
@@ -76,11 +80,12 @@
     <Compile Include="TestCases\TestCaseLanguageParserLexerTokenStrings.cs" />
     <Compile Include="TestCases\TestCaseRange.cs" />
     <Compile Include="TestCases\TestCaseReduce.cs" />
+    <Compile Include="TestCases\TestCaseReflection.cs" />
     <Compile Include="TestCases\TestCaseSort.cs" />
     <Compile Include="TestCases\TestCaseSqr.cs" />
     <Compile Include="TestCases\TestCaseSub.cs" />
-    <Compile Include="TestCases\TestCaseTuple.cs" />
-    <Compile Include="TestCases\TestClassMemoryManager.cs" />
+    <Compile Include="TestCases\TestCaseTaskManagement.cs" />
+    <Compile Include="TestCases\TestCaseTokenizeFile.cs" />
     <Compile Include="TestHarness.cs" />
     <Compile Include="TestHarnessAssemblyInfo.cs" />
     <Compile Include="Tests.cs" />
@@ -90,6 +95,17 @@
       <Project>{88811787-8218-4d3b-8079-1f69f3f7b12a}</Project>
       <Name>FunctionalNET</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="TestFiles\TestParseCommentExpression.func.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestFiles\TestParseNumberExpressions.func.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TestFiles\TestTokenizerTokenKinds.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

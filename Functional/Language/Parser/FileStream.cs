@@ -15,19 +15,19 @@ using Functional.Utility;
 namespace Functional.Language.Implimentation {
     [Export(typeof(IInputStream))]
     public class InputStreamMock : IInputStream {
-        private string s1 = String.Empty;
+        private string buffer = String.Empty;
         private int index = 0;
-        private int count = 0;
-        private InputStreamMock() { }
-        public InputStreamMock(int c, string s) { this.count = (c > 0) ? c : 10; this.s1 = s; }
         public InputStreamKind Kind { get { return InputStreamKind.Mock; } }
-        public async Task Initialize(string filename) { await Task.Delay(10); }
-        public async Task<string> ReadLine() {
-            string result = String.Empty;
-            if (this.index < this.count) result = s1;
-            else this.EOF = true;
-            this.index++; // overflow bug
-            await Task.Delay(10);
+        public async Task Initialize(string filename) {
+            this.buffer = filename;
+            await Task.Delay(10); 
+        }
+        public async Task<char> ReadAsync() {
+            char result = '~';
+            if (this.index >= this.buffer.Length) this.EOF = true;
+            else result = this.buffer[this.index];
+            this.index++;
+            await Task.Delay(0);
             return result;
         }
         public bool EOF { get; private set; }
@@ -35,6 +35,9 @@ namespace Functional.Language.Implimentation {
     }
     [Export(typeof(IInputStream))]
     public class InputStreamFile : IInputStream {
+        private const int buffer_length = 1024;
+        private char[] buffer = new char[buffer_length];
+        private int readIndex = buffer_length;
         private bool eof = false;
         private StreamReader reader;
         public InputStreamKind Kind { get { return InputStreamKind.File; } }
@@ -45,12 +48,21 @@ namespace Functional.Language.Implimentation {
             } else throw new ArgumentException(String.Format("file {%0} does not exist ", filename));
             await Task.Delay(0); // quit bitching about no awaits in async method
         }
-        public async Task<string> ReadLine() {
-            string result = String.Empty;
+        public async Task<char> ReadAsync() {
+            char result = '~';
             if (null != this.reader) {
-                if (this.reader.EndOfStream) {
-                    this.eof = true;
-                } else result = await this.reader.ReadLineAsync();
+                if (this.readIndex >= buffer_length) {
+                    if (this.reader.EndOfStream) {
+                        this.eof = true;
+                    } else {
+                        int r = await this.reader.ReadBlockAsync(this.buffer,0,buffer_length);
+                        this.readIndex = 0;
+                    }
+                }
+                if (!this.eof) {
+                    result = this.buffer[this.readIndex];
+                    this.readIndex++;
+                }
             }
             return result;
         }

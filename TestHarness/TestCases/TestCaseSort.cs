@@ -24,7 +24,7 @@ namespace Tests {
             IList<int> reverse = new List<int>() { 9, 8, 7, 6, 4, 4, 3, 2, 1 };
             IEnumerable<int> test;
 
-            test = F<int>.sort(unsorted, (l, r) => (l == r) ? 0 : (l < r) ? -1 : 1);
+            test = F.sort<int>(unsorted, (l, r) => (l == r) ? 0 : (l < r) ? -1 : 1);
             IEnumerator<int> eSorted = sorted.GetEnumerator();
             IEnumerator<int> e2 = test.GetEnumerator();
             while ((eSorted.MoveNext()) && (e2.MoveNext())) {
@@ -32,7 +32,7 @@ namespace Tests {
             }
             result = result && (sorted.Count == test.ToList().Count);
 
-            test = F<int>.sort(unsorted, (l, r) => (l == r) ? 0 : (l > r) ? -1 : 1);
+            test = F.sort<int>(unsorted, (l, r) => (l == r) ? 0 : (l > r) ? -1 : 1);
             IEnumerator<int> eReverse = reverse.GetEnumerator();
             e2 = test.GetEnumerator();
             while ((eReverse.MoveNext()) && (e2.MoveNext())) {
@@ -57,12 +57,12 @@ namespace Tests {
 
             this.feature.Add(TestCoverage.Test_All);
             this.feature.Add(TestCoverage.F_T);
-            this.feature.Add(TestCoverage.F_T_sort);
-            this.feature.Add(TestCoverage.F_T_sort_naked);
+            this.feature.Add(TestCoverage.F_sort_T);
+            this.feature.Add(TestCoverage.F_sort_naked_T);
 
             this.coverage.Add(TestCoverage.F_T);
-            this.coverage.Add(TestCoverage.F_T_sort);
-            this.coverage.Add(TestCoverage.F_T_sort_naked);
+            this.coverage.Add(TestCoverage.F_sort_T);
+            this.coverage.Add(TestCoverage.F_sort_naked_T);
         }
     }
 
@@ -79,7 +79,7 @@ namespace Tests {
             IList<int> reverse = new List<int>() { 9, 8, 7, 6, 4, 4, 3, 2, 1 };
             IEnumerable<int> test;
 
-            test = F<int>.sort_order_by(unsorted, (l, r) => (l == r) ? 0 : (l < r) ? -1 : 1);
+            test = F.sort_order_by<int>(unsorted, (l, r) => (l == r) ? 0 : (l < r) ? -1 : 1);
             IEnumerator<int> eSorted = sorted.GetEnumerator();
             IEnumerator<int> e2 = test.GetEnumerator();
             while ((eSorted.MoveNext()) && (e2.MoveNext())) {
@@ -87,7 +87,7 @@ namespace Tests {
             }
             result = result && (sorted.Count == test.ToList().Count);
 
-            test = F<int>.sort_order_by(unsorted, (l, r) => (l == r) ? 0 : (l > r) ? -1 : 1);
+            test = F.sort_order_by<int>(unsorted, (l, r) => (l == r) ? 0 : (l > r) ? -1 : 1);
             IEnumerator<int> eReverse = reverse.GetEnumerator();
             e2 = test.GetEnumerator();
             while ((eReverse.MoveNext()) && (e2.MoveNext())) {
@@ -113,12 +113,12 @@ namespace Tests {
 
             this.feature.Add(TestCoverage.Test_All);
             this.feature.Add(TestCoverage.F_T);
-            this.feature.Add(TestCoverage.F_T_sort);
-            this.feature.Add(TestCoverage.F_T_sort_order_by);
+            this.feature.Add(TestCoverage.F_sort_T);
+            this.feature.Add(TestCoverage.F_sort_order_by_T);
 
             this.coverage.Add(TestCoverage.F_T);
-            this.coverage.Add(TestCoverage.F_T_sort);
-            this.coverage.Add(TestCoverage.F_T_sort_order_by);
+            this.coverage.Add(TestCoverage.F_sort_T);
+            this.coverage.Add(TestCoverage.F_sort_order_by_T);
         }
     }
 
@@ -133,7 +133,7 @@ namespace Tests {
             int[] unsorted = new int[16] { 9, 4, 6, 2, 1, 3, 7, 8, 4, 3, 7, 1,-6, 7,11, 4 };
             int[] sorted = new int[16] { 11,9,8,7, 7,7,6,4, 4,4,3,3, 2,1,1,-6 };
             int[] sort_result = new int[16];
-            F<int>.merge_sort(F.compare_int, sort_result, unsorted);
+            F.merge_sort<int>(F.compare_int, sort_result, unsorted);
             for (int i = 0; i < 16; i++) {
                 result = result && sort_result[i] == sorted[i];
             }
@@ -155,15 +155,15 @@ namespace Tests {
 
             this.feature.Add(TestCoverage.Test_All);
             this.feature.Add(TestCoverage.F_T);
-            this.feature.Add(TestCoverage.F_T_sort);
-            this.feature.Add(TestCoverage.F_T_sort_merge);
+            this.feature.Add(TestCoverage.F_sort_T);
+            this.feature.Add(TestCoverage.F_sort_merge_T);
 
             this.coverage.Add(TestCoverage.F);
             this.coverage.Add(TestCoverage.F_compare);
             this.coverage.Add(TestCoverage.F_compare_int);
             this.coverage.Add(TestCoverage.F_T);
-            this.coverage.Add(TestCoverage.F_T_sort);
-            this.coverage.Add(TestCoverage.F_T_sort_merge);
+            this.coverage.Add(TestCoverage.F_sort_T);
+            this.coverage.Add(TestCoverage.F_sort_merge_T);
         }
     }
 }

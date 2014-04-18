@@ -6,7 +6,12 @@ TestHarness/obj
 *.suo
 *.user
 *.vs10x
-Functional/[Tt]est[Rr]esults/
+*.sln.docstates
+
+# MSTest test Results
+Functional/[Tt]est[Rr]esult*/
+
+# Built binaries
 FunctionalNET.dll
 FunctionalNET.pdb
 FunctionalNET.XML
@@ -23,11 +28,3 @@ ConsoleTestNET.exe.config
 ConsoleTestNET.vshost.exe
 ConsoleTestNET.vshost.exe.config
 Functional.net.v11.suo
-FunctionalMONO.dll
-FunctionalMONO.pdb
-FunctionalMONO.dll
-FunctionalMONO.pdb
-TestHarnessMONO.dll
-TestHarnessMONO.pdb
-ConsoleTestMONO.exe
-ConsoleTestMONO.pdb

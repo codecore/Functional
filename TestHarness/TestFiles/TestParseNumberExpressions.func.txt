@@ -1,0 +1,3 @@
+﻿declare number name 67.4f
+declare (mutable number name2 90
+optional decarators { mutible, }

@@ -18,7 +18,7 @@ namespace Functional.Utility {
         }
         public static void StoreTextFile(string filename, Encoding encoding, IEnumerable<T> item, Func<T, string> fn) {
             using (TextWriter sw = new StreamWriter(filename, false, encoding)) {
-                F<string>.each(F<T>.map<string>(item, fn), (s) => sw.WriteLine(s));
+                F.each<string>(F.map<T,string>(item, fn), (s) => sw.WriteLine(s));
             }
         }
     }

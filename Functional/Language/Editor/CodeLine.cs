@@ -10,7 +10,8 @@ using Functional.Language.Contract.Parser;
 using Functional.Language.Implimentation;
 namespace Functional.Language.Implimentation {
     public class CodeLine : ICodeLine {
-        public CodeLine(ICodeDocument codedocument) { this.Document = codedocument; }
+        private CodeLine() { }
+        private CodeLine(ICodeDocument codedocument) { this.Document = codedocument; }
         public ICodeDocument Document { get; set; }
         public int Line { get { return this.Document.Line(this); } }
         private DLList<IToken> tokens = new DLList<IToken>();
@@ -27,6 +28,9 @@ namespace Functional.Language.Implimentation {
             StringBuilder sb = new StringBuilder();
             foreach (IToken token in this.Tokens) sb.Append(token.ToString());
             return sb.ToString();
+        }
+        public static ICodeLine Create(ICodeDocument codedocument) {
+            return new CodeLine(codedocument);
         }
     }
 }

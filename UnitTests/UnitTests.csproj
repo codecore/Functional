@@ -85,10 +85,16 @@
     <Compile Include="Tests\TestLandmineIncrement.cs" />
     <Compile Include="Tests\TestLanguageEditor.cs" />
     <Compile Include="Tests\TestLogger.cs" />
-    <Compile Include="Tests\TestParserLexerTokens.cs" />
+    <Compile Include="Tests\TestLanguageParserTokenizerTokens.cs" />
     <Compile Include="Tests\TestLanguageEditorAutoComplete.cs" />
-    <Compile Include="Tests\TestTuple.cs" />
-    <Compile Include="UnitTestsAssemblyInfo.cs" />
+    <Compile Include="Tests\TestLanguageReflectionCreateInstance.cs" />
+    <Compile Include="Tests\TestLanguageReflectionLoadAssembly.cs" />
+    <Compile Include="Tests\TestLanguageReflectionGetType.cs" />
+    <Compile Include="Tests\TestLanguageReflectionInvokeMethod.cs" />
+    <Compile Include="Tests\TestLanguageParserParseFile.cs" />
+    <Compile Include="Tests\TestLanguageParserExpressionComment.cs" />
+    <Compile Include="Tests\TestExtract.cs" />
+    <Compile Include="UnitTestAssembly.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Functional\FunctionalNET.csproj">

@@ -15,6 +15,11 @@ namespace ConsoleTest
 
     public class Program
     {
+        public static int TestsToRun = TestCoverage.Lang_CharacterStream;// TestCoverage.Test_All;
+
+
+
+
         public Singleton<IExtensibilityHost, ExtensibilityHost> nothing;
         public static void Main(string[] args) {
             ITestHarness testharness = harness.Create();
@@ -29,7 +34,7 @@ namespace ConsoleTest
                 
                 output.Invoke("composed");
 
-                RunSelectedTests(testharness.SyncTests, testharness.AsyncTests, TestCoverage.F_T_sort_merge);
+                RunSelectedTests(testharness.SyncTests, testharness.AsyncTests, TestsToRun);
 
             }
 
@@ -37,8 +42,8 @@ namespace ConsoleTest
             Singleton<IExtensibilityHost, ExtensibilityHost>.Instance.Dispose();
         }
         public static void RunSelectedTests(IEnumerable<ISyncTestCase> syncTests, IEnumerable<IAsyncTestCase> asyncTests, int sel) {
-            IEnumerable<IAsyncTestCase> selectedAsyncTests = F<IAsyncTestCase>.filter(asyncTests, x => F<int>.any(x.Feature, n => n == sel));
-            IEnumerable<ISyncTestCase> selectedSyncTests = F<ISyncTestCase>.filter(syncTests, x => F<int>.any(x.Feature, n => n == sel));
+            IEnumerable<IAsyncTestCase> selectedAsyncTests = F.filter<IAsyncTestCase>(asyncTests, x => F.any<int>(x.Feature, n => n == sel));
+            IEnumerable<ISyncTestCase> selectedSyncTests = F.filter<ISyncTestCase>(syncTests, x => F.any<int>(x.Feature, n => n == sel));
             foreach (IAsyncTestCase test in selectedAsyncTests) {
                 Task.WaitAll(test.RunAsync());
             }

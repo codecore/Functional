@@ -5,22 +5,22 @@ using System.Collections.Generic;
 using Functional.Test;
 
 namespace Functional.Implementation {
-    public static partial class F<T>   {
+    public static partial class F   {
         /// <summary>sorts a finite sequnce.</summary><returns>a sequence</returns>
-        [Coverage(TestCoverage.F_T_sort_naked)]
-        public static Func<IEnumerable<T>, Func<T, T, int>, IEnumerable<T>> sort = (lst, fn) => {
+        [Coverage(TestCoverage.F_sort_naked_T)]
+        public static IEnumerable<T> sort<T>(IEnumerable<T> lst, Func<T,T,int> fn) {
             T[] x = lst.ToArray();
             Array.Sort(x, new Utility.Comparer<T>(fn));
             return x.ToList();
-        };
+        }
         /// <summary>sorts a sequence (most of the time)</summary><returns>a sorted sequence</returns>
-        [Coverage(TestCoverage.F_T_sort_order_by)]
-        public static Func<IEnumerable<T>, Func<T, T, int>, IEnumerable<T>> sort_order_by = (lst, fn) => {
-            return lst.OrderBy(F<T>.identity, new Utility.Comparer<T>(fn));
-        };
+        [Coverage(TestCoverage.F_sort_order_by_T)]
+        public static IEnumerable<T> sort_order_by<T>(IEnumerable<T> lst, Func<T,T,int> fn) {
+            return lst.OrderBy(F.identity<T>, new Utility.Comparer<T>(fn));
+        }
         /// <summary>Bubble sort a finite sequence.</summary><returns>A sorted sequence</returns>
-        [Coverage(TestCoverage.F_T_sort_bubble)]
-        public static Func<IEnumerable<T>, Func<T, T, int>, IEnumerable<T>> sort_bubble_sort = (lst, fn) => {
+        [Coverage(TestCoverage.F_sort_bubble_T)]
+        public static IEnumerable<T> sort_bubble_sort<T>(IEnumerable<T> lst, Func<T, T, int> fn) {
             T[] array = lst.ToArray();
             bool swapped = true;
             while (swapped) {
@@ -35,33 +35,34 @@ namespace Functional.Implementation {
                 }
             }
             return array;
-        };
+        }
         // requires array length == 2^n
-        public static void merge_sort(Func<T,T,int> fn,T[] target, T[] source) {
+        [Coverage(TestCoverage.F_sort_merge_T)]
+        public static void merge_sort<T>(Func<T,T,int> fn,T[] target, T[] source) {
             T[] temp1 = new T[target.Length];
             T[] temp2 = new T[target.Length];
             int half = target.Length >> 1;
             T[] s = source;
             T[] d = temp1;
             // first sort in to two-item arrays (optimize)
-            F<int>.each(F.range(0, half), (n) => _sort_2(fn, d, s, n << 1, (n << 1) + 1));
+            F.each<int>(F.range(0, half), (n) => _sort_2(fn, d, s, n << 1, (n << 1) + 1));
             s = d;
             d = temp2;
 
-            foreach (int stride in F<int>.iterate_while((n) => (n << 1), (n) => n < half, 2)) {
+            foreach (int stride in F.iterate_while<int>((n) => (n << 1), (n) => n < half, 2)) {
                 // 2 4 8 16 32 ..
                 int count = stride;
                 int two_stride = stride << 1;
-                F<int>.each(F.range(0, target.Length, two_stride),(n)=>_merge_sort(fn,d,n,s,n,s,n+count,count));
+                F.each<int>(F.range(0, target.Length, two_stride),(n)=>_merge_sort(fn,d,n,s,n,s,n+count,count));
                 T[] temp = s;
                 s = d;
                 d = temp;
             }
             // put the results of the final pass in to the target array
-            _merge_sort(fn, target, 0, s, 0, s, half, half);
+            _merge_sort<T>(fn, target, 0, s, 0, s, half, half);
         }
         // count is the length of the source arrays, AKA half the length of the target array
-        private static void _merge_sort(Func<T, T, int> fn, T[] target, int target_index, T[] source1, int source1_index, T[] source2, int source2_index, int count) {
+        private static void _merge_sort<T>(Func<T, T, int> fn, T[] target, int target_index, T[] source1, int source1_index, T[] source2, int source2_index, int count) {
             int count1 = count;
             int count2 = count;
 
@@ -97,7 +98,7 @@ namespace Functional.Implementation {
             }
 
         }
-        private static void _sort_2(Func<T, T, int> fn,T[] target, T[] source, int index_left, int index_right) {
+        private static void _sort_2<T>(Func<T, T, int> fn,T[] target, T[] source, int index_left, int index_right) {
             if (fn(source[index_left], source[index_right]) == 1) {
                 target[index_left] = source[index_left];
                 target[index_right] = source[index_right];

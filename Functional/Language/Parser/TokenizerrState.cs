@@ -8,13 +8,13 @@ using Functional.Language.Contract.Parser;
 using Functional.Language.Implimentation;
 
 namespace Functional.Language.Implimentation {
-    public class LexerState : ILexerState {
+    public class TokenizerState : ITokenizerState {
         public string Name { get; private set; }
 
         public bool CharacterHandled { get; set; }
         public Func<ICharacter, ITokenStream, Queue<char>, bool> Handle { get; set; }
-        private LexerState() { } // no empty constructor
-        public LexerState(string name) {
+        private TokenizerState() { } // no empty constructor
+        public TokenizerState(string name) {
             this.Name = name;
             this.Handle = this.handle;
             this.DefaultNextState = this; 
@@ -22,12 +22,12 @@ namespace Functional.Language.Implimentation {
         private bool handle(ICharacter c, ITokenStream tokenStream, Queue<char> queue) {
             return true;
         }
-        protected IDictionary<CharKind, ILexerState> ExitState = new Dictionary<CharKind, ILexerState>();
-        public ILexerState DefaultNextState { get; set; }
-        public void AddTransitionState(CharKind cKind, ILexerState next) {
+        protected IDictionary<CharKind, ITokenizerState> ExitState = new Dictionary<CharKind, ITokenizerState>();
+        public ITokenizerState DefaultNextState { get; set; }
+        public void AddTransitionState(CharKind cKind, ITokenizerState next) {
             this.ExitState[cKind] = next;
         }
-        public ILexerState NextState(CharKind charKind) {
+        public ITokenizerState NextState(CharKind charKind) {
             return (this.ExitState.Keys.Contains(charKind)) ? this.ExitState[charKind] : this.DefaultNextState;
         }
         public override string ToString() { return this.Name; }

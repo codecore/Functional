@@ -13,6 +13,12 @@ namespace Functional.Implementation {
             int step = (F.gt_int(F.sub_int(end,start),0)) ? 1 : -1;
             for (int i = start; F.neq_int(i, end); i=F.add_int(i,step)) yield return i;
         }
+        public static IEnumerable<ushort> range(ushort start, ushort end) {
+            ushort sstart = (start <= end) ? start : end;
+            ushort send = (start <= end) ? end : start;
+            for(ushort index = start; index<end; ++index) yield return index;
+        }
+
         /// <summary>returns a sequence of ints</summary><returns>sequence of ints</returns>
         [Coverage(TestCoverage.F_range_start_end_step)]
         public static IEnumerable<int> range(int start, int end, int step) {

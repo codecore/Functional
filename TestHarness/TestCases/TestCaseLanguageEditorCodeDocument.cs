@@ -22,16 +22,16 @@ namespace Tests {
         public Func<bool> Run { get; private set; }
         private static bool _Run() {
             bool result = true;
-            ICodeDocument document = new CodeDocument();
-            ICodeLine codelineFirst = MemoryManager.New(document);
+            ICodeDocument document = CodeDocument.Create();
+            ICodeLine codelineFirst = CodeLine.Create(document);
             document.AddBefore(codelineFirst); // codedocument = [(first)]
             result = result && (document.Cursor == codelineFirst);
 
-            ICodeLine codelineAfter = MemoryManager.New(document);
+            ICodeLine codelineAfter = CodeLine.Create(document);
             document.AddAfter(codelineAfter);  // codedocument = (first)[(after)]
             result = result && (document.Cursor == codelineAfter);
             
-            ICodeLine codelineBefore = MemoryManager.New(document);
+            ICodeLine codelineBefore = CodeLine.Create(document);
             document.AddBefore(codelineBefore); // codedocument = (first)[(before)](after)
             result = result && (document.Cursor == codelineBefore);
 

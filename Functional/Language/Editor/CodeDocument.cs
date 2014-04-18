@@ -21,7 +21,8 @@ namespace Functional.Language.Implimentation {
         public void MoveCursorPrev() { this.codelines.MoveCursorPrev(); }
         public ICodeLine Cursor { get { return this.codelines.Cursor; } }
         public void FreeMemory() { this.codelines.FreeMemory(); }
-        public CodeDocument() { }
+        private CodeDocument() { }
         public ICodeDocument Next { get; set; }
+        public static ICodeDocument Create() { return new CodeDocument(); }
     }
 }

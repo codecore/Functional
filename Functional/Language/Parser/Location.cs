@@ -13,7 +13,8 @@ namespace Functional.Language.Implimentation {
         public int Start { get; set; }
         public int Length { get; set; }
         public ILocation Next { get; set; }
-        public Location(string filename, int line, int start, int length) {
+        private Location() { }
+        private Location(string filename, int line, int start, int length) {
             this.Filename = filename;
             this.Line = line;
             this.Start = start;
@@ -21,5 +22,8 @@ namespace Functional.Language.Implimentation {
             this.Next = null;
         }
         public override string ToString() { return this.Filename + " " + this.Line + " " + this.Start + " " + this.Length; }
+        public static ILocation Create(string filename, int line, int start, int length) {
+            return new Location(filename, line, start, length);
+        }
     }
 }

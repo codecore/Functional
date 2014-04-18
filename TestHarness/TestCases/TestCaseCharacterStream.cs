@@ -22,35 +22,36 @@ namespace Tests {
         public string TestFile { get { return "TestCaseCharacterStream.cs"; } }
         public async Task<bool> RunAsync() {
             bool result = true;
-            IInputStream inputStream = new InputStreamMock(3,"jiljsadfoi ajdn\nfkjn.*79\n498&<<[{mf] +==s kdjflij");
-            IGetChar getChar = new GetChar();
-            ICharacterStream characterStream = new CharacterStream();
-            
-            
-            getChar.Initialize(inputStream);
-            characterStream.Initialize(getChar);
+            IInputStream stream = new InputStreamMock();
+            await stream.Initialize("jiljsadfoi ajdn\nfkjn.*79\n498&<<[{mf] +==s kdjflij");
+            ICharacterStream cStream = new CharacterStream();
+            cStream.Initialize(stream);
 
-            ICharacter c1 = await characterStream.Get();
+            ICharacter c1 = await cStream.Get();
             result = result && (null != c1); // ICharacterStream never returns null
             
             ICharacter ch = null;
             // verify that Get uses a pushed character
-            characterStream.Push(c1);
-            ch = await characterStream.Get();
+            cStream.Push(c1);
+            ch = await cStream.Get();
             result = result && (c1.Info == ch.Info);
             
-            while (ch.Kind != CharKind.NULL) ch = await characterStream.Get();
-            ch = await characterStream.Get(); // verify that Get() continues to get the NULL
+            while (ch.Kind != CharKind.NULL) ch = await cStream.Get();
+            ch = await cStream.Get(); // verify that Get() continues to get the NULL
             result = result && (ch.Kind == CharKind.NULL);
 
-            inputStream = new InputStreamMock(1, "\n");
-            getChar.Initialize(inputStream);
-            characterStream.Initialize(getChar);
+            stream.Dispose();
 
-            ch = await characterStream.Get();
+            stream = new InputStreamMock();
+            await stream.Initialize("\n");
+            cStream = new CharacterStream();
+            cStream.Initialize(stream);
+
+            ch = await cStream.Get();
             result = result && (ch.Kind == CharKind.CARRAGERETURN);
-            ch = await characterStream.Get();
+            ch = await cStream.Get();
             result = result && (ch.Kind == CharKind.NULL);
+            stream.Dispose();
             return result;
         }
         private IList<int> coverage = new List<int>();

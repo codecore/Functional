@@ -34,8 +34,8 @@ namespace Functional.Implementation {
         /// <summary>given two of more numbers, return the minimum one</summary><returns>the minimum number</returns>
         [Coverage(TestCoverage.F_min_int)]
         public static int min_int(IEnumerable<int> seq) {
-            int result = F<int>.first(seq);
-            foreach (int t in F<int>.rest(seq)) result = min_int(result, t);
+            int result = F.first<int>(seq);
+            foreach (int t in F.rest<int>(seq)) result = min_int(result, t);
             return result;
         }
         /// <summary>given two of more numbers, return the minimum one</summary><returns>the minimum number</returns>
@@ -77,8 +77,8 @@ namespace Functional.Implementation {
         /// <summary>given two of more numbers, return the minimum one</summary><returns>the minimum number</returns>
         [Coverage(TestCoverage.F_min_long)]
         public static long min_long(IEnumerable<long> seq) {
-            long result = F<long>.first(seq);
-            foreach (long t in F<long>.rest(seq)) result = min_long(result, t);
+            long result = F.first<long>(seq);
+            foreach (long t in F.rest<long>(seq)) result = min_long(result, t);
             return result;
         }
         /// <summary>given two of more numbers, return the minimum one</summary><returns>the minimum number</returns>
@@ -120,8 +120,8 @@ namespace Functional.Implementation {
         /// <summary>given two of more numbers, return the minimum one</summary><returns>the minimum number</returns>
         [Coverage(TestCoverage.F_min_short)]
         public static short min_short(IEnumerable<short> seq) {
-            short result = F<short>.first(seq);
-            foreach (short t in F<short>.rest(seq)) result = min_short(result, t);
+            short result = F.first<short>(seq);
+            foreach (short t in F.rest<short>(seq)) result = min_short(result, t);
             return result;
         }
         /// <summary>given two of more numbers, return the minimum one</summary><returns>the minimum number</returns>
@@ -164,8 +164,8 @@ namespace Functional.Implementation {
         /// <summary>given two of more numbers, return the minimum one</summary><returns>the minimum number</returns>
         [Coverage(TestCoverage.F_min_float)]
         public static float min_float(IEnumerable<float> seq) {
-            float result = F<float>.first(seq);
-            foreach (float t in F<float>.rest(seq)) result = min_float(result, t);
+            float result = F.first<float>(seq);
+            foreach (float t in F.rest<float>(seq)) result = min_float(result, t);
             return result;
         }
         /// <summary>given two of more numbers, return the minimum one</summary><returns>the minimum number</returns>
@@ -207,8 +207,8 @@ namespace Functional.Implementation {
         /// <summary>given two of more numbers, return the minimum one</summary><returns>the minimum number</returns>
         [Coverage(TestCoverage.F_min_double)]
         public static double min_double(IEnumerable<double> seq) {
-            double result = F<double>.first(seq);
-            foreach (double t in F<double>.rest(seq)) result = min_double(result, t);
+            double result = F.first<double>(seq);
+            foreach (double t in F.rest<double>(seq)) result = min_double(result, t);
             return result;
         }
         /// <summary>given two of more numbers, return the minimum one</summary><returns>the minimum number</returns>

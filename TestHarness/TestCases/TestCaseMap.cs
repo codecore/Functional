@@ -23,7 +23,7 @@ namespace Tests {
             IEnumerable<string> snumbers = new List<string>() { "0", "1", "2", "3" };
             IEnumerable<int> nnumbers = new List<int>() { 0, 1, 2, 3 };
             Func<int, string> toString = (n) => n.ToString();
-            IEnumerable<string> test = F<int>.map<string>(nnumbers, toString);
+            IEnumerable<string> test = F.map<int,string>(nnumbers, toString);
             IEnumerator<string> eTest = test.GetEnumerator();
             IEnumerator<string> eNumbers = snumbers.GetEnumerator();
             while ((eTest.MoveNext()) && (eNumbers.MoveNext())) {
@@ -48,12 +48,12 @@ namespace Tests {
 
             this.feature.Add(TestCoverage.Test_All);
             this.feature.Add(TestCoverage.F_T);
-            this.feature.Add(TestCoverage.F_T_map);
-            this.feature.Add(TestCoverage.F_T_map_U);
+            this.feature.Add(TestCoverage.F_map_T);
+            this.feature.Add(TestCoverage.F_map_TU);
 
             this.coverage.Add(TestCoverage.F_T);
-            this.coverage.Add(TestCoverage.F_T_map);
-            this.coverage.Add(TestCoverage.F_T_map_U);
+            this.coverage.Add(TestCoverage.F_map_T);
+            this.coverage.Add(TestCoverage.F_map_TU);
         }
     }
 
@@ -70,7 +70,7 @@ namespace Tests {
             IEnumerable<int> list2 = new List<int>() { 3, 1, 4, -3, 6, -14 };
             IEnumerable<int> sum = new List<int>() { 10, 14, 9, 6, 2, -8 };
 
-            IEnumerable<int> test = F<int>.map<int>(list1, list2, (x, y) => x + y);
+            IEnumerable<int> test = F.map<int,int>(list1, list2, F.add_int);
             IEnumerator<int> eSum = sum.GetEnumerator();
             IEnumerator<int> eTest = test.GetEnumerator();
             while ((eSum.MoveNext()) && (eTest.MoveNext())) {
@@ -95,12 +95,13 @@ namespace Tests {
 
             this.feature.Add(TestCoverage.Test_All);
             this.feature.Add(TestCoverage.F_T);
-            this.feature.Add(TestCoverage.F_T_map);
-            this.feature.Add(TestCoverage.F_T_map_U_2_List);
+            this.feature.Add(TestCoverage.F_map_T);
+            this.feature.Add(TestCoverage.F_map_TU_2_List);
 
             this.coverage.Add(TestCoverage.F_T);
-            this.coverage.Add(TestCoverage.F_T_map);
-            this.coverage.Add(TestCoverage.F_T_map_U_2_List);
+            this.coverage.Add(TestCoverage.F_add_int);
+            this.coverage.Add(TestCoverage.F_map_T);
+            this.coverage.Add(TestCoverage.F_map_TU_2_List);
         }
     }
 
@@ -126,7 +127,7 @@ namespace Tests {
             IEnumerable<char> second = F.chars("xxoo");
             IEnumerable<char> third = F.chars("xooo");
 
-            IEnumerable<Func<bool>> test = F<char>.map<Func<bool>>(first, second, third, fn);
+            IEnumerable<Func<bool>> test = F.map<char,Func<bool>>(first, second, third, fn);
             IEnumerator<Func<bool>> eVerify = verify.GetEnumerator();
             IEnumerator<Func<bool>> eTest = test.GetEnumerator();
             while ((eVerify.MoveNext()) && (eTest.MoveNext())) {
@@ -151,12 +152,12 @@ namespace Tests {
 
             this.feature.Add(TestCoverage.Test_All);
             this.feature.Add(TestCoverage.F_T);
-            this.feature.Add(TestCoverage.F_T_map);
-            this.feature.Add(TestCoverage.F_T_map_U_3_List);
+            this.feature.Add(TestCoverage.F_map_T);
+            this.feature.Add(TestCoverage.F_map_TU_3_List);
 
             this.coverage.Add(TestCoverage.F_T);
-            this.coverage.Add(TestCoverage.F_T_map);
-            this.coverage.Add(TestCoverage.F_T_map_U_3_List);
+            this.coverage.Add(TestCoverage.F_map_T);
+            this.coverage.Add(TestCoverage.F_map_TU_3_List);
         }
     }
 }

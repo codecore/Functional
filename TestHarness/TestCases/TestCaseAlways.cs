@@ -40,11 +40,10 @@ namespace Tests {
             this.feature.Add(TestCoverage.Test_All);
             this.feature.Add(TestCoverage.F);
             this.feature.Add(TestCoverage.F_always);
-            this.feature.Add(TestCoverage.F_always_function);
+
 
             this.coverage.Add(TestCoverage.F);
             this.coverage.Add(TestCoverage.F_always);
-            this.coverage.Add(TestCoverage.F_always_function);
             this.coverage.Add(TestCoverage.F_equ);
             this.coverage.Add(TestCoverage.F_equ_bool);
             this.coverage.Add(TestCoverage.bool_);
@@ -82,11 +81,9 @@ namespace Tests {
             this.feature.Add(TestCoverage.Test_All);
             this.feature.Add(TestCoverage.F);
             this.feature.Add(TestCoverage.F_always);
-            this.feature.Add(TestCoverage.F_always_function);
 
             this.coverage.Add(TestCoverage.F);
             this.coverage.Add(TestCoverage.F_always);
-            this.coverage.Add(TestCoverage.F_always_function);
             this.coverage.Add(TestCoverage.F_equ);
             this.coverage.Add(TestCoverage.F_equ_bool);
             this.coverage.Add(TestCoverage.bool_);
