@@ -1,4 +1,4 @@
 Functional
 ==========
 
-Implimentation and test for Functional library for .NET
+Implementation and test for Functional library for .NET
