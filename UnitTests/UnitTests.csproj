@@ -94,6 +94,7 @@
     <Compile Include="Tests\TestLanguageParserParseFile.cs" />
     <Compile Include="Tests\TestLanguageParserExpressionComment.cs" />
     <Compile Include="Tests\TestExtract.cs" />
+    <Compile Include="Tests\TestJSONTokenizer.cs" />
     <Compile Include="UnitTestAssembly.cs" />
   </ItemGroup>
   <ItemGroup>

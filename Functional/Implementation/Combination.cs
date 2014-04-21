@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Functional.Contracts;
 using Functional.Utility;
 using Functional.Test;
+using Functional.Contracts.Utility;
 
 namespace Functional.Implementation {
     public static partial class F {

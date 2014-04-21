@@ -7,9 +7,11 @@ using System.ComponentModel.Composition;
 using Functional.Language.Contract.Parser;
 using Functional.Language.Contract.Editor;
 using Functional.Language.Contract;
+using Functional.Contracts.Utility;
 using Functional.Language.Contract.Core;
 using Functional.Language.Implimentation;
 using Functional.Implementation;
+using Functional.Utility;
 
 namespace Functional.Language.Implimentation {
 
@@ -33,17 +35,17 @@ namespace Functional.Language.Implimentation {
             this.inputStream = new InputStreamFile();
             await this.inputStream.Initialize(this.filename);
         }
-        public async Task<ITokenStream> Tokenize() {
+        public async Task<IStream<IToken>> Tokenize() {
             ICharacterStream characterStream = new CharacterStream();
             characterStream.Initialize(this.inputStream);
-            ITokenStream tokenStream = new TokenStream();
+            IStream<IToken> tokenStream = new Stream<IToken>();
             Queue<char> word = new Queue<char>();
             ITokenizer tokenizer = new Tokenizer();
             tokenizer.Initialize();
             await tokenizer.Tokenize(tokenStream, characterStream, this.filename, 0, 0);
             return tokenStream;
         }
-        public IExpression Parse(ITokenStream tokenStream, ref IParseError parseError) {
+        public IExpression Parse(IStream<IToken> tokenStream, ref IParseError parseError) {
             IExpression result = null;
             IToken token = tokenStream.Get();
             while ((token.Kind != TokenKind.UnquotedWord) || (token.Kind != TokenKind.NULL)) {
@@ -63,7 +65,7 @@ namespace Functional.Language.Implimentation {
             return result;
         }
         // COR pattern
-        private IExpression parseWithSelectedExpressionParser(ITokenStream tokenStream, ref IParseError parseError) {
+        private IExpression parseWithSelectedExpressionParser(IStream<IToken> tokenStream, ref IParseError parseError) {
             IExpression result = null;
             IToken token = tokenStream.Get();
             if (token.Kind != TokenKind.NULL) {
@@ -79,7 +81,7 @@ namespace Functional.Language.Implimentation {
             } // else TODO return ParseError unexpected NULL (EOF)
             return result;
         }
-        private IExpression parseWithFirstThatWillTakeIt(ITokenStream tokenStream, ref IParseError parseError) {
+        private IExpression parseWithFirstThatWillTakeIt(IStream<IToken> tokenStream, ref IParseError parseError) {
             IExpression result = null;
             foreach (IExpressionParser parser in this.Parsers) {
                 result = parser.Parse(this, tokenStream, ref parseError);

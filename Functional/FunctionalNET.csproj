@@ -143,7 +143,7 @@
     <Compile Include="Language\Parser\Location.cs" />
     <Compile Include="Language\Parser\Parser.cs" />
     <Compile Include="Language\Parser\Token.cs" />
-    <Compile Include="Language\Parser\TokenStream.cs" />
+    <Compile Include="Language\Parser\Stream.cs" />
     <Compile Include="MemoryManager.cs" />
     <Compile Include="GPS\NMEA.cs" />
     <Compile Include="Test\TestCoverageAttribute.cs" />
@@ -153,6 +153,7 @@
     <Compile Include="Utility\Default.cs" />
     <Compile Include="Utility\Exstensible.cs" />
     <Compile Include="Utility\FileUtility.cs" />
+    <Compile Include="Utility\JSONTokenizer.cs" />
     <Compile Include="Utility\Listener.cs" />
     <Compile Include="Utility\Logger.cs" />
     <Compile Include="Utility\Pair.cs" />

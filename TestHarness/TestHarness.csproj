@@ -58,6 +58,7 @@
     <Compile Include="TestCases\TestCaseCrc16.cs" />
     <Compile Include="TestCases\TestCaseEach.cs" />
     <Compile Include="TestCases\TestCaseExtract.cs" />
+    <Compile Include="TestCases\TestCaseJSONTokenizer.cs" />
     <Compile Include="TestCases\TestCaseLanguageEditorCodeDocument.cs" />
     <Compile Include="TestCases\TestCaseEqu.cs" />
     <Compile Include="TestCases\TestCaseGPS.cs" />

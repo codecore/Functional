@@ -9,6 +9,7 @@ using Functional.Implementation;
 using Functional.Test;
 
 using Functional.Utility;
+using Functional.Contracts.Utility;
 
 using Test.Contracts;
 using Tests;

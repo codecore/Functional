@@ -11,13 +11,14 @@ using Functional.Language.Contract.Core;
 using Functional.Language.Implimentation;
 using Functional.Implementation;
 using Functional.Language.Core.Expressions;
+using Functional.Contracts.Utility;
 
 namespace Functional.Language.Implimentation {
     [Export(typeof(IExpressionParser))]
     public class DeclareExpressionParser : IDeclareExpressionParser {
         public string Keyword { get { return keywords.declare; } }
         // return null if this token isn't for this expression parser
-        public IExpression Parse(IParser parser, ITokenStream tokenStream, ref IParseError parseError) {
+        public IExpression Parse(IParser parser, IStream<IToken> tokenStream, ref IParseError parseError) {
             IExpression declareExpression = null;
             IList<IToken> tokens = new List<IToken>();
             IToken token = tokenStream.Get(); // the first is the keyword

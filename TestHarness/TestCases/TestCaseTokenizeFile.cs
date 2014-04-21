@@ -10,6 +10,7 @@ using Functional.Implementation;
 using Functional.Language.Contract;
 using Functional.Language.Contract.Parser;
 using Functional.Language.Implimentation;
+using Functional.Contracts.Utility;
 using Functional.Test;
 
 using Test.Contracts;
@@ -25,7 +26,7 @@ namespace Tests {
             bool result = true;
             IParser parser = new ParserFile("TestFiles\\TestTokenizerTokenKinds.txt");
             await parser.Initialize();
-            ITokenStream tokenStream = await parser.Tokenize();
+            IStream<IToken> tokenStream = await parser.Tokenize();
 
             /*
 124.7 text

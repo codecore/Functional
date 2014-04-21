@@ -9,6 +9,8 @@ using Functional.Implementation;
 using Functional.Language.Contract;
 using Functional.Language.Contract.Parser;
 using Functional.Language.Implimentation;
+using Functional.Contracts.Utility;
+using Functional.Utility;
 
 using Functional.Test;
 
@@ -21,6 +23,7 @@ namespace Tests {
         private const string _Name = "test parser tokeninzer token strings";
         private const string _Description = "test that tokenizer can create string tokens";
         public string TestFile { get { return "TestCaseLanguageParserLexerTokenParser.cs"; } }
+        
         public async Task<bool> RunAsync() {
             bool result = true;
             IInputStream stream = new InputStreamMock();
@@ -28,7 +31,7 @@ namespace Tests {
             ICharacterStream cStream = new CharacterStream();
             cStream.Initialize(stream);
 
-            ITokenStream tokenStream = new TokenStream();
+            IStream<IToken> tokenStream = new Stream<IToken>();
             Queue<char> word = new Queue<char>();
 
             ITokenizer tokenizer = new Tokenizer();

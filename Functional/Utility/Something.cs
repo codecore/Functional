@@ -5,7 +5,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
 
-using Functional.Contracts;
+using Functional.Contracts.Utility;
 
 namespace Functional.Utility {
     public class Something<T> : ISomething<T> {

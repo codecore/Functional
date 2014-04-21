@@ -7,6 +7,7 @@ using System.ComponentModel.Composition;
 using Functional.Language.Contract.Parser;
 using Functional.Language.Contract.Editor;
 using Functional.Language.Contract;
+using Functional.Contracts.Utility;
 
 using Functional.Language.Implimentation;
 using Functional.Implementation;
@@ -434,7 +435,7 @@ namespace Functional.Language.Implimentation {
             return handled;
         }
 
-        private void CreateToken(ITokenStream tokenStream, Queue<char> queue, TokenKind kind) {
+        private void CreateToken(IStream<IToken> tokenStream, Queue<char> queue, TokenKind kind) {
             string item = QueueToString(queue);
             ILocation location = Location.Create(this.Filename, this.Line, this.StartOfCurrentToken, item.Length);
             IToken token = Token.Create(location, item, kind);
@@ -455,7 +456,7 @@ namespace Functional.Language.Implimentation {
             return sb.ToString();
         }
 
-        public async Task Tokenize(ITokenStream tokenStream, ICharacterStream characterStream, string filename, int startLine, int startPosition) {
+        public async Task Tokenize(IStream<IToken> tokenStream, ICharacterStream characterStream, string filename, int startLine, int startPosition) {
             this.Filename = filename;
             this.Line = startLine;
             this.Position = startPosition;

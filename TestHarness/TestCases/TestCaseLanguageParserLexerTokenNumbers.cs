@@ -9,6 +9,8 @@ using Functional.Implementation;
 using Functional.Language.Contract;
 using Functional.Language.Contract.Parser;
 using Functional.Language.Implimentation;
+using Functional.Contracts.Utility;
+using Functional.Utility;
 using Functional.Test;
 
 using Test.Contracts;
@@ -27,10 +29,10 @@ namespace Tests {
             ICharacterStream cStream = new CharacterStream();
             cStream.Initialize(stream);
 
-            ITokenStream tokenStream = new TokenStream();
+            IStream<IToken> tokenStream = new Stream<IToken>();
             Queue<char> word = new Queue<char>();
 
-            Functional.Language.Contract.Parser.ITokenizer tokenizer = new Tokenizer();
+            ITokenizer tokenizer = new Tokenizer();
             tokenizer.Initialize();
             await tokenizer.Tokenize(tokenStream, cStream, "filename", 0, 0);
 

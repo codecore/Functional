@@ -8,7 +8,7 @@ using Functional.Language.Contract.Core;
 using Functional.Language.Contract;
 using Functional.Contracts;
 using Functional.Implementation;
-
+using Functional.Contracts.Utility;
 using Functional.Test;
 
 namespace Functional.Language.Core.Expressions.Bindings {

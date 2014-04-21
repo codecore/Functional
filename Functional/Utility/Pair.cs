@@ -1,6 +1,6 @@
 using System;
 
-using Functional.Contracts;
+using Functional.Contracts.Utility;
 
 namespace Functional.Utility {
     public class Pair<U,V> : IPair<U,V> {

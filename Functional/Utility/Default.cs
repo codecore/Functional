@@ -1,5 +1,5 @@
 using System;
-using Functional.Contracts;
+using Functional.Contracts.Utility;
 
 namespace Functional.Utility {
     public class Default<T> : IDefault<T> where T : class {

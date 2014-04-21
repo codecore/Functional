@@ -1,3 +1,4 @@
+Functional.net.v11.suo
 ConsoleTest/obj
 Functional/obj
 TestHarness/obj
@@ -10,6 +11,10 @@ TestHarness/obj
 
 # MSTest test Results
 Functional/[Tt]est[Rr]esult*/
+
+Functional.1.1.0.nupkg
+gitadd.bat
+nuget/
 
 # Built binaries
 FunctionalNET.dll

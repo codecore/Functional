@@ -9,6 +9,7 @@ using Functional.Utility;
 using Functional.Test;
 
 using Test.Contracts;
+using Functional.Contracts.Utility;
 using Tests;
 namespace Tests {
     [Export(typeof(IAsyncTestCase))]

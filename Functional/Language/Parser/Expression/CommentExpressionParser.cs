@@ -7,6 +7,7 @@ using System.ComponentModel.Composition;
 using Functional.Language.Contract.Parser;
 using Functional.Language.Contract.Editor;
 using Functional.Language.Contract;
+using Functional.Contracts.Utility;
 using Functional.Language.Contract.Core;
 using Functional.Language.Implimentation;
 using Functional.Implementation;
@@ -17,7 +18,7 @@ namespace Functional.Language.Implimentation {
     public class CommentExpressionParser : ICommentExpressionParser {
         public string Keyword { get { return keywords.comment; } }
         // return null if this token isn't for this expression parser
-        public IExpression Parse(IParser parser, ITokenStream tokenStream, ref IParseError parseError) {
+        public IExpression Parse(IParser parser, IStream<IToken> tokenStream, ref IParseError parseError) {
             IExpression commentExpression = null;
             IList<IToken> tokens = new List<IToken>();
             IToken token = tokenStream.Get(); // the first is the keyword

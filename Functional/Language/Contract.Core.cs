@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 
 using Functional.Language.Contract;
+using Functional.Language.Contract.Parser;
+using Functional.Contracts.Utility;
 
 namespace Functional.Language.Contract.Core {
     public class NOOP : Object { }
@@ -88,7 +90,7 @@ namespace Functional.Language.Contract.Core {
 
     public interface IExpressionParser {
         string Keyword { get; }
-        IExpression Parse(Functional.Language.Contract.Parser.IParser parser, Functional.Language.Contract.Parser.ITokenStream tokenParser,ref IParseError parseError);
+        IExpression Parse(IParser parser, IStream<IToken> tokenParser,ref IParseError parseError);
     }
     public interface IDeclareExpressionParser : IExpressionParser {
     }

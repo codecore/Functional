@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 using Functional.Test;
-
+using Functional.Contracts.Utility;
 using Functional.Contracts;
 namespace Functional.Implementation {
     public class Option<T> : IOption <T>  {

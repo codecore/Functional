@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Functional.Contracts;
+using Functional.Contracts.Utility;
 using Functional.Implementation;
 using Functional.Language.Contract;
 using Functional.Language.Contract.Parser;
@@ -25,7 +26,7 @@ namespace Tests {
             bool result = true;
             IParser parser = new ParserFile("TestFiles\\TestParseCommentExpression.func.txt");
             await parser.Initialize();
-            ITokenStream tokenStream = await parser.Tokenize();
+            IStream<IToken> tokenStream = await parser.Tokenize();
 
             
             IToken token = tokenStream.Get();

@@ -3,7 +3,7 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
-namespace Functional.Contracts {
+namespace Functional.Contracts.Utility {
     public interface IPair<U, V> {
         U Left { get; }
         V Right { get; }
@@ -68,6 +68,32 @@ namespace Functional.Contracts {
         IEnumerable<LoggerKind> Kind { get; }
         Task ConfigureAsync(IDictionary<string, object> config);
         Task LogAsync(string info); 
+    }
+    public enum JSONTokenType { OpenCurly, CloseCurly, Colon, Comma, Number, Semicolon, OpenBracket, CloseBracket, QuotedString, UnquotedString, EOF }
+    public interface IJSONToken {
+        JSONTokenType Kind { get; }
+        string Value { get; }
+    }
+    public interface IJSONTokenizer {
+        IEnumerable<IJSONToken> Tokenize(string s);
+    }
+    public class ParseException : Exception {
+        private string error = String.Empty;
+        public ParseException(string err) {
+            this.error = err;
+        }
+        public override string Message {
+            get {
+                return this.error;
+            }
+        }
+    }
+    public interface IStream<T> : IDisposable {
+        T Get();
+        void Push(T t);
+        void Clear();
+        void Set(IEnumerable<T> seq); // for pulling
+        void Put(T t); // for pushing
     }
 }
 namespace Functional.Test {
@@ -555,6 +581,7 @@ namespace Functional.Test {
         public const int Utility_char_to_digit                                = 28010;
         public const int Utility_crc16                                        = 28020;
         public const int Utility_crc16_func                                   = 28030;
+        public const int Utility_JSON_Tokenizer                               = 2000; // covered
 
     }
 }

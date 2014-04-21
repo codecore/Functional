@@ -1,6 +1,7 @@
 using System;
 
 using Functional.Contracts;
+using Functional.Contracts.Utility;
 using Functional.Test;
 
 namespace Functional.Implementation {

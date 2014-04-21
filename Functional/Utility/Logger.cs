@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Text;
 
-using Functional.Contracts;
+using Functional.Contracts.Utility;
 namespace Functional.Utility {
     [Export(typeof(ILogger))]
     public class LoggerNULL : ILogger {

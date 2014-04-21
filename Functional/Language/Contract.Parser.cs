@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Functional.Contracts.Utility;
 
 namespace Functional.Language.Contract.Parser {
     public interface ILocation {
@@ -34,24 +35,19 @@ namespace Functional.Language.Contract.Parser {
         string Info { get; set; }
         TokenKind Kind { get; set; }
     }
-    public interface ITokenStream {
-        IToken Get();
-        void Push(IToken t);
-        void Put(IToken t);
-        void Clear();
-    }
+
     public interface ITokenizer {
         int StartOfCurrentToken { get; }
         int Line { get; }
         int Position { get; }
         string Filename { get; }
         void Initialize();
-        Task Tokenize(ITokenStream tokenStream, ICharacterStream characterStream, string filename, int startLine, int startPosition);
+        Task Tokenize(IStream<IToken> tokenStream, ICharacterStream characterStream, string filename, int startLine, int startPosition);
     }
     public interface ITokenizerState {
         string Name { get; }
         void AddTransitionState(CharKind c, ITokenizerState next);
-        Func<ICharacter, ITokenStream, Queue<char>, bool> Handle { get; set; }
+        Func<ICharacter, IStream<IToken>, Queue<char>, bool> Handle { get; set; }
         ITokenizerState NextState(CharKind ck);
         ITokenizerState DefaultNextState { set; }
     }
@@ -63,6 +59,6 @@ namespace Functional.Language.Contract.Parser {
     public interface IParser : IDisposable {
         IParserContext Context { get; }
         Task Initialize();
-        Task<ITokenStream> Tokenize();
+        Task<IStream<IToken>> Tokenize();
     }
 }

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Functional.Contracts;
 using Functional.Implementation;
+using Functional.Contracts.Utility;
 using Functional.Language.Contract;
 using Functional.Language.Contract.Parser;
 using Functional.Language.Implimentation;
@@ -24,7 +25,7 @@ namespace Tests {
             bool result = true;
             IParser parser = new ParserFile("TestFiles\\TestParseNumberExpressions.func.txt");
             await parser.Initialize();
-            ITokenStream tokenStream = await parser.Tokenize();
+            IStream<IToken> tokenStream = await parser.Tokenize();
 
             IToken token = tokenStream.Get();
             result = result && (token.Kind == TokenKind.UnquotedWord);
