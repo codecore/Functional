@@ -15,7 +15,7 @@ namespace ConsoleTest
 
     public class Program
     {
-        public static int TestsToRun = TestCoverage.Utility_JSON_Tokenizer; // TestCoverage.Test_All;
+        public static int TestsToRun = TestCoverage.Lang_CharacterStream; // TestCoverage.Test_All;
 
 
 

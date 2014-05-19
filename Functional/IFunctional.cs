@@ -69,6 +69,15 @@ namespace Functional.Contracts.Utility {
         Task ConfigureAsync(IDictionary<string, object> config);
         Task LogAsync(string info); 
     }
+    public interface IBetterServiceProvider : IServiceProvider {
+        void AddService(Type type, object service);
+        void AddService<T>(object service);
+        // object GetService(Type type); this is in IServiceProvider
+        T GetService<T>();
+        void RemoveService(Type type);
+        void RemoveService<T>();
+        void Clear();
+    }
     public enum JSONTokenType { OpenCurly, CloseCurly, Colon, Comma, Number, Semicolon, OpenBracket, CloseBracket, QuotedString, UnquotedString, EOF }
     public interface IJSONToken {
         JSONTokenType Kind { get; }
@@ -131,6 +140,7 @@ namespace Functional.Test {
         public const int F_add_short                                          =   1120;        // covered
         public const int F_add_string                                         =   1122;       // covered
         public const int F_all_T                                              =   1200;            // covered
+        public const int F_alpha_char                                         =   1210;
         public const int F_always                                             =   1220;                 // non-leaf  TestCaseAlways
         public const int F_always_false                                       =   1222;     // covered
         public const int F_always_true                                        =   1224;      // covered
@@ -582,6 +592,7 @@ namespace Functional.Test {
         public const int Utility_crc16                                        = 28020;
         public const int Utility_crc16_func                                   = 28030;
         public const int Utility_JSON_Tokenizer                               = 2000; // covered
+        public const int Utility_ServiceProvider                              = 9000;
 
     }
 }

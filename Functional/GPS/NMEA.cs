@@ -5,50 +5,17 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Functional.Implementation;
-
+using GPS;
 namespace GPS {
     public enum NMEA_Sentence { GPGGA, GPVTG, GPGLL, GPGSA, GPGSV, GPRMC }
-    public enum Hemisphere { East, West, North, South }
+
     public enum Deviation { East, West , Data_not_valid }
     public enum ModeIndicator { Autonomous, Differential, Estimated, Data_not_valid }
     public enum FixQuality { invalid, GPS_Fix, DGPS_Fix, PPS_Fix, Real_Time_Kinematic, Float_RTK, estimated, manual_input_mode, simulation_mode }
     public enum FixType { no_fix, _2D_fix, _3D_fix }
     public enum Selection { Unknown, Auto, Manual }
     public enum Dimension { Meters, Feet, Knots, Miles }
-    public interface ITime {
-        int Hours { get; }
-        int Minutes { get; }
-        int Seconds { get; }
-        int Milliseconds { get; }
-    }
-    public interface ILatitude {
-        Hemisphere Hemisphere { get; }
-        int Degrees { get; }
-        int Minutes { get; }
-        double Seconds { get; }
-    }
-    public interface ILongitude {
-        Hemisphere Hemisphere { get; }
-        int Degrees { get; }
-        int Minutes { get; }
-        double Seconds { get; }
-    }
 
-        
-    public interface IAltitude {
-        float Altitude { get; }
-        Dimension Units { get; }
-    }
-    public interface IGeoid {
-        float Height { get; }
-        Dimension Units { get; }
-    }
-
-    public interface IDate {
-        int Day { get; }
-        int Month { get; }
-        int Year { get; }
-    }
 
     public interface ISateliteView {
         int PRN { get; }

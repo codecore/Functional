@@ -50,7 +50,6 @@
     <Compile Include="TestCases\TestCase.cs" />
     <Compile Include="TestCases\TestCaseAdd.cs" />
     <Compile Include="TestCases\TestCaseAlways.cs" />
-    <Compile Include="TestCases\TestCaseAutoComplete.cs" />
     <Compile Include="TestCases\TestCaseBool.cs" />
     <Compile Include="TestCases\TestCaseCharacterStream.cs" />
     <Compile Include="TestCases\TestCaseClose.cs" />
@@ -67,8 +66,6 @@
     <Compile Include="TestCases\TestCaseLandMines.cs" />
     <Compile Include="TestCases\TestCaseLanguageCharacter.cs" />
     <Compile Include="TestCases\TestCaseLanguageEditorCodeline.cs" />
-    <Compile Include="TestCases\TestCaseLanguageParseFileCommentExpression.cs" />
-    <Compile Include="TestCases\TestCaseLanguageParserFileParser.cs" />
     <Compile Include="TestCases\TestCaseLanguageParserLexerTokenNumbers.cs" />
     <Compile Include="TestCases\TestCaseLogger.cs" />
     <Compile Include="TestCases\TestCaseLt.cs" />
@@ -86,7 +83,6 @@
     <Compile Include="TestCases\TestCaseSqr.cs" />
     <Compile Include="TestCases\TestCaseSub.cs" />
     <Compile Include="TestCases\TestCaseTaskManagement.cs" />
-    <Compile Include="TestCases\TestCaseTokenizeFile.cs" />
     <Compile Include="TestHarness.cs" />
     <Compile Include="TestHarnessAssemblyInfo.cs" />
     <Compile Include="Tests.cs" />

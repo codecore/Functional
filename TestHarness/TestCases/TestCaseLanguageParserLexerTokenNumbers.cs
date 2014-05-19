@@ -4,6 +4,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 using Functional.Contracts;
 using Functional.Implementation;
 using Functional.Language.Contract;
@@ -24,10 +25,15 @@ namespace Tests {
         public string TestFile { get { return "TestCaseLanguageParserLexerTokenNumbers.cs"; } }
         public async Task<bool> RunAsync() {
             bool result = true;
-            IInputStream stream = new InputStreamMock();//" 2,9.0-77.4"
-            await stream.Initialize(" 2,9.0-77.4");
+            byte[] buffer = Encoding.UTF8.GetBytes(" 2,9.0-77.4");
+            MemoryStream memory_stream = new MemoryStream();
+            
+            IInputStream input_stream = new InputStream();
+            memory_stream.Write(buffer, 0, buffer.Count());
+            input_stream.Initialize(memory_stream);
+
             ICharacterStream cStream = new CharacterStream();
-            cStream.Initialize(stream);
+            cStream.Initialize(input_stream);
 
             IStream<IToken> tokenStream = new Stream<IToken>();
             Queue<char> word = new Queue<char>();
@@ -51,7 +57,7 @@ namespace Tests {
             token = tokenStream.Get();
             result = result && ((token.Kind == TokenKind.LiteralFloat) && (token.Info == "-77.4"));
 
-            stream.Dispose();
+            memory_stream.Dispose();
             return result;
         }
         private IList<int> coverage = new List<int>();

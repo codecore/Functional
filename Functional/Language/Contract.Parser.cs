@@ -59,6 +59,9 @@ namespace Functional.Language.Contract.Parser {
     public interface IParser : IDisposable {
         IParserContext Context { get; }
         Task Initialize();
+        IEnumerable<string> Keywords { get; }
+        IEnumerable<string> Variables { get; }
+        IEnumerable<string> Types { get; }
         Task<IStream<IToken>> Tokenize();
     }
 }

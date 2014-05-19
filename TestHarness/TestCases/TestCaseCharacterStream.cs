@@ -10,6 +10,7 @@ using Functional.Language.Contract;
 using Functional.Language.Contract.Parser;
 using Functional.Language.Implimentation;
 using Functional.Test;
+using System.IO;
 
 using Test.Contracts;
 using Tests;
@@ -22,36 +23,46 @@ namespace Tests {
         public string TestFile { get { return "TestCaseCharacterStream.cs"; } }
         public async Task<bool> RunAsync() {
             bool result = true;
-            IInputStream stream = new InputStreamMock();
-            await stream.Initialize("jiljsadfoi ajdn\nfkjn.*79\n498&<<[{mf] +==s kdjflij");
-            ICharacterStream cStream = new CharacterStream();
-            cStream.Initialize(stream);
+            {
+                byte[] buffer = Encoding.UTF8.GetBytes("hello world");
 
-            ICharacter c1 = await cStream.Get();
-            result = result && (null != c1); // ICharacterStream never returns null
-            
-            ICharacter ch = null;
-            // verify that Get uses a pushed character
-            cStream.Push(c1);
-            ch = await cStream.Get();
-            result = result && (c1.Info == ch.Info);
-            
-            while (ch.Kind != CharKind.NULL) ch = await cStream.Get();
-            ch = await cStream.Get(); // verify that Get() continues to get the NULL
-            result = result && (ch.Kind == CharKind.NULL);
+                MemoryStream memory_stream = new MemoryStream();
+                IInputStream input_stream = new InputStream();
+                memory_stream.Write(buffer, 0, buffer.Count());
 
-            stream.Dispose();
+                input_stream.Initialize(memory_stream);
+                ICharacterStream cStream = new CharacterStream();
+                cStream.Initialize(input_stream);
 
-            stream = new InputStreamMock();
-            await stream.Initialize("\n");
-            cStream = new CharacterStream();
-            cStream.Initialize(stream);
+                ICharacter c1 = await cStream.Get();
+                result = result && (null != c1); // ICharacterStream never returns null
 
-            ch = await cStream.Get();
-            result = result && (ch.Kind == CharKind.CARRAGERETURN);
-            ch = await cStream.Get();
-            result = result && (ch.Kind == CharKind.NULL);
-            stream.Dispose();
+                ICharacter ch = null;
+                // verify that Get uses a pushed character
+                cStream.Push(c1);
+                ch = await cStream.Get();
+                result = result && (c1.Info == ch.Info);
+
+                while (ch.Kind != CharKind.NULL) ch = await cStream.Get();
+                ch = await cStream.Get(); // verify that Get() continues to get the NULL
+                result = result && (ch.Kind == CharKind.NULL);
+                memory_stream.Dispose();
+            }
+            {
+                byte[] buffer = Encoding.UTF8.GetBytes("\n");
+                MemoryStream memory_stream = new MemoryStream();
+                IInputStream input_stream = new InputStream();
+                memory_stream.Write(buffer, 0, buffer.Count());
+
+                input_stream.Initialize(memory_stream);
+                ICharacterStream cStream = new CharacterStream();
+                cStream.Initialize(input_stream);
+                ICharacter ch = await cStream.Get();
+                result = result && (ch.Kind == CharKind.CARRAGERETURN);
+                ch = await cStream.Get();
+                result = result && (ch.Kind == CharKind.NULL);
+                memory_stream.Dispose();
+            }
             return result;
         }
         private IList<int> coverage = new List<int>();

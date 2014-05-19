@@ -57,6 +57,8 @@ namespace Functional.Utility {
             in_string,
             start_quote,
             in_quote,
+            start_single_quote,
+            in_single_quote,
             eof,
             done
         }
@@ -145,6 +147,20 @@ namespace Functional.Utility {
                         break;
                     case State.in_quote:
                         if ('"' == this.CH_current.C) {
+                            string sTemp = String.Empty;
+                            foreach (char c in for_string) sTemp += c.ToString();
+                            token = new JSONToken(JSONTokenType.QuotedString, sTemp);
+                            next_state = State.done;
+                        } else for_string.Enqueue(this.CH_current.C);
+                        this.handled = true;
+                        break;
+                    case State.start_single_quote:
+                        for_string.Clear();
+                        this.handled = true;
+                        next_state = State.in_single_quote;
+                        break;
+                    case State.in_single_quote:
+                        if ('\'' == this.CH_current.C) {
                             string sTemp = String.Empty;
                             foreach (char c in for_string) sTemp += c.ToString();
                             token = new JSONToken(JSONTokenType.QuotedString, sTemp);

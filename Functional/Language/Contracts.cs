@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 using System.Threading.Tasks;
 
 using Functional.Language.Contract.Core;
@@ -10,17 +11,12 @@ using Functional.Language.Contract.Parser;
 
 namespace Functional.Language.Contract {
 
-    public enum InputStreamKind { Mock, File }
-    public interface IInputStream : IDisposable {
-        InputStreamKind Kind { get; }
-        Task Initialize(string filename);
+    public interface IInputStream {
+        void Initialize(Stream stream);
         Task<char> ReadAsync();
         bool EOF { get; }
     }
-    public interface IMemoryManagement<T> {
-        T New();
-        void Delete(T t);
-    }
+
     public class function : object {
         public object fun { get; private set; }
         public Type type { get; private set; }

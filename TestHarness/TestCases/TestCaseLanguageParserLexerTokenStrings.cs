@@ -4,6 +4,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 using Functional.Contracts;
 using Functional.Implementation;
 using Functional.Language.Contract;
@@ -26,10 +27,15 @@ namespace Tests {
         
         public async Task<bool> RunAsync() {
             bool result = true;
-            IInputStream stream = new InputStreamMock();
-            await stream.Initialize("\"literal string\"regularstring");
+            byte[] buffer = Encoding.UTF8.GetBytes("\"literal string\"regularstring");
+            MemoryStream memory_stream = new MemoryStream();
+            IInputStream input_stream = new InputStream();
+            memory_stream.Write(buffer, 0, buffer.Count());
+
+            input_stream.Initialize(memory_stream);
+
             ICharacterStream cStream = new CharacterStream();
-            cStream.Initialize(stream);
+            cStream.Initialize(input_stream);
 
             IStream<IToken> tokenStream = new Stream<IToken>();
             Queue<char> word = new Queue<char>();
@@ -37,7 +43,7 @@ namespace Tests {
             ITokenizer tokenizer = new Tokenizer();
             tokenizer.Initialize();
             await tokenizer.Tokenize(tokenStream, cStream, "filename", 0, 0);
-            stream.Dispose();
+            memory_stream.Dispose();
             return result;
         }
         private IList<int> coverage = new List<int>();

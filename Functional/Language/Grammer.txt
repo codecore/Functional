@@ -1,0 +1,13 @@
+﻿keywords:
+
+declare define function impliments this type using
+
+declare $TYPE $VAR
+define type $TYPE
+   create 
+   $TYPE $VAR
+   $TYPE $VAR
+end type
+
+
+

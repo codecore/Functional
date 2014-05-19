@@ -18,7 +18,7 @@ namespace Functional.Language.Implimentation {
                 if (this.stream.EOF) ch = Character.Create('~', true);
                 else {
                     char c = await this.stream.ReadAsync();
-                    ch = Character.Create(c, false);
+                    ch = Character.Create(c, this.stream.EOF);
                 }
             }
             return ch;

@@ -56,11 +56,15 @@
     <None Include="FunctionalNet.key.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GPS\GreatCircle.cs" />
+    <Compile Include="GPS\LocationContract.cs" />
+    <Compile Include="Implementation\Alpha.cs" />
     <Compile Include="Implementation\Count.cs" />
     <Compile Include="Implementation\Extract.cs" />
     <Compile Include="Implementation\Iterate_While.cs" />
     <Compile Include="Implementation\Limit.cs" />
     <Compile Include="Implementation\Option.cs" />
+    <Compile Include="Implementation\Tasky.cs" />
     <Compile Include="Language\Contract.Core.cs" />
     <Compile Include="Implementation\Add.cs" />
     <Compile Include="Implementation\All.cs" />
@@ -126,6 +130,7 @@
     <Compile Include="Language\Core\Expressions\FunctionExpression.cs" />
     <Compile Include="Language\Core\Expressions\LiteralExpression.cs" />
     <Compile Include="Language\Language.cs" />
+    <Compile Include="Language\Matcher.cs" />
     <Compile Include="Language\Parser\Character.cs" />
     <Compile Include="Language\Parser\CharacterStream.cs" />
     <Compile Include="Language\Editor\CodeDocument.cs" />
@@ -164,7 +169,9 @@
     <Compile Include="Utility\TextFile.cs" />
     <Compile Include="Utility\Validate.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Language\Grammer.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
